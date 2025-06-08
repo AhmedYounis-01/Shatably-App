@@ -3,8 +3,8 @@ import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/feature/services/custom_services.dart';
 
-class ElectricianServiceScreen extends StatelessWidget {
-  const ElectricianServiceScreen({super.key});
+class CleaningServiceScreen extends StatelessWidget {
+  const CleaningServiceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,11 @@ class ElectricianServiceScreen extends StatelessWidget {
 
     // Use the custom ServiceWorkerScreen widget
     return ServiceWorkerScreen(
-      title: "Electrician services",
-      workerIcon: AppIcons.electricianIcon,
-      backgroundImage: AppImages.manElectricalTechnician,
-      backgroundColor: Color(0xFF70271c).withAlpha((.52 * 255).toInt()),
-      //  Color.fromRGBO(112, 39, 28, 0.52),
-      backgroundOpacity: .85,
+      title: "Cleaning services",
+      workerIcon: AppIcons.housekeepingIcon,
+      backgroundImage: AppImages.cleaningImage,
+      backgroundColor: Color(0XFFFBF5DD),
+      backgroundOpacity: .32,
       workers: electricianWorkers,
     );
   }

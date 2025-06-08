@@ -37,16 +37,18 @@ class HandymenServicePackageScreen extends StatelessWidget {
       ),
     ];
 
-    // Creating a list of thumbnail images for the service
-    final List<String> thumbnails = List.filled(3, AppImages.handymenImage);
-
     return CustomServicePackageScreen(
       // Service Details
       title: "Handymen service package",
       description:
           "Get reliable help for all your home maintenance needs in one convenient package. Our professional handymen are ready to assist with repairs, installations, and general fixes around your home—quickly, efficiently, and with quality you can trust.",
       imagePath: AppImages.handymenImage,
-      thumbnailImages: thumbnails,
+
+      // Thumbnails Images
+      firstThumbnail: AppImages.handymenImage1,
+      secondThumbnail: AppImages.handymenImage2,
+      thirdThumbnail: AppImages.handymenImage3,
+
       serviceDuration: "3.5 Hour Service",
       currentPrice: 400,
       originalPrice: 600,

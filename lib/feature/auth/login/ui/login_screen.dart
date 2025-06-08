@@ -7,20 +7,55 @@ import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 import 'package:shatably_app/core/widgets/custom_text_form_feild.dart';
 import 'package:shatably_app/feature/auth/login/ui/password_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenAdvancedState();
+}
+
+class _LoginScreenAdvancedState extends State<LoginScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _textFieldFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _textFieldFocusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (_textFieldFocusNode.hasFocus) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          _scrollController.animateTo(
+            200.0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _textFieldFocusNode.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
-      // Remove any background color from the scaffold
       backgroundColor: Colors.transparent,
-      // Use resizeToAvoidBottomInset to prevent keyboard from pushing up the content
       resizeToAvoidBottomInset: false,
       body: Stack(
-        fit: StackFit.expand, // Make stack fill the entire screen
+        fit: StackFit.expand,
         children: [
-          // Background image - fixed and covers the entire screen
+          // Background image
           Image.asset(
             AppImages.loginImage,
             fit: BoxFit.cover,
@@ -28,108 +63,132 @@ class LoginScreen extends StatelessWidget {
             height: double.infinity,
           ),
 
-          // Content layer - scrollable but with transparent background
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(), // Smoother scrolling
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Fixed height to position content properly on the design
-                    SizedBox(height: 450.h),
-
-                    Text(
-                      'Login',
-                      style: TextStyles.styleBold(
-                        context,
-                        fontSize: 44.sp,
-                        fontWeight: FontWeight.bold,
-                        color: ColorsManager.primaryColor,
+          // Content with animated positioning
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            margin: EdgeInsets.only(
+              bottom: keyboardHeight > 0 ? keyboardHeight : 0,
+            ),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const ClampingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        height: keyboardHeight > 0 ? 200.h : 450.h,
                       ),
-                    ),
-
-                    SizedBox(height: 1.h),
-
-                    Text(
-                      'Good to see you back!',
-                      style: TextStyles.styleBold(
-                        context,
-                        fontSize: 18.sp,
-                        color: ColorsManager.primaryColor,
-                      ),
-                    ),
-
-                    SizedBox(height: 23.h),
-
-                    CustomTextFormField(
-                      hintText: 'Email or phone',
-                      textAlign: TextAlign.start,
-                    ),
-
-                    SizedBox(height: 23.h),
-
-                    CustomAppButton1(
-                      width: double.infinity,
-                      height: 60,
-                      backgroundColor: ColorsManager.primaryColor,
-                      borderRadius: 25,
-                      hasShadow: true,
-                      onPressed: () {
-                        // Navigate to password screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: Center(
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        opacity: keyboardHeight > 0 ? 0.8 : 1.0,
                         child: Text(
-                          "Next",
+                          'Login',
                           style: TextStyles.styleBold(
                             context,
-                            fontSize: 20.sp,
-                            color: ColorsManager.whiteButtonColor,
+                            fontSize: keyboardHeight > 0 ? 36.sp : 44.sp,
+                            fontWeight: FontWeight.bold,
+                            color: ColorsManager.primaryColor,
                           ),
                         ),
                       ),
-                    ),
-
-                    SizedBox(height: 12.h),
-
-                    // Sign up text
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Don\'t have an account? ',
-                          style: TextStyles.styleMedium(
+                      SizedBox(height: 1.h),
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        opacity: keyboardHeight > 0 ? 0.7 : 1.0,
+                        child: Text(
+                          'Good to see you back!',
+                          style: TextStyles.styleBold(
                             context,
-                            fontSize: 16.sp,
-                            color: Color.fromRGBO(22, 64, 77, 0.4),
+                            fontSize: keyboardHeight > 0 ? 16.sp : 18.sp,
+                            color: ColorsManager.primaryColor,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            // Navigate to sign up screen
-                          },
-                          child: Text(
-                            'Sign up',
-                            style: TextStyles.styleMedium(
+                      ),
+                      SizedBox(height: 23.h),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: keyboardHeight > 0
+                              ? [
+                                  BoxShadow(
+                                    color: ColorsManager.primaryColor
+                                        .withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ]
+                              : [],
+                        ),
+                        child: CustomTextFormField(
+                          hintText: 'Email or phone',
+                          textAlign: TextAlign.start,
+                          focusNode: _textFieldFocusNode,
+                        ),
+                      ),
+                      SizedBox(height: 23.h),
+                      AnimatedScale(
+                        duration: const Duration(milliseconds: 200),
+                        scale: keyboardHeight > 0 ? 0.95 : 1.0,
+                        child: CustomAppButton1(
+                          width: double.infinity,
+                          height: 60,
+                          backgroundColor: ColorsManager.primaryColor,
+                          borderRadius: 25,
+                          hasShadow: true,
+                          onPressed: () {
+                            Navigator.push(
                               context,
-                              fontSize: 14.sp,
-                              color: ColorsManager.primaryColor,
+                              MaterialPageRoute(
+                                builder: (context) => const PasswordScreen(),
+                              ),
+                            );
+                          },
+                          child: Center(
+                            child: Text(
+                              "Next",
+                              style: TextStyles.styleBold(
+                                context,
+                                fontSize: 20.sp,
+                                color: ColorsManager.whiteButtonColor,
+                              ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    //! need to change
-                    // Add extra space at the bottom to ensure everything is visible when keyboard appears
-                    // SizedBox(height: 100.h),
-                  ],
+                      ),
+                      SizedBox(height: 12.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don\'t have an account? ',
+                            style: TextStyles.styleMedium(
+                              context,
+                              fontSize: 16.sp,
+                              color: Color.fromRGBO(22, 64, 77, 0.4),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              // Navigate to sign up screen
+                            },
+                            child: Text(
+                              'Sign up',
+                              style: TextStyles.styleMedium(
+                                context,
+                                fontSize: 14.sp,
+                                color: ColorsManager.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

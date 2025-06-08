@@ -1,3 +1,282 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:shatably_app/core/themes/colors_manager.dart';
+// import 'package:shatably_app/core/themes/text_styles.dart';
+// import 'dart:ui'; // لازم نضيف الـ import ده عشان ImageFilter
+
+// class ServiceWorkerScreen extends StatelessWidget {
+//   final String title;
+//   final String backgroundImage;
+//   final Color backgroundColor;
+//   final double backgroundOpacity;
+//   final List<WorkerInfo> workers;
+//   final String workerIcon;
+
+//   const ServiceWorkerScreen({
+//     super.key,
+//     required this.title,
+//     required this.backgroundImage,
+//     required this.backgroundColor,
+//     this.backgroundOpacity = 0.227,
+//     required this.workers,
+//     required this.workerIcon,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     SystemChrome.setSystemUIOverlayStyle(
+//       const SystemUiOverlayStyle(
+//         statusBarColor: Colors.transparent,
+//         statusBarIconBrightness: Brightness.light,
+//       ),
+//     );
+
+//     return Scaffold(
+//       body: Stack(
+//         children: [
+//           // Background Image
+//           Positioned.fill(
+//             child: Image.asset(backgroundImage, fit: BoxFit.cover),
+//           ),
+
+//           // Content
+//           SafeArea(
+//             child: Column(
+//               children: [
+//                 SizedBox(height: 30.h),
+//                 // Back Button and Title
+//                 Padding(
+//                   padding: EdgeInsets.symmetric(horizontal: 16.w),
+//                   child: Row(
+//                     children: [
+//                       GestureDetector(
+//                         onTap: () {},
+//                         child: Container(
+//                           width: 30.w,
+//                           height: 30.h,
+//                           decoration: const BoxDecoration(
+//                             shape: BoxShape.circle,
+//                             color: Color(0xFFA6CDC6),
+//                           ),
+//                           child: Center(
+//                             child: SvgPicture.asset(
+//                               "assets/icons/arrow_ios.svg",
+//                               width: 15.w,
+//                               height: 15.h,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       Expanded(
+//                         child: Center(
+//                           child: Text(
+//                             title,
+//                             style: TextStyle(
+//                               fontSize: 18.sp,
+//                               fontWeight: FontWeight.w500,
+//                               color: Colors.white,
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(width: 30.w), // Balance the spacing
+//                     ],
+//                   ),
+//                 ),
+
+//                 Expanded(
+//                   child: Container(),
+//                 ), // Push the worker list to the bottom
+//                 // Workers Available Container with BackdropFilter
+//                 ClipRRect(
+//                   borderRadius: BorderRadius.only(
+//                     topLeft: Radius.circular(30.r),
+//                     topRight: Radius.circular(30.r),
+//                   ),
+//                   child: BackdropFilter(
+//                     // تطبيق قيمة الـ Blur من الصورة (22.7)
+//                     filter: ImageFilter.blur(sigmaX: 22.7, sigmaY: 22.7),
+//                     child: Container(
+//                       padding: EdgeInsets.symmetric(
+//                         horizontal: 25.w,
+//                         vertical: 10.h,
+//                       ),
+//                       decoration: BoxDecoration(
+//                         color: backgroundColor.withOpacity(
+//                           backgroundOpacity,
+//                         ), // خلي اللون شبه شفاف عشان الـ blur يظهر
+//                         borderRadius: BorderRadius.only(
+//                           topLeft: Radius.circular(30.r),
+//                           topRight: Radius.circular(30.r),
+//                         ),
+//                         boxShadow: [
+//                           BoxShadow(
+//                             // تطبيق قيم الـ Drop Shadow من الصورة
+//                             color: Colors.black.withOpacity(
+//                               0.25,
+//                             ), // #000000 مع 25% opacity
+//                             offset: const Offset(0, -3), // X: 0, Y: -3
+//                             blurRadius: 4, // Blur: 4
+//                             spreadRadius: 0, // Spread: 0
+//                           ),
+//                         ],
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Container(
+//                             width: 25.w,
+//                             height: 1.h,
+//                             decoration: BoxDecoration(
+//                               color: const Color(0xFFE5F1EF),
+//                               borderRadius: BorderRadius.circular(10.r),
+//                             ),
+//                           ),
+//                           SizedBox(height: 12.5.h),
+//                           Row(
+//                             mainAxisAlignment: MainAxisAlignment.center,
+//                             children: [
+//                               // svg here
+//                               SvgPicture.asset(
+//                                 workerIcon,
+//                                 width: 14.w,
+//                                 height: 14.h,
+//                               ),
+//                               SizedBox(width: 4.w),
+//                               Text(
+//                                 "Workers Available",
+//                                 style: TextStyles.styleRegular(
+//                                   context,
+//                                   fontSize: 18.sp,
+//                                   color: Colors.white,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                           SizedBox(height: 24.h),
+//                           // Workers List
+//                           ...workers
+//                               .map(
+//                                 (worker) => _buildWorkerCard(context, worker),
+//                               )
+//                               .toList(),
+//                           SizedBox(height: 50.h), // Space for bottom navigation
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildWorkerCard(BuildContext context, WorkerInfo worker) {
+//     return Container(
+//       margin: EdgeInsets.only(bottom: 16.h),
+//       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 13.h),
+//       decoration: BoxDecoration(
+//         color: Color(0XFFF7FCFB),
+//         borderRadius: BorderRadius.circular(15.r),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           // Top row with worker image and info
+//           Row(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               // Worker Image
+//               ClipRRect(
+//                 borderRadius: BorderRadius.circular(6.r),
+//                 child: Image.asset(
+//                   worker.imagePath,
+//                   width: 48.w,
+//                   height: 48.h,
+//                   fit: BoxFit.cover,
+//                 ),
+//               ),
+//               SizedBox(width: 10.w),
+//               // Worker Info
+//               Expanded(
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       worker.name,
+//                       style: TextStyles.styleRegular(
+//                         context,
+//                         fontSize: 16.sp,
+//                         color: ColorsManager.primaryColor,
+//                       ),
+//                     ),
+//                     Row(
+//                       children: [
+//                         // Rating Stars
+//                         ...List.generate(5, (index) {
+//                           return Icon(
+//                             index < worker.rating
+//                                 ? Icons.star
+//                                 : Icons.star_border,
+//                             color: const Color(0xFFDDA853),
+//                             size: 16.h,
+//                           );
+//                         }),
+//                         SizedBox(width: 4.w),
+//                         Text(
+//                           "(${worker.reviewCount})",
+//                           style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+//                         ),
+//                         Spacer(),
+//                         Padding(
+//                           padding: EdgeInsets.only(top: 10.h),
+//                           child: Align(
+//                             alignment: Alignment.bottomRight,
+//                             child: InkWell(
+//                               onTap: () {},
+//                               child: Text(
+//                                 "Book Now",
+//                                 style: TextStyle(
+//                                   fontSize: 12.sp,
+//                                   fontWeight: FontWeight.w500,
+//                                   color: const Color(
+//                                     0xFFDDA853,
+//                                   ), // Golden yellow color
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class WorkerInfo {
+//   final String name;
+//   final String imagePath;
+//   final int rating;
+//   final int reviewCount;
+
+//   WorkerInfo({
+//     required this.name,
+//     required this.imagePath,
+//     required this.rating,
+//     required this.reviewCount,
+//   });
+// }
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
@@ -6,6 +285,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
+import 'dart:ui'; // لازم نضيف الـ import ده عشان ImageFilter و Canvas operations
+import 'dart:math'; // عشان نستخدم Random في رسم الـ grain
 
 class ServiceWorkerScreen extends StatelessWidget {
   final String title;
@@ -90,67 +371,103 @@ class ServiceWorkerScreen extends StatelessWidget {
                 Expanded(
                   child: Container(),
                 ), // Push the worker list to the bottom
-                // Workers Available Container
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25.w,
-                    vertical: 10.h,
+                // Workers Available Container with BackdropFilter and Grainy Overlay
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.r),
+                    topRight: Radius.circular(30.r),
                   ),
-                  decoration: BoxDecoration(
-                    color: backgroundColor.withOpacity(backgroundOpacity),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.r),
-                      topRight: Radius.circular(30.r),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.40),
-                        offset: const Offset(0, -3),
-                        blurRadius: 4,
-                        // spreadRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 25.w,
-                        height: 1.h,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE5F1EF),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                      ),
-                      SizedBox(height: 12.5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // svg here
-                          SvgPicture.asset(
-                            workerIcon,
-                            // AppIcons.electricianIcon,
-                            width: 14.w,
-                            height: 14.h,
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 22.7,
+                      sigmaY: 22.7,
+                    ), // قيمة الـ blur من الصورة
+                    child: Stack(
+                      // استخدم Stack عشان تحط الـ Container والـ GrainyOverlay فوق بعض
+                      children: [
+                        // ده الـ Container الأساسي اللي كان موجود عندك، مع لونه و الـ shadow
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 25.w,
+                            vertical: 10.h,
                           ),
-                          SizedBox(width: 4.w),
-                          Text(
-                            "Workers Available",
-                            style: TextStyles.styleRegular(
-                              context,
-                              fontSize: 18.sp,
-                              // fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: backgroundColor.withOpacity(
+                              backgroundOpacity,
+                            ), // اللون الشفاف
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30.r),
+                              topRight: Radius.circular(30.r),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(
+                                  0.25,
+                                ), // #000000 مع 25% opacity
+                                offset: const Offset(0, -3), // X: 0, Y: -3
+                                blurRadius: 4, // Blur: 4
+                                spreadRadius: 0, // Spread: 0
+                              ),
+                            ],
+                          ),
+                          // الـ child بتاع الـ Container هيفضل زي ما هو
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 25.w,
+                                height: 1.h,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFE5F1EF),
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              SizedBox(height: 12.5.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    workerIcon,
+                                    width: 14.w,
+                                    height: 14.h,
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Text(
+                                    "Workers Available",
+                                    style: TextStyles.styleRegular(
+                                      context,
+                                      fontSize: 18.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 24.h),
+                              ...workers
+                                  .map(
+                                    (worker) =>
+                                        _buildWorkerCard(context, worker),
+                                  )
+                                  .toList(),
+                              SizedBox(height: 50.h),
+                            ],
+                          ),
+                        ),
+                        // إضافة طبقة التشبيحه باستخدام CustomPaint
+                        Positioned.fill(
+                          child: CustomPaint(
+                            painter: GrainyOverlayPainter(
+                              grainColor:
+                                  Colors
+                                      .white, // لون الحبيبات (جرب ألوان فاتحة أو غامقة حسب الخلفية)
+                              grainOpacity:
+                                  0.05, // شفافية الحبيبات (قيمة صغيرة جداً)
+                              density:
+                                  2000, // عدد الحبيبات (كل ما زادت كل ما كانت كثيفة)
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 24.h),
-                      // Workers List
-                      ...workers
-                          .map((worker) => _buildWorkerCard(context, worker))
-                          .toList(),
-                      SizedBox(height: 50.h), // Space for bottom navigation
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -180,7 +497,6 @@ class ServiceWorkerScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(6.r),
                 child: Image.asset(
-                  // color: Colors.red,
                   worker.imagePath,
                   width: 48.w,
                   height: 48.h,
@@ -263,4 +579,41 @@ class WorkerInfo {
     required this.rating,
     required this.reviewCount,
   });
+}
+
+// CustomPainter جديد لرسم تأثير الـ Grainy Overlay
+class GrainyOverlayPainter extends CustomPainter {
+  final Color grainColor;
+  final double grainOpacity;
+  final int density; // عدد النقاط/الحبيبات للرسم
+
+  GrainyOverlayPainter({
+    this.grainColor = Colors.white,
+    this.grainOpacity = 0.05,
+    this.density = 2000,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final random = Random();
+    final paint =
+        Paint()
+          ..color = grainColor.withOpacity(grainOpacity)
+          ..strokeWidth = 1.0; // حجم النقطة الواحدة
+
+    // نرسم عدد معين من النقاط العشوائية لعمل تأثير الـ grain
+    for (int i = 0; i < density; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      canvas.drawPoints(PointMode.points, [Offset(x, y)], paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant GrainyOverlayPainter oldDelegate) {
+    // إعادة الرسم فقط لو تغيرت الـ properties (اللون، الشفافية، الكثافة)
+    return oldDelegate.grainColor != grainColor ||
+        oldDelegate.grainOpacity != grainOpacity ||
+        oldDelegate.density != density;
+  }
 }

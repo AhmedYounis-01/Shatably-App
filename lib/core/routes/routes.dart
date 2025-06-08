@@ -23,7 +23,23 @@ class Routes {
   static const String paintingServiceScreen = '/paintingServiceScreen';
   static const String plumbingServiceScreen = '/plumbingServiceScreen';
   static const String cleaningServiceScreen = '/cleaningServiceScreen';
-  static const String serviceCatalogScreen = '/serviceCatalogScreen';
-  static const String handymenServicePackageScreen =
-      '/handymenServicePackageScreen';
+  static const String pestControlScreen = '/serviceCatalogScreen';
+  static const String handymenServiceScreen = '/handymenServiceScreen';
+  static const String bookingScreen = '/bookingScreen';
+  static const String testScreen = '/testScreen';
+  static const String paymentScreen = '/baymentScreen';
+  static const String transactionSucess = '/transactionSucess';
+  static const String transactionFailed = '/transactionFailed';
+  static const String customHireDetails = '/customHireDetails';
+  static const String workerScreen = '/workerScreen';
+  static const String acSetupScreen = '/acSetupScreen';
+  static const String windowsScreen = '/windowsScreen';
+  static const String waterPurifierScreen = '/waterPurifierScreen';
+  static const String surveillanceCameras = '/surveillanceCameras';
+  static const String kitchenInstallation = '/kitchenInstallation';
+  static const String elegantFinishesScreen = '/elegantFinishesScreen';
+  static const String bathroomInstallationScreen =
+      '/bathroomInstallationScreen';
+  static const String gasInstallatioinScreen = '/gasInstallatioinScreen';
+  static const String bookingScreen1 = '/bookingScreen1';
 }

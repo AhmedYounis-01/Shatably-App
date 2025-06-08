@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shatably_app/core/routes/navigatoin_service.dart';
-import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
@@ -36,8 +34,7 @@ class HomeScreen extends StatelessWidget {
                 color: const Color(0xFFFBF5DD),
                 width: double.infinity,
                 padding: const EdgeInsets.only(
-                  top: 20,
-
+                  // top: 20,
                   bottom: 0,
                   left: 23,
                   right: 23,
@@ -415,10 +412,18 @@ class HomeScreen extends StatelessWidget {
                                 builder: (context) => const ServicesScreen(),
                               ),
                             );
-                            // NavigationService.instance.pushNamed(
-                            //   preventDuplicate: true,
+                            //?????????????????????????
+                            // NavigationService.instance.pushReplacement(
+                            //   page: const ServicesScreen(),
+                            //   context:
+                            //       context, // تمرير الـ BuildContext بتاع الـ TabNavigator أو الـ ShellRoute
+                            //   rootNavigator:
+                            //       false, // هنا بتحدد إنك مش عايز الـ root navigator
+                            // );
+                            //?????????????????????????
+                            // NavigationService.instance.pushNamedInTab(
                             //   path: Routes.servicesScreen,
-                            //  );
+                            // );
                           },
                           child: Text(
                             'View all',
@@ -437,17 +442,35 @@ class HomeScreen extends StatelessWidget {
                     // Service categories
                     SizedBox(
                       height: 95,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: 5,
+                      child: ListView(
                         scrollDirection: Axis.horizontal,
-                        separatorBuilder:
-                            (context, index) => const SizedBox(width: 16),
-                        itemBuilder:
-                            (context, index) => _buildServiceCategory(
-                              'Electrician',
-                              Icons.electrical_services,
-                            ),
+                        children: [
+                          _buildServiceCategory(
+                            'Electrician',
+                            AppIcons.electricianIcon,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildServiceCategory(
+                            'Carpenter',
+                            AppIcons.carpenterIcon,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildServiceCategory(
+                            'Painter',
+                            AppIcons.painterIcon,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildServiceCategory(
+                            'Plumber',
+                            AppIcons.plumberIcon,
+                          ),
+                          const SizedBox(width: 12),
+                          _buildServiceCategory(
+                            'Cleaning',
+                            AppIcons.housekeepingIcon,
+                          ),
+                          const SizedBox(width: 12),
+                        ],
                       ),
                     ),
 
@@ -483,8 +506,14 @@ class HomeScreen extends StatelessWidget {
                             // context.pushNamed(Routes.servicesScreen);
                             // Navigator.pushNamed(context, Routes.servicesScreen);
                             // Navigator.pushNamed(context, Routes.servicesScreen);
-                            Navigator.push(
-                              context,
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder:
+                            //         (context) => const BrowseProjectsScreen(),
+                            //   ),
+                            // );
+                            Navigator.of(context, rootNavigator: false).push(
                               MaterialPageRoute(
                                 builder:
                                     (context) => const BrowseProjectsScreen(),
@@ -530,7 +559,7 @@ class HomeScreen extends StatelessWidget {
                       height: 164.h,
                       child: ListView.separated(
                         itemBuilder:
-                            (context, index) => buildCardWithStack(
+                            (context, index) => buildCardImage(
                               context,
                               'From 1500 EGP',
                               'Kitchen Finishing',
@@ -558,12 +587,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCategory(String title, IconData icon) {
+  Widget _buildServiceCategory(String title, String imagePath) {
     return Container(
       width: 95,
       height: 95,
       decoration: BoxDecoration(
-        color: Color(0XFFE5E3DB),
+        color: const Color(0XFFE5E3DB),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -579,10 +608,15 @@ class HomeScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
-              child: SvgPicture.asset(AppImages.electricianImage),
+              child: SvgPicture.asset(
+                imagePath,
+                width: 26.w,
+                height: 26.h,
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(height: 3),
-            Text("Electrician"),
+            const SizedBox(height: 3),
+            Text(title),
           ],
         ),
       ),
@@ -590,7 +624,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   // الإصدار الأول: باستخدام Stack
-  Widget buildCardWithStack(
+  Widget buildCardImage(
     BuildContext context,
     String price,
     String title,

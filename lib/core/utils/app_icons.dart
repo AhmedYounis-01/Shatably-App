@@ -27,11 +27,39 @@ class AppIcons {
   static const String carpenterIcon = 'assets/icons/carpenterIcon.svg';
   static const String painterIcon = 'assets/icons/painterIcon.svg';
   static const String plumbingIcon = 'assets/icons/plumbingIcon.svg';
-  static const String cleaningIcon = 'assets/icons/cleaningIcon.svg';
+  static const String plumberIcon = 'assets/icons/plumberIcon.svg';
+
+  static const String housekeepingIcon = 'assets/icons/housekeepingIcon.svg';
   static const String namosaIcon = 'assets/icons/namosaIcon.svg';
   static const String treeIcon = 'assets/icons/treeIcon.svg';
   static const String mouseIcon = 'assets/icons/mouseIcon.svg';
   static const String personIcon = 'assets/icons/personIcon.png';
   static const String reviewIcon = 'assets/icons/reviewIcon.svg';
   static const String discountIcon = 'assets/icons/discountIcon.svg';
+  static const String vectorBack = 'assets/icons/vectorBack.svg';
+  static const String vectorForward = 'assets/icons/vectorForward.svg';
+  static const String sunnyIcon = 'assets/icons/sunnyIcon.svg';
+  static const String cloudyIcon = 'assets/icons/cloudyIcon.svg';
+  static const String baymentIcon1 = 'assets/icons/baymentIcon1.svg';
+  static const String baymentIcon2 = 'assets/icons/baymentIcon2.svg';
+  static const String baymentIcon3 = 'assets/icons/baymentIcon3.svg';
+  static const String bocketCard = 'assets/icons/bocketCard.svg';
+  static const String pinIcon = 'assets/icons/pinIcon.svg';
+  static const String yellowArrowIcon2 = 'assets/icons/yellowArrowIcon2.svg';
+  static const String smallVisaIcon = 'assets/icons/smallVisaIcon.svg';
+  static const String smallApplePayIcon = 'assets/icons/smallApplePayIcon.svg';
+  static const String smallCardIcon = 'assets/icons/smallCardIcon.svg';
+  static const String qualityIcon = 'assets/icons/qualityIcon.svg';
+  static const String starIcon = 'assets/icons/starIcon.svg';
+  static const String chatIcon = 'assets/icons/chatIcon.svg';
+  static const String yellowArrow3 = 'assets/icons/yellowArrow3.svg';
+  static const String windowIcon = 'assets/icons/windowIcon.svg';
+  static const String waterFilterIcon = 'assets/icons/waterFilterIcon.svg';
+  static const String pestControlIcon = 'assets/icons/pestControlIcon.svg';
+  static const String surveillanceCameraIcon =
+      'assets/icons/surveillanceCameraIcon.svg';
+  static const String airConditionerIcon =
+      'assets/icons/airConditionerIcon.svg';
+  static const String renewIcon = 'assets/icons/renew.svg';
+  static const String wrenchIcon = 'assets/icons/wrenchIcon.svg';
 }

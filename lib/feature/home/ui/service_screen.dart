@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
 
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});
@@ -33,18 +32,21 @@ class ServicesScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Row(
                 children: [
-                  Container(
-                    width: 30.w,
-                    height: 30.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0XFFA6CDC6),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        "assets/icons/arrow_ios.svg",
-                        width: 15.w,
-                        height: 15.h,
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: 30.w,
+                      height: 30.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0XFFA6CDC6),
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/icons/arrow_ios.svg",
+                          width: 15.w,
+                          height: 15.h,
+                        ),
                       ),
                     ),
                   ),
@@ -158,14 +160,17 @@ class ServicesScreen extends StatelessWidget {
                       children: [
                         _buildServiceCategory(
                           'Electrician',
-                          Icons.electrical_services,
+                          AppIcons.electricianIcon,
                         ),
-                        _buildServiceCategory('Carpentry', Icons.handyman),
-                        _buildServiceCategory('Painter', Icons.format_paint),
-                        _buildServiceCategory('Plumber', Icons.plumbing),
+                        _buildServiceCategory(
+                          'Carpentry',
+                          AppIcons.carpenterIcon,
+                        ),
+                        _buildServiceCategory('Painter', AppIcons.painterIcon),
+                        _buildServiceCategory('Plumber', AppIcons.plumberIcon),
                         _buildServiceCategory(
                           'Cleaning',
-                          Icons.cleaning_services,
+                          AppIcons.housekeepingIcon,
                         ),
                       ],
                     ),
@@ -189,19 +194,22 @@ class ServicesScreen extends StatelessWidget {
                       spacing: 12.w, // المسافة الأفقية بين العناصر
                       runSpacing: 12.h, // المسافة الرأسية بين الصفوف
                       children: [
-                        _buildMaintenanceItem('HVAC', Icons.air),
-                        _buildMaintenanceItem('Windows & Doors', Icons.window),
+                        _buildMaintenanceItem('HVAC', AppIcons.takyeefIcon),
+                        _buildMaintenanceItem(
+                          'Windows & Doors',
+                          AppIcons.windowIcon,
+                        ),
                         _buildMaintenanceItem(
                           'Pest Control',
-                          Icons.pest_control,
+                          AppIcons.pestControlIcon,
                         ),
                         _buildMaintenanceItem(
                           'Water Purifier',
-                          Icons.water_drop,
+                          AppIcons.waterFilterIcon,
                         ),
                         _buildMaintenanceItem(
                           'Surveillance Cameras',
-                          Icons.videocam,
+                          AppIcons.surveillanceCameraIcon,
                         ),
                       ],
                     ),
@@ -217,7 +225,7 @@ class ServicesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCategory(String? title, IconData icon) {
+  Widget _buildServiceCategory(String? title, String icon) {
     return Container(
       width: 95,
       height: 95,
@@ -239,7 +247,7 @@ class ServicesScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
-              child: SvgPicture.asset(AppImages.electricianImage),
+              child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
             ),
             SizedBox(height: 2.h),
 
@@ -259,7 +267,7 @@ class ServicesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceItem(String? title, IconData icon) {
+  Widget _buildMaintenanceItem(String? title, String icon) {
     return Container(
       width: 95,
       height: 95,
@@ -268,7 +276,7 @@ class ServicesScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha((0.1 * 255).toInt()),
             spreadRadius: 1,
             blurRadius: 2,
           ),
@@ -281,7 +289,7 @@ class ServicesScreen extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.white,
-              child: SvgPicture.asset(AppIcons.takyeefIcon),
+              child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
             ),
             SizedBox(height: 2.h),
 

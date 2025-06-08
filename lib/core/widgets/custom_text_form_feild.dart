@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String?)? onChanged;
   final bool? readOnly;
+  final FocusNode? focusNode;
 
   const CustomTextFormField({
     super.key,
@@ -30,6 +31,7 @@ class CustomTextFormField extends StatefulWidget {
     this.onChanged,
     this.readOnly,
     this.fontSize,
+    this.focusNode,
   });
 
   @override
@@ -51,6 +53,7 @@ class _SimpleInputFieldState extends State<CustomTextFormField> {
       textAlign: widget.textAlign,
       maxLines: widget.maxLines,
       validator: widget.validator,
+      focusNode: widget.focusNode,
       style: TextStyle(
         color: Colors.black87, // Replace with your color
         fontSize: 16,

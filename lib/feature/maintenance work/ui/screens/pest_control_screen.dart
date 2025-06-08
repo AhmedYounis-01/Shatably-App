@@ -3,8 +3,8 @@ import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/feature/maintenance%20work/ui/custom_works.dart';
 
-class PestControlPage extends StatelessWidget {
-  const PestControlPage({super.key});
+class PestControlSCreen extends StatelessWidget {
+  const PestControlSCreen({super.key});
 
   @override
   Widget build(BuildContext context) {

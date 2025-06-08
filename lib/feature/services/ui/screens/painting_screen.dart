@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/feature/services/custom_services.dart';
 
-class CleaningServiceScreen extends StatelessWidget {
-  const CleaningServiceScreen({super.key});
+class PaintingServiceScreen extends StatelessWidget {
+  const PaintingServiceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +39,11 @@ class CleaningServiceScreen extends StatelessWidget {
 
     // Use the custom ServiceWorkerScreen widget
     return ServiceWorkerScreen(
-      title: "Cleaning services",
-      workerIcon: AppIcons.cleaningIcon,
-      backgroundImage: AppImages.cleaningImage,
-      backgroundColor: Color.fromRGBO(251, 245, 221, 0.32),
-      backgroundOpacity: .5,
+      title: "Painting services",
+      workerIcon: AppIcons.painterIcon,
+      backgroundImage: AppImages.paintingImage,
+      backgroundColor: ColorsManager.primaryColor,
+      backgroundOpacity: .60,
       workers: electricianWorkers,
     );
   }

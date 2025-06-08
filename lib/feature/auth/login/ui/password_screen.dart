@@ -11,12 +11,12 @@ class CustomPinTextField extends StatefulWidget {
   final Function(String) onCompleted;
 
   const CustomPinTextField({
-    Key? key,
+    super.key,
     required this.controller,
     this.pinLength = 6,
     this.obscureText = true,
     required this.onCompleted,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomPinTextField> createState() => _CustomPinTextFieldState();
@@ -154,7 +154,7 @@ class _CustomPinTextFieldState extends State<CustomPinTextField> {
 }
 
 class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({Key? key}) : super(key: key);
+  const PasswordScreen({super.key});
 
   @override
   State<PasswordScreen> createState() => _PasswordScreenState();
@@ -275,10 +275,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             alignment: AlignmentDirectional.centerEnd,
                             child: TextButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all<
+                                padding: WidgetStateProperty.all<
                                   EdgeInsetsGeometry
                                 >(EdgeInsets.zero),
-                                overlayColor: MaterialStateProperty.all<Color>(
+                                overlayColor: WidgetStateProperty.all<Color>(
                                   ColorsManager.primaryColor.withOpacity(0.05),
                                 ),
                               ),

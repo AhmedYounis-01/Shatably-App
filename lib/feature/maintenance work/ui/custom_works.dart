@@ -48,14 +48,74 @@ class CustomMaintenanceWorkScreen extends StatelessWidget {
       body: Stack(
         children: [
           // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              backgroundImage,
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+          // Positioned.fill(
+          //   // <-- Positioned is now a direct child of Stack
+          //   child: Container(
+          //     // <-- The Container now wraps the Image and can apply the gradient
+          //     decoration: BoxDecoration(
+          //       color: Colors.red,
+          //       gradient: LinearGradient(
+          //         colors: [
+          //           Colors.black.withAlpha((.0 * 255).toInt()),
+          //           Colors.black.withAlpha((.26 * 255).toInt()),
+          //           Colors.black.withAlpha((.39 * 255).toInt()),
+          //           Colors.black.withAlpha((.70 * 255).toInt()),
+          //           Colors.black.withAlpha((.0 * 255).toInt()),
+          //         ],
+          //         begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //       ),
+          //       boxShadow: [
+          //         BoxShadow(
+          //           color: Colors.black,
+          //           spreadRadius: 5,
+          //           blurRadius: 10,
+          //           offset: Offset(0, 4), // تغير حسب الاتجاه اللي انت عايزه
+          //         ),
+          //       ],
+          //     ),
+          //     child: Image.asset(
+          //       backgroundImage,
+          //       fit: BoxFit.fill,
+          //       width:
+          //           double
+          //               .infinity, // These might be redundant with Positioned.fill and BoxFit.fill
+          //       height:
+          //           double
+          //               .infinity, // but good to keep if you have other layout needs
+          //     ),
+          //   ),
+          // ),
+          Stack(
+            children: [
+              // Background Image
+              Image.asset(
+                backgroundImage,
+                fit: BoxFit.cover,
+                // width: double.infinity,
+                // height: double.infinity,
+              ),
+              // Gradient
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withAlpha((.10 * 255).toInt()),
+                      Colors.black.withAlpha((.30 * 255).toInt()),
+                      Colors.black.withAlpha((.30 * 255).toInt()),
+                      Colors.black.withAlpha((.60 * 255).toInt()),
+                      Colors.black.withAlpha((.10 * 255).toInt()),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
+
           SafeArea(
             child: Column(
               children: [
@@ -190,10 +250,11 @@ class CustomMaintenanceWorkScreen extends StatelessWidget {
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children:
                                   filters.map((filter) {
                                     return Padding(
-                                      padding: EdgeInsets.only(right: 10.w),
+                                      padding: EdgeInsets.only(right: 17.w),
                                       child: _buildServiceFilter(
                                         context,
                                         filter['icon'],

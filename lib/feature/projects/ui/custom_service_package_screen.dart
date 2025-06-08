@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
+import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 
 class CustomServicePackageScreen extends StatelessWidget {
@@ -13,6 +14,12 @@ class CustomServicePackageScreen extends StatelessWidget {
   final String description;
   final String imagePath;
   final List<String>? thumbnailImages;
+
+  // إضافة معاملات منفصلة للصور الثلاث
+  final String firstThumbnail;
+  final String secondThumbnail;
+  final String thirdThumbnail;
+
   final String serviceDuration;
   final double currentPrice;
   final double? originalPrice;
@@ -36,6 +43,10 @@ class CustomServicePackageScreen extends StatelessWidget {
     required this.description,
     required this.imagePath,
     this.thumbnailImages,
+    // إضافة المعاملات الجديدة للصور
+    required this.firstThumbnail,
+    required this.secondThumbnail,
+    required this.thirdThumbnail,
     required this.serviceDuration,
     required this.currentPrice,
     this.originalPrice,
@@ -142,29 +153,16 @@ class CustomServicePackageScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 16.w),
-                        if (thumbnailImages != null &&
-                            thumbnailImages!.isNotEmpty)
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children:
-                                thumbnailImages!
-                                    .take(3)
-                                    .map(
-                                      (thumbnail) => Padding(
-                                        padding: EdgeInsets.only(
-                                          bottom:
-                                              thumbnail !=
-                                                      thumbnailImages!
-                                                          .take(3)
-                                                          .last
-                                                  ? 16.h
-                                                  : 0,
-                                        ),
-                                        child: _buildThumbnail(thumbnail),
-                                      ),
-                                    )
-                                    .toList(),
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            _buildThumbnail(firstThumbnail),
+                            SizedBox(height: 16.h),
+                            _buildThumbnail(secondThumbnail),
+                            SizedBox(height: 16.h),
+                            _buildThumbnail(thirdThumbnail),
+                          ],
+                        ),
                       ],
                     ),
 
@@ -237,7 +235,7 @@ class CustomServicePackageScreen extends StatelessWidget {
                             avatarPath: review.avatarPath,
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
 
                     SizedBox(height: 30.h),
@@ -450,91 +448,91 @@ class CustomServicePackageScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildReviewItem(
-    BuildContext context, {
-    required String name,
-    required int rating,
-    required String comment,
-    required String daysAgo,
-    String? avatarPath,
-  }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // User Avatar
-        ClipRRect(
-          borderRadius: BorderRadius.circular(25.r),
-          child: Center(
-            child: Image.asset(
-              avatarPath ?? AppIcons.personIcon,
-              fit: BoxFit.cover,
-              width: 30.w,
-              height: 30.h,
+Widget _buildReviewItem(
+  BuildContext context, {
+  required String name,
+  required int rating,
+  required String comment,
+  required String daysAgo,
+  String? avatarPath,
+}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // User Avatar
+      ClipRRect(
+        borderRadius: BorderRadius.circular(25.r),
+        child: Center(
+          child: Image.asset(
+            avatarPath ?? AppIcons.personIcon,
+            fit: BoxFit.cover,
+            width: 30.w,
+            height: 30.h,
+          ),
+        ),
+      ),
+      SizedBox(width: 10.w),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Name and Date
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  name,
+                  style: TextStyles.styleSemiBold(
+                    context,
+                    fontSize: 10.sp,
+                    color: ColorsManager.primaryColor.withAlpha(
+                      (.88 * 255).toInt(),
+                    ),
+                  ),
+                ),
+                Text(
+                  daysAgo,
+                  style: TextStyles.styleRegular(
+                    context,
+                    fontSize: 8.sp,
+                    color: ColorsManager.primaryColor.withAlpha(
+                      (.55 * 255).toInt(),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ),
-        SizedBox(width: 10.w),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Name and Date
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    name,
-                    style: TextStyles.styleSemiBold(
-                      context,
-                      fontSize: 10.sp,
-                      color: ColorsManager.primaryColor.withAlpha(
-                        (.88 * 255).toInt(),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    daysAgo,
-                    style: TextStyles.styleRegular(
-                      context,
-                      fontSize: 8.sp,
-                      color: ColorsManager.primaryColor.withAlpha(
-                        (.55 * 255).toInt(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.h),
-              // Stars
-              Row(
-                children: List.generate(
-                  5,
-                  (index) => Icon(
-                    index < rating ? Icons.star : Icons.star_border,
-                    color: ColorsManager.yellowTextColor,
-                    size: 10.sp,
-                  ),
+            SizedBox(height: 4.h),
+            // Stars
+            Row(
+              children: List.generate(
+                5,
+                (index) => Icon(
+                  index < rating ? Icons.star : Icons.star_border,
+                  color: ColorsManager.yellowTextColor,
+                  size: 10.sp,
                 ),
               ),
-              SizedBox(height: 8.h),
-              // Comment
-              Text(
-                '"$comment"',
-                style: TextStyles.styleRegular(
-                  context,
-                  fontSize: 10.sp,
-                  color: ColorsManager.primaryColor.withAlpha(
-                    (.84 * 255).toInt(),
-                  ),
+            ),
+            SizedBox(height: 8.h),
+            // Comment
+            Text(
+              '"$comment"',
+              style: TextStyles.styleRegular(
+                context,
+                fontSize: 10.sp,
+                color: ColorsManager.primaryColor.withAlpha(
+                  (.84 * 255).toInt(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
 }
 
 // Model class for review items
@@ -553,3 +551,5 @@ class ReviewItemModel {
     this.avatarPath,
   });
 }
+
+ 

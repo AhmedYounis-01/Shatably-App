@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shatably_app/bloc_observer.dart';
 import 'package:shatably_app/shatably_admin_app.dart';
@@ -9,12 +10,12 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await di.init();
   // await SecureStorageHelper.clearAll();
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //     // statusBarColor: Colors.transparent,
-  //     statusBarIconBrightness: Brightness.dark,
-  //   ),
-  // );
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      // statusBarIconBrightness: Brightness.dark,
+    ),
+  );
   runApp(ShatablyAdminApp());
   // runApp(
   //   DevicePreview(

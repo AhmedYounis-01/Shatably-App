@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:shatably_app/core/routes/navigatoin_service.dart';
-import 'package:shatably_app/shatably_admin_app.dart';
 import '../../routes/routes.dart';
 import 'end_points.dart';
 import 'token_manager.dart';

@@ -30,18 +30,21 @@ class BrowseProjectsScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Row(
                 children: [
-                  Container(
-                    width: 30.w,
-                    height: 30.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0XFFA6CDC6),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(
-                        "assets/icons/arrow_ios.svg",
-                        width: 15.w,
-                        height: 15.h,
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: 30.w,
+                      height: 30.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0XFFA6CDC6),
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/icons/arrow_ios.svg",
+                          width: 15.w,
+                          height: 15.h,
+                        ),
                       ),
                     ),
                   ),

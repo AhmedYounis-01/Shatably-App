@@ -45,7 +45,8 @@ class CustomAppButton1 extends StatelessWidget {
               disabledForegroundColor: disabledForegroundColor ?? Colors.white,
               minimumSize: Size(width, height),
               shape: const CircleBorder(),
-              elevation: hasShadow ? 4.0 : 0.0, // Apply shadow if hasShadow is true
+              elevation:
+                  hasShadow ? 7.0 : 0.0, // Apply shadow if hasShadow is true
             ),
             child: child,
           ),
@@ -63,7 +64,8 @@ class CustomAppButton1 extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 10.0),
             ),
-            elevation: hasShadow ? 4.0 : 0.0, // Apply shadow if hasShadow is true
+            elevation:
+                hasShadow ? 7.0 : 0.0, // Apply shadow if hasShadow is true
           ),
           child: child,
         );
