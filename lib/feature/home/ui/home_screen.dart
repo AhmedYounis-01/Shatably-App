@@ -6,7 +6,7 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
-import 'package:shatably_app/feature/home/ui/brojects_screen.dart';
+import 'package:shatably_app/feature/home/ui/projects_screen.dart';
 import 'package:shatably_app/feature/home/ui/service_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -515,8 +515,7 @@ class HomeScreen extends StatelessWidget {
                             // );
                             Navigator.of(context, rootNavigator: false).push(
                               MaterialPageRoute(
-                                builder:
-                                    (context) => const BrowseProjectsScreen(),
+                                builder: (context) => const ProjectsScreen(),
                               ),
                             );
                           },

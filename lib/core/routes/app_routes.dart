@@ -18,13 +18,13 @@ import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_con
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
-import 'package:shatably_app/feature/booking%20process/ui/custom_hire_details.dart';
-import 'package:shatably_app/feature/booking%20process/ui/custom_payment_method.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book1_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/hire_details_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
 import 'package:shatably_app/feature/home/ui/home_screen.dart';
+import 'package:shatably_app/feature/home/ui/projects_screen.dart';
 import 'package:shatably_app/feature/home/ui/service_screen.dart';
 import 'package:shatably_app/feature/layouts/ui/app_layouts_screen.dart';
 import 'package:shatably_app/feature/maintenance%20work/ui/screens/ac_setup_screen.dart';
@@ -39,10 +39,15 @@ import 'package:shatably_app/feature/projects/ui/screens/bathroom_installation.d
 import 'package:shatably_app/feature/projects/ui/screens/elegant_finishes_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/gas_installatioin.dart';
 import 'package:shatably_app/feature/projects/ui/screens/kitchen_installation.dart';
+import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/electrician_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/painting_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/cart_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/shop_screen.dart';
 import 'package:shatably_app/feature/splash/ui/splash_screen.dart';
+import 'package:shatably_app/feature/workers/ui/screens/worker_screen.dart';
 import 'package:shatably_app/test_file.dart';
 
 class AppRoutes {
@@ -68,6 +73,8 @@ class AppRoutes {
         );
       case Routes.passwordResetScreen:
         return MaterialPageRoute(builder: (_) => const PasswordResetScreen());
+      case Routes.browseProjectsScreen:
+        return MaterialPageRoute(builder: (_) => const ProjectsScreen());
       case Routes.newPasswordConfirmationScreen:
         return MaterialPageRoute(
           builder: (_) => const NewPasswordConfirmationScreen(),
@@ -91,16 +98,16 @@ class AppRoutes {
           builder: (_) => const ElectricianServiceScreen(),
         );
       //! Uncomment the following lines
-      // case Routes.carpentryServiceScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => const CarpentryServiceScreen(),
-      //   );
-      // case Routes.paintingServiceScreen:
-      //   return MaterialPageRoute(builder: (_) => const PaintingServiceScreen());
-      // case Routes.plumbingServiceScreen:
-      //   return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
-      // case Routes.cleaningServiceScreen:
-      //   return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
+      case Routes.carpentryServiceScreen:
+        return MaterialPageRoute(
+          builder: (_) => const CarpentryServiceScreen(),
+        );
+      case Routes.paintingServiceScreen:
+        return MaterialPageRoute(builder: (_) => const PaintingServiceScreen());
+      case Routes.plumbingServiceScreen:
+        return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
+      case Routes.cleaningServiceScreen:
+        return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
       case Routes.pestControlScreen:
         return MaterialPageRoute(builder: (_) => const PestControlSCreen());
       case Routes.handymenServiceScreen:
@@ -111,16 +118,14 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const BookingScreen());
       case Routes.testScreen:
         return MaterialPageRoute(builder: (_) => const TestScreen());
-      //! modify this page to become the custom code in page lonly
       case Routes.paymentScreen:
-        return MaterialPageRoute(builder: (_) => const CustomPaymentScreen());
-      //!__________________________________________________________________
+        return MaterialPageRoute(builder: (_) => const PaymentScreen());
       case Routes.transactionSucess:
         return MaterialPageRoute(builder: (_) => const TransactionSucess());
       case Routes.transactionFailed:
         return MaterialPageRoute(builder: (_) => const TransactionFaield());
       case Routes.customHireDetails:
-        return MaterialPageRoute(builder: (_) => const CustomHireDetails());
+        return MaterialPageRoute(builder: (_) => const BookingDetailScreen());
       // case Routes.workerScreen:
       //   return MaterialPageRoute(builder: (_) => const WorkerScreen());
       case Routes.acSetupScreen:
@@ -143,8 +148,6 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => const GasInstallatioinScreen(),
         );
-      case Routes.bookingScreen1:
-        return MaterialPageRoute(builder: (_) => const BookingScreen1());
       case Routes.profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case Routes.shopScreen:

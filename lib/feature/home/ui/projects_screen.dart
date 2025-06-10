@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
+import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:toastification/toastification.dart';
 
-class BrowseProjectsScreen extends StatelessWidget {
-  const BrowseProjectsScreen({super.key});
+class ProjectsScreen extends StatelessWidget {
+  const ProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -110,27 +113,57 @@ class BrowseProjectsScreen extends StatelessWidget {
               ),
             ),
 
-            // General Projects Label
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, bottom: 10.h),
-              child: Text(
-                'General Projects',
-                style: TextStyles.styleMedium(
-                  context,
-                  fontSize: 14.sp,
-                  color: ColorsManager.primaryColor,
-                ),
-              ),
-            ),
-
             // Projects List
             Expanded(
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
+                  // General Projects Label
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w, bottom: 10.h),
+                    child: Text(
+                      'General Projects',
+                      style: TextStyles.styleMedium(
+                        context,
+                        fontSize: 14.sp,
+                        color: ColorsManager.primaryColor,
+                      ),
+                    ),
+                  ),
+
                   // General Projects
-                  ...generalProjects.map(
-                    (project) => ProjectItem(project: project),
+                  ProjectItem(
+                    project: generalProjects[0],
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.handymenServiceScreen,
+                      );
+                    },
+                  ),
+                  ProjectItem(
+                    project: generalProjects[1],
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.kitchenInstallation);
+                    },
+                  ),
+                  ProjectItem(
+                    project: generalProjects[2],
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.elegantFinishesScreen,
+                      );
+                    },
+                  ),
+                  ProjectItem(
+                    project: generalProjects[3],
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        Routes.bathroomInstallationScreen,
+                      );
+                    },
                   ),
 
                   // Coming Soon Label
@@ -148,7 +181,17 @@ class BrowseProjectsScreen extends StatelessWidget {
 
                   // Coming Soon Projects
                   ...comingSoonProjects.map(
-                    (project) => ProjectItem(project: project),
+                    (project) => ProjectItem(
+                      project: project,
+                      onPressed: () {
+                        customToast(
+                          context: context,
+                          message: "Not Available Now",
+                          type: ToastificationType.error,
+                          icon: Icons.error,
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -162,8 +205,9 @@ class BrowseProjectsScreen extends StatelessWidget {
 
 class ProjectItem extends StatelessWidget {
   final Map<String, dynamic> project;
+  final void Function()? onPressed;
 
-  const ProjectItem({super.key, required this.project});
+  const ProjectItem({super.key, required this.project, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +224,7 @@ class ProjectItem extends StatelessWidget {
               : Color(0XFFF7FCFB),
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
-        BoxShadow(
-          color: Colors.black.withAlpha((0.25 * 255).toInt()),
-          // spreadRadius: 2,
-          // blurRadius: 4,
-          // offset: const Offset(0, 4),
-        ),
+        BoxShadow(color: Colors.black.withAlpha((0.25 * 255).toInt())),
       ],
       border:
           isComingSoon
@@ -198,11 +237,10 @@ class ProjectItem extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
-      height: 110.h, // حدّد ارتفاع الكارد
+      height: 110.h,
       decoration: decoration,
       child: Row(
         children: [
-          // الصورة تأخذ مساحة العرض الثابتة وارتفاع كامل
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
@@ -211,72 +249,76 @@ class ProjectItem extends StatelessWidget {
             child: Image.asset(
               project['image'],
               width: 100.w,
-              height: double.infinity, // هنا الصورة تمتد كامل الارتفاع
+              height: double.infinity,
+
               fit: BoxFit.cover,
             ),
           ),
-
-          // باقي البيانات
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    project['title'],
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyles.styleMedium(
-                      context,
-                      fontSize: 16.sp,
-                      color: titleColor,
+              child: InkWell(
+                onTap: onPressed,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      project['title'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyles.styleMedium(
+                        context,
+                        fontSize: 16.sp,
+                        color: titleColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    project['description'],
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyles.styleRegular(
-                      context,
-                      fontSize: 10.sp,
-                      color:
-                          isComingSoon
-                              ? ColorsManager.geryIconColor.withAlpha(
-                                (.5 * 255).toInt(),
-                              )
-                              : ColorsManager.geryIconColor,
-                    ),
-                  ),
-                  // Spacer(), // يدفع السهم لأسفل
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      width: 25.w,
-                      height: 25.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
+                    SizedBox(height: 4.h),
+                    Text(
+                      project['description'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyles.styleRegular(
+                        context,
+                        fontSize: 10.sp,
                         color:
                             isComingSoon
-                                ? Colors.white.withAlpha((.5 * 255).toInt())
-                                : Colors.white,
-
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha((0.25 * 255).toInt()),
-                            blurRadius: 4,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: SvgPicture.asset(AppIcons.yellowArrow),
+                                ? ColorsManager.geryIconColor.withAlpha(
+                                  (.5 * 255).toInt(),
+                                )
+                                : ColorsManager.geryIconColor,
                       ),
                     ),
-                  ),
-                ],
+
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        width: 25.w,
+                        height: 25.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              isComingSoon
+                                  ? Colors.white.withAlpha((.5 * 255).toInt())
+                                  : Colors.white,
+
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(
+                                (0.25 * 255).toInt(),
+                              ),
+                              blurRadius: 4,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: SvgPicture.asset(AppIcons.yellowArrow),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -340,14 +382,14 @@ final List<Map<String, dynamic>> comingSoonProjects = [
     'isComingSoon': true,
   },
   {
-    'title': 'Zero TO Hero',
+    'title': 'Air conditioning setup',
     'description':
         'Complete home transformation from ground to finish — we handle it all, start to end.',
     'image': "assets/images/comingSoonImage.png",
     'isComingSoon': true,
   },
   {
-    'title': 'Zero TO Hero',
+    'title': 'Door and window installation',
     'description':
         'Complete home transformation from ground to finish — we handle it all, start to end.',
     'image': "assets/images/comingSoonImage.png",

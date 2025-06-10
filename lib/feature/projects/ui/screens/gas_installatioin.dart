@@ -52,7 +52,7 @@ class GasInstallatioinScreen extends StatelessWidget {
       serviceDuration: "4 Hour Service",
       currentPrice: 500,
       originalPrice: 600,
-      isCompleted: true,
+      isCompleted: false,
 
       // Reviews
       reviews: handymenReviews,

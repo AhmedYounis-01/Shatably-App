@@ -10,8 +10,8 @@ import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 
-class CustomHireDetails extends StatelessWidget {
-  const CustomHireDetails({super.key});
+class BookingDetailScreen extends StatelessWidget {
+  const BookingDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -52,7 +52,7 @@ class HandymenServicePackageScreen extends StatelessWidget {
       serviceDuration: "3.5 Hour Service",
       currentPrice: 400,
       originalPrice: 600,
-      isCompleted: true,
+      isCompleted: false,
 
       // Reviews
       reviews: handymenReviews,
@@ -69,8 +69,8 @@ class HandymenServicePackageScreen extends StatelessWidget {
       },
 
       // UI Controls
-      showBookNowButton: false,
-      showRatingButton: true, // Set to true to show the rating button instead
+      showBookNowButton: true,
+      showRatingButton: false, // Set to true to show the rating button instead
     );
   }
 }

@@ -168,16 +168,14 @@ class ServiceWorkerScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 24.h),
                               // Updated worker cards with navigation
-                              ...workers
-                                  .map(
-                                    (worker) => _buildWorkerCard(
-                                      context,
-                                      worker,
-                                      jobTitle: jobTitle,
-                                      workerProfileImage: worker.imagePath,
-                                    ),
-                                  )
-                                  .toList(),
+                              ...workers.map(
+                                (worker) => _buildWorkerCard(
+                                  context,
+                                  worker,
+                                  jobTitle: jobTitle,
+                                  workerProfileImage: worker.imagePath,
+                                ),
+                              ),
                               SizedBox(height: 50.h),
                             ],
                           ),
@@ -224,6 +222,9 @@ class ServiceWorkerScreen extends StatelessWidget {
                 ),
           ),
         );
+        print(worker.name);
+        print(jobTitle);
+        print(workerProfileImage);
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 16.h),
@@ -317,6 +318,7 @@ class ServiceWorkerScreen extends StatelessWidget {
 class WorkerInfo {
   final String name;
   final String imagePath;
+  // final String profession;
   final int rating;
   final int reviewCount;
 

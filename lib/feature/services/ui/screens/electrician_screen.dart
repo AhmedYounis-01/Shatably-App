@@ -45,9 +45,8 @@ class ElectricianServiceScreen extends StatelessWidget {
       backgroundColor: Color(0xFF70271C),
       backgroundOpacity: .52,
       workers: electricianWorkers,
-      jobTitle: "Electrician", // Add the job title
-      workerProfileImage:
-          AppImages.workerImage2, // Add the profile image for workers
+      jobTitle: "Electrician",
+      workerProfileImage: AppImages.workerImage2,
     );
   }
 }

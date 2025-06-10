@@ -10,6 +10,7 @@ import 'package:shatably_app/core/utils/app_icons.dart';
 
 class CustomWorkerScreen extends StatefulWidget {
   final String providerName;
+  //! profession not used now
   final String profession;
   final String profileImage;
 
@@ -184,7 +185,7 @@ class _CustomWorkerScreenState extends State<CustomWorkerScreen> {
               ),
               SizedBox(height: 4.h),
               Text(
-                "Electrician . Plumber",
+                widget.profession,
                 style: TextStyles.styleMedium(
                   context,
                   fontSize: 12.sp,

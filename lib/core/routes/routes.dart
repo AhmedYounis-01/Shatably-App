@@ -14,6 +14,7 @@ class Routes {
   static const String registerScreen = '/registerScreen';
   // static const String appLayoutScreen = '/appLayoutScreen';
   static const String locationDetectionScreen = '/locationDetectionScreen';
+  static const String browseProjectsScreen = '/browseProjectsScreen';
   static const String confirmLocationScreen = '/confirmLocationScreen';
   static const String appLayoutsScreen = '/appLayoutsScreen';
   static const String homeScreen = '/homeScreen';

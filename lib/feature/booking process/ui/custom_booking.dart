@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
 
 class CustomBookingScreen extends StatefulWidget {
   // final String title;
