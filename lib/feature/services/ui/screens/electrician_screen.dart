@@ -3,6 +3,7 @@ import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/feature/services/custom_services.dart';
 
+// Update your ElectricianServiceScreen
 class ElectricianServiceScreen extends StatelessWidget {
   const ElectricianServiceScreen({super.key});
 
@@ -18,7 +19,7 @@ class ElectricianServiceScreen extends StatelessWidget {
       ),
       WorkerInfo(
         name: "Yamen Karim",
-        imagePath: AppImages.youngMan,
+        imagePath: AppImages.userImage,
         rating: 5,
         reviewCount: 20,
       ),
@@ -36,15 +37,17 @@ class ElectricianServiceScreen extends StatelessWidget {
       ),
     ];
 
-    // Use the custom ServiceWorkerScreen widget
+    // Use the updated ServiceWorkerScreen widget
     return ServiceWorkerScreen(
       title: "Electrician services",
       workerIcon: AppIcons.electricianIcon,
       backgroundImage: AppImages.manElectricalTechnician,
       backgroundColor: Color(0xFF70271C),
-      //  Color.fromRGBO(112, 39, 28, 0.52),
       backgroundOpacity: .52,
       workers: electricianWorkers,
+      jobTitle: "Electrician", // Add the job title
+      workerProfileImage:
+          AppImages.workerImage2, // Add the profile image for workers
     );
   }
 }

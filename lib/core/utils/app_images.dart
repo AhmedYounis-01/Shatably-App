@@ -65,4 +65,31 @@ class AppImages {
   static const String gasImage2 = 'assets/images/gasImage2.png';
   static const String gasImage3 = 'assets/images/gasImage3.png';
   static const String bookingImage1 = 'assets/images/bookingImage1.png';
+  static const String circleAvatarIcon = 'assets/images/circleAvatarIcon.png';
+  static const String morganImage2 = 'assets/images/morganImage2.png';
+  // shop electrician images
+  static const String shopElecImage1 = 'assets/images/shopElecImage1.png';
+  static const String shopElecImage2 = 'assets/images/shopElecImage2.png';
+  static const String shopElecImage3 = 'assets/images/shopElecImage3.png';
+  static const String shopElecImage4 = 'assets/images/shopElecImage4.png';
+  static const String shopElecImage5 = 'assets/images/shopElecImage5.png';
+  static const String shopElecImage6 = 'assets/images/shopElecImage6.png';
+  // shop Carpentry images
+  static const String shopCarpImage1 = 'assets/images/shopCarpImage1.png';
+  static const String shopCarpImage2 = 'assets/images/shopCarpImage2.png';
+  static const String shopCarpImage3 = 'assets/images/shopCarpImage3.png';
+  static const String shopCarpImage4 = 'assets/images/shopCarpImage4.png';
+  static const String shopCarpImage5 = 'assets/images/shopCarpImage5.png';
+  static const String shopCarpImage6 = 'assets/images/shopCarpImage6.png';
+  // shop Painter images
+  static const String shopPaintImage1 = 'assets/images/shopPaintImage1.png';
+  static const String shopPaintImage2 = 'assets/images/shopPaintImage2.png';
+  static const String shopPaintImage3 = 'assets/images/shopPaintImage3.png';
+  static const String shopPaintImage4 = 'assets/images/shopPaintImage4.png';
+  static const String shopPaintImage5 = 'assets/images/shopPaintImage5.png';
+  // shop Plumber images
+  static const String shopPlumbImage1 = 'assets/images/shopPlumbImage1.png';
+  static const String shopPlumbImage2 = 'assets/images/shopPlumbImage2.png';
+  static const String shopPlumbImage3 = 'assets/images/shopPlumbImage3.png';
+  static const String shopPlumbImage4 = 'assets/images/shopPlumbImage4.png';
 }

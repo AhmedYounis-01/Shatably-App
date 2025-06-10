@@ -6,6 +6,7 @@
  */
 import 'package:flutter/material.dart';
 import 'package:shatably_app/core/routes/routes.dart';
+import 'package:shatably_app/feature/Appointments/ui/screens/appointments_screen.dart';
 import 'package:shatably_app/feature/Location/ui/confirm_location_screen.dart';
 import 'package:shatably_app/feature/Location/ui/location_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
@@ -32,19 +33,16 @@ import 'package:shatably_app/feature/maintenance%20work/ui/screens/water_purifie
 import 'package:shatably_app/feature/maintenance%20work/ui/screens/windows_screen.dart';
 import 'package:shatably_app/feature/onboarding/ui/onboarding_screen.dart';
 import 'package:shatably_app/feature/maintenance%20work/ui/screens/pest_control_screen.dart';
+import 'package:shatably_app/feature/profile/ui/screens/profile_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/Handymen_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/bathroom_installation.dart';
 import 'package:shatably_app/feature/projects/ui/screens/elegant_finishes_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/gas_installatioin.dart';
 import 'package:shatably_app/feature/projects/ui/screens/kitchen_installation.dart';
-
-import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
-import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/electrician_screen.dart';
-import 'package:shatably_app/feature/services/ui/screens/painting_screen.dart';
-import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
+import 'package:shatably_app/feature/shop/ui/screens/cart_screen.dart';
+import 'package:shatably_app/feature/shop/ui/screens/shop_screen.dart';
 import 'package:shatably_app/feature/splash/ui/splash_screen.dart';
-import 'package:shatably_app/feature/workers/ui/screens/worker_screen.dart';
 import 'package:shatably_app/test_file.dart';
 
 class AppRoutes {
@@ -92,16 +90,17 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => const ElectricianServiceScreen(),
         );
-      case Routes.carpentryServiceScreen:
-        return MaterialPageRoute(
-          builder: (_) => const CarpentryServiceScreen(),
-        );
-      case Routes.paintingServiceScreen:
-        return MaterialPageRoute(builder: (_) => const PaintingServiceScreen());
-      case Routes.plumbingServiceScreen:
-        return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
-      case Routes.cleaningServiceScreen:
-        return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
+      //! Uncomment the following lines
+      // case Routes.carpentryServiceScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const CarpentryServiceScreen(),
+      //   );
+      // case Routes.paintingServiceScreen:
+      //   return MaterialPageRoute(builder: (_) => const PaintingServiceScreen());
+      // case Routes.plumbingServiceScreen:
+      //   return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
+      // case Routes.cleaningServiceScreen:
+      //   return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
       case Routes.pestControlScreen:
         return MaterialPageRoute(builder: (_) => const PestControlSCreen());
       case Routes.handymenServiceScreen:
@@ -122,8 +121,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const TransactionFaield());
       case Routes.customHireDetails:
         return MaterialPageRoute(builder: (_) => const CustomHireDetails());
-      case Routes.workerScreen:
-        return MaterialPageRoute(builder: (_) => const WorkerScreen());
+      // case Routes.workerScreen:
+      //   return MaterialPageRoute(builder: (_) => const WorkerScreen());
       case Routes.acSetupScreen:
         return MaterialPageRoute(builder: (_) => const AcSetupScreen());
       case Routes.windowsScreen:
@@ -146,6 +145,14 @@ class AppRoutes {
         );
       case Routes.bookingScreen1:
         return MaterialPageRoute(builder: (_) => const BookingScreen1());
+      case Routes.profileScreen:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case Routes.shopScreen:
+        return MaterialPageRoute(builder: (_) => const ShopScreen());
+      case Routes.cartScreen:
+        return MaterialPageRoute(builder: (_) => const CartScreen());
+      case Routes.appointmentsScreen:
+        return MaterialPageRoute(builder: (_) => const AppointmentsScreen());
     }
     return null;
   }

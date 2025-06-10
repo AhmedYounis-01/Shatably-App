@@ -1,16 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/feature/workers/ui/custom_worker.dart';
 
 class WorkerScreen extends StatelessWidget {
-  const WorkerScreen({super.key});
+  final String workerName;
+  final String workerProf;
+  final String workerImage;
+  const WorkerScreen({
+    super.key,
+    required this.workerName,
+    required this.workerProf,
+    required this.workerImage,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomWorkerScreen(
-      providerName: "Mohamed Ahmed",
-      profession: "Electrician - Plumber",
-      profileImage: AppImages.workerImage2, // Add your image asset
+      providerName: workerName,
+      profession: workerProf,
+      profileImage: workerImage,
     );
   }
 }

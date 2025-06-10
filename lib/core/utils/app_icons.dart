@@ -62,4 +62,16 @@ class AppIcons {
       'assets/icons/airConditionerIcon.svg';
   static const String renewIcon = 'assets/icons/renew.svg';
   static const String wrenchIcon = 'assets/icons/wrenchIcon.svg';
+  // profile icons
+  static const String helpIcon = 'assets/icons/helpIcon.svg';
+  static const String logoutIcon = 'assets/icons/logoutIcon.svg';
+  static const String paymentIcon = 'assets/icons/paymentIcon.svg';
+  static const String policiesIcon = 'assets/icons/policiesIcon.svg';
+  static const String settingsIcon = 'assets/icons/settingsIcon.svg';
+  static const String transactioIcon = 'assets/icons/transactioIcon.svg';
+  static const String cartShopIcon = 'assets/icons/cartShopIcon.svg';
+  static const String circularCartIcon = 'assets/icons/cartIcon1.svg';
+  static const String schedualeIcon = 'assets/icons/schedualeIcon.svg';
+  static const String clockIcon1 = 'assets/icons/clockIcon1.svg';
+  static const String clockIcon2 = 'assets/icons/clockIcon2.svg';
 }
