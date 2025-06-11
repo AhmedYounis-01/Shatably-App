@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 
@@ -15,6 +16,7 @@ class LabeledInputField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String?)? onChanged;
   final bool? readOnly;
+  final double fontSize;
 
   const LabeledInputField({
     super.key,
@@ -30,6 +32,7 @@ class LabeledInputField extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.readOnly,
+    required this.fontSize,
   });
 
   @override
@@ -66,12 +69,15 @@ class _LabeledInputFieldState extends State<LabeledInputField> {
           maxLines: widget.maxLines,
           validator: widget.validator,
           style: TextStyle(
-            color: Color.fromRGBO(22, 64, 77, 0.33), // Replace with your color
-            fontSize: 16,
+            color: ColorsManager.primaryColor,
+            fontSize: widget.fontSize,
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: TextStyle(color: Colors.grey[600], fontSize: 16),
+            hintStyle: TextStyle(
+              color: ColorsManager.primaryColor.withAlpha((33 * 255).toInt()),
+              fontSize: 14.sp,
+            ),
             // fillColor: Color.fromRGBO(217, 217, 217, 1),
             fillColor: Color(0XFFD9D9D9),
             // fillColor: Color(0XFFD94551),

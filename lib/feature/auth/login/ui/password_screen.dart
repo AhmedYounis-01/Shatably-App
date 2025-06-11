@@ -1,9 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
+import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:shatably_app/feature/auth/login/data/repository/login_repository.dart';
+import 'package:shatably_app/feature/auth/login/logic/cubit/login_cubit.dart';
+import 'package:toastification/toastification.dart';
 
+//! Custom pin text field
 class CustomPinTextField extends StatefulWidget {
   final TextEditingController controller;
   final int pinLength;
@@ -25,54 +36,47 @@ class CustomPinTextField extends StatefulWidget {
 class _CustomPinTextFieldState extends State<CustomPinTextField> {
   late List<String> _pin;
   late int _currentIndex;
-
-  // إضافة FocusNode خاص بحقل النص المخفي
   final FocusNode _textFieldFocus = FocusNode();
+  Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
     _pin = List.filled(widget.pinLength, '');
     _currentIndex = 0;
-
-    // الاستماع للتغييرات في المتحكم
-    widget.controller.addListener(_onTextChanged);
+    widget.controller.addListener(_handleTextChange);
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_onTextChanged);
-    _textFieldFocus.dispose(); // التأكد من التخلص من FocusNode
+    widget.controller.removeListener(_handleTextChange);
+    _textFieldFocus.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
-  void _onTextChanged() {
-    final text = widget.controller.text;
-
-    // تحديث مصفوفة الرموز بالقيم الجديدة
-    for (int i = 0; i < widget.pinLength; i++) {
-      if (i < text.length) {
-        _pin[i] = text[i];
-      } else {
-        _pin[i] = '';
-      }
-    }
-
-    _currentIndex = text.length;
-
-    // التحقق مما إذا كان الرمز مكتملاً
-    if (text.length == widget.pinLength) {
-      widget.onCompleted(text);
-    }
-
-    setState(() {});
+  void _handleTextChange() {
+    _onTextChanged(widget.controller.text);
   }
 
-  // دالة لإعادة التركيز على حقل النص
+  void _onTextChanged(String text) {
+    setState(() {
+      for (int i = 0; i < widget.pinLength; i++) {
+        _pin[i] = i < text.length ? text[i] : '';
+      }
+      _currentIndex = text.length.clamp(0, widget.pinLength);
+    });
+
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(seconds: 3), () {
+      if (text.length >= widget.pinLength) {
+        widget.onCompleted(text);
+      }
+    });
+  }
+
   void _refocusTextField() {
-    // طلب التركيز على حقل النص المخفي
     _textFieldFocus.requestFocus();
-    // تحديد موضع المؤشر في نهاية النص
     widget.controller.selection = TextSelection.fromPosition(
       TextPosition(offset: widget.controller.text.length),
     );
@@ -82,21 +86,27 @@ class _CustomPinTextFieldState extends State<CustomPinTextField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // حقل النص المخفي للتعامل مع الإدخال الفعلي
         Opacity(
           opacity: 0,
           child: TextField(
             controller: widget.controller,
-            focusNode: _textFieldFocus, // استخدام FocusNode المحدد
-            keyboardType: TextInputType.number,
-            maxLength: widget.pinLength,
-            autofocus: true,
+            focusNode: _textFieldFocus,
+            keyboardType: TextInputType.visiblePassword,
+            style: const TextStyle(color: Colors.transparent),
+            cursorColor: Colors.transparent,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              counterText: '',
+            ),
+            onSubmitted: (text) {
+              if (text.length >= widget.pinLength) {
+                widget.onCompleted(text);
+              }
+            },
           ),
         ),
-
-        // عرض PIN المخصص
         GestureDetector(
-          onTap: _refocusTextField, // استدعاء الدالة الجديدة عند النقر
+          onTap: _refocusTextField,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -114,7 +124,6 @@ class _CustomPinTextFieldState extends State<CustomPinTextField> {
     final bool isCurrent = index == _currentIndex;
 
     return GestureDetector(
-      // إضافة GestureDetector لكل مربع PIN
       onTap: _refocusTextField,
       child: Container(
         width: 44.w,
@@ -153,8 +162,11 @@ class _CustomPinTextFieldState extends State<CustomPinTextField> {
   }
 }
 
+//! Password screen
 class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({super.key});
+  final String email;
+
+  const PasswordScreen({super.key, required this.email});
 
   @override
   State<PasswordScreen> createState() => _PasswordScreenState();
@@ -162,15 +174,14 @@ class PasswordScreen extends StatefulWidget {
 
 class _PasswordScreenState extends State<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
-
-  // إضافة متغير لتتبع ما إذا كان تم تمكين لوحة المفاتيح
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
   // ignore: unused_field
   bool _keyboardVisible = false;
 
   @override
   void initState() {
     super.initState();
-    // تأخير صغير للسماح ببناء النافذة قبل إظهار لوحة المفاتيح
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(FocusNode());
     });
@@ -184,166 +195,212 @@ class _PasswordScreenState extends State<PasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // استخدم هذا لمعرفة ما إذا كانت لوحة المفاتيح مرئية
     _keyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
-    return Scaffold(
-      // إزالة أي لون خلفية من الـ scaffold
-      backgroundColor: Colors.transparent,
-      // استخدم resizeToAvoidBottomInset لمنع لوحة المفاتيح من دفع المحتوى للأعلى
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand, // جعل المكدس يملأ الشاشة بأكملها
-        children: [
-          // صورة الخلفية - ثابتة وتغطي الشاشة بأكملها
-          Image.asset(
-            AppImages.passwordImage,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+    return BlocProvider(
+      create:
+          (context) =>
+              LoginCubit(sl<LoginRepository>())..setEmail(widget.email),
+      child: BlocConsumer<LoginCubit, LoginStates>(
+        listener: (context, state) {
+          if (state is LoginLoadingState) {
+            setState(() => _isLoading = true);
+          } else {
+            setState(() => _isLoading = false);
 
-          // طبقة المحتوى
-          SafeArea(
-            child: Column(
+            if (state is LoginSuccessState) {
+              customToast(
+                context: context,
+                message: "Login Successfully",
+                type: ToastificationType.success,
+                icon: Icons.check,
+              );
+              context.pushReplacementNamed(Routes.appLayoutsScreen);
+            } else if (state is LoginErrorState) {
+              customToast(
+                context: context,
+                message: "Login Failed",
+                type: ToastificationType.error,
+                icon: Icons.error,
+              );
+            }
+          }
+        },
+        builder: (context, state) {
+          final cubit = context.read<LoginCubit>();
+
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              fit: StackFit.expand,
               children: [
-                // المحتوى الرئيسي في Expanded لأخذ المساحة المتاحة
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 90.h),
-
-                          // مساحة الصورة الشخصية
-                          Center(
-                            child: Container(
-                              width: 116.w,
-                              height: 116.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: ColorsManager.backGroundFormsColor,
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(height: 42.h),
-
-                          Text(
-                            'Hello, Morgan',
-                            style: TextStyles.styleSemiBold(
-                              context,
-                              fontSize: 32.sp,
-                              fontWeight: FontWeight.bold,
-                              color: ColorsManager.primaryColor,
-                            ),
-                          ),
-
-                          SizedBox(height: 33.h),
-
-                          Text(
-                            'Type your password',
-                            style: TextStyles.styleRegular(
-                              context,
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: ColorsManager.primaryColor,
-                            ),
-                          ),
-
-                          SizedBox(height: 30.h),
-
-                          // حقل إدخال رمز PIN
-                          CustomPinTextField(
-                            controller: _passwordController,
-                            pinLength: 6,
-                            obscureText: true,
-                            onCompleted: (pin) {
-                              // معالجة إدخال كلمة المرور المكتملة
-                              print('تم إكمال الرمز: $pin');
-                              // هنا يمكنك تنفيذ التحقق من كلمة المرور أو الانتقال
-                            },
-                          ),
-
-                          SizedBox(height: 15.h),
-
-                          // رابط نسيت كلمة المرور
-                          Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: TextButton(
-                              style: ButtonStyle(
-                                padding: WidgetStateProperty.all<
-                                  EdgeInsetsGeometry
-                                >(EdgeInsets.zero),
-                                overlayColor: WidgetStateProperty.all<Color>(
-                                  ColorsManager.primaryColor.withOpacity(0.05),
-                                ),
-                              ),
-                              onPressed: () {
-                                // الانتقال إلى شاشة نسيت كلمة المرور
-                              },
-                              child: Text(
-                                'Forgot password?',
-                                style: TextStyles.styleSemiBold(
-                                  context,
-                                  fontSize: 16.sp,
-                                  color: Color.fromRGBO(22, 64, 77, 0.4),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                Image.asset(
+                  AppImages.passwordImage,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
 
-                // الجزء السفلي الثابت مع نص "ليس أنت؟"
-                Padding(
-                  padding: EdgeInsets.only(bottom: 50.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Not you?",
-                        style: TextStyles.styleRegular(
-                          context,
-                          color: ColorsManager.primaryColor,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      InkWell(
-                        onTap: () {
-                          // العودة إلى شاشة تسجيل الدخول
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: 18.w,
-                          height: 18.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: ColorsManager.primaryColor,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 12.sp,
-                              color: Colors.white,
+                SafeArea(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 30.0,
+                            ),
+                            child: SingleChildScrollView(
+                              physics: const ClampingScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 85.h),
+
+                                  Center(
+                                    child: Container(
+                                      width: 116.w,
+                                      height: 116.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            ColorsManager.backGroundFormsColor,
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 40.h),
+
+                                  Text(
+                                    'Hello, Morgan',
+                                    style: TextStyles.styleSemiBold(
+                                      context,
+                                      fontSize: 32.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: ColorsManager.primaryColor,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 30.h),
+
+                                  Text(
+                                    'Type your password',
+                                    style: TextStyles.styleRegular(
+                                      context,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: ColorsManager.primaryColor,
+                                    ),
+                                  ),
+
+                                  // SizedBox(height: 30.h),
+                                  CustomPinTextField(
+                                    controller: _passwordController,
+                                    pinLength: 6,
+                                    obscureText: true,
+                                    onCompleted: (pin) {
+                                      if (!_isLoading) {
+                                        if (_formKey.currentState!.validate()) {
+                                          cubit.loginWithPassword(
+                                            _passwordController.text,
+                                          );
+                                        }
+
+                                        print('تم إكمال الرمز: $pin');
+                                      }
+                                    },
+                                  ),
+
+                                  SizedBox(height: 15.h),
+
+                                  Align(
+                                    alignment: AlignmentDirectional.centerEnd,
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        padding: WidgetStateProperty.all<
+                                          EdgeInsetsGeometry
+                                        >(EdgeInsets.zero),
+                                        overlayColor:
+                                            WidgetStateProperty.all<Color>(
+                                              ColorsManager.primaryColor
+                                                  .withAlpha(
+                                                    (0.05 * 255).toInt(),
+                                                  ),
+                                            ),
+                                      ),
+                                      onPressed: () {
+                                        context.pushNamed(
+                                          Routes.forgotPasswordScreen,
+                                        );
+                                      },
+                                      child: Text(
+                                        'Forgot password?',
+                                        style: TextStyles.styleSemiBold(
+                                          context,
+                                          fontSize: 16.sp,
+                                          color: Color.fromRGBO(
+                                            22,
+                                            64,
+                                            77,
+                                            0.4,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 50.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Not you?",
+                                style: TextStyles.styleRegular(
+                                  context,
+                                  color: ColorsManager.primaryColor,
+                                ),
+                              ),
+                              SizedBox(width: 12.w),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  width: 18.w,
+                                  height: 18.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: ColorsManager.primaryColor,
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_forward_rounded,
+                                      size: 12.sp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

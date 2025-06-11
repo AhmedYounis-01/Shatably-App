@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
+import 'package:shatably_app/core/helpers/constant/constant.dart';
 import 'package:shatably_app/core/helpers/extensions.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
@@ -23,32 +25,34 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkLoginStatus() async {
-    // final String? accessToken = await TokenManager.getAccessToken();
-    // final String? refreshToken = await TokenManager.getRefreshToken();
-    // if (!mounted) return;
-    // if (accessToken == null ||
-    //     accessToken.isEmpty ||
-    //     refreshToken == null ||
-    //     refreshToken.isEmpty) {
-    //   Navigator.pushReplacementNamed(
-    //     context,
-    //     Routes.loginScreen,
-    //   );
-    // } else {
-    //   Navigator.pushReplacementNamed(
-    //     context,
-    //     Routes.appLayoutScreen,
-    //   );
-    // }
+    final bool hasSeenOnboarding =
+        await StorageManager.instance.hasSeenOnboarding();
 
-    // await checkIfLoggedInUser();
-    // if (!mounted) return;
-    // if (isLoggedInUser) {
-    //   context.pushReplacementNamed(Routes.onboardingScreen);
-    // } else {
-    //   context.pushReplacementNamed(Routes.onboardingScreen);
-    // }
-    context.pushReplacementNamed(Routes.onboardingScreen);
+    final String accessToken = await StorageManager.instance.getSecuredString(
+      key: Constants.kAccessToken,
+    );
+
+    // PrintDebugConsole.s('accessToken : $accessToken');
+    Future.delayed(const Duration(seconds: 3), () {
+      // first launch app
+      if (!hasSeenOnboarding) {
+        context.pushNamedAndRemoveUntil(
+          Routes.onboardingScreen,
+          predicate: (route) => false,
+        );
+        // .pushAndRemoveUntil(path: RoutesPath.onboardingScreen);
+      } else if (accessToken.isNullOrEmpty()) {
+        context.pushNamedAndRemoveUntil(
+          Routes.loginScreen,
+          predicate: (route) => false,
+        );
+      } else {
+        context.pushNamedAndRemoveUntil(
+          Routes.appLayoutsScreen,
+          predicate: (route) => false,
+        );
+      }
+    });
   }
 
   @override

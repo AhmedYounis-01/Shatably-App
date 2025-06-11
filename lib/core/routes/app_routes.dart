@@ -13,8 +13,8 @@ import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/password_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/forgot_password_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confirmation_screen.dart';
-import 'package:shatably_app/feature/auth/recover_password/ui/otp_screen.dart';
-import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_confirmation_screen.dart';
+import 'package:shatably_app/feature/auth/recover_password/ui/not%20used/otp_screen.dart';
+import 'package:shatably_app/feature/auth/recover_password/ui/not%20used/password_reset_confirmation_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
@@ -47,7 +47,6 @@ import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/cart_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/shop_screen.dart';
 import 'package:shatably_app/feature/splash/ui/splash_screen.dart';
-import 'package:shatably_app/feature/workers/ui/screens/worker_screen.dart';
 import 'package:shatably_app/test_file.dart';
 
 class AppRoutes {
@@ -62,15 +61,16 @@ class AppRoutes {
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.passwordScreen:
-        return MaterialPageRoute(builder: (_) => const PasswordScreen());
+        final email = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => PasswordScreen(email: email));
       case Routes.forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
-      case Routes.otpScreen:
-        return MaterialPageRoute(builder: (_) => const OtpScreen());
-      case Routes.passwordResetConfirmationScreen:
-        return MaterialPageRoute(
-          builder: (_) => const PasswordResetConfirmationScreen(),
-        );
+      // case Routes.otpScreen:
+      //   return MaterialPageRoute(builder: (_) => const OtpScreen());
+      // case Routes.passwordResetConfirmationScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const PasswordResetConfirmationScreen(),
+      //   );
       case Routes.passwordResetScreen:
         return MaterialPageRoute(builder: (_) => const PasswordResetScreen());
       case Routes.browseProjectsScreen:

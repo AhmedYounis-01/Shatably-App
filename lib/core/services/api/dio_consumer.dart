@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import 'api_consumer.dart';
-import 'api_interceptor.dart';
 import 'end_points.dart';
 import 'server_failure.dart';
 
@@ -10,7 +9,7 @@ class DioConsumer implements ApiConsumer {
 
   DioConsumer() {
     _dio.options.baseUrl = EndPoints.baseUrl;
-    _dio.interceptors.add(ApiInterceptor());
+    // _dio.interceptors.add(ApiInterceptor());
   }
 
   @override
@@ -30,7 +29,7 @@ class DioConsumer implements ApiConsumer {
           receiveTimeout: const Duration(minutes: 1),
           headers: {
             'Content-Type': 'application/json',
-            "Connection": "keep-alive"
+            "Connection": "keep-alive",
           },
         ),
         // options: options ?? Options(headers: headers),
@@ -51,9 +50,10 @@ class DioConsumer implements ApiConsumer {
     Options? options,
   }) async {
     try {
-      final postData = isFormData
-          ? (data is FormData ? data : FormData.fromMap(data))
-          : data;
+      final postData =
+          isFormData
+              ? (data is FormData ? data : FormData.fromMap(data))
+              : data;
 
       final response = await _dio.post(
         endPoint,

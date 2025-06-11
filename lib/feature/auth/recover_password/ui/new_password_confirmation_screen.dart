@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/widgets/custom_animation.dart';
@@ -16,8 +18,7 @@ class NewPasswordConfirmationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
-             FadeAnimationIcon(),
+            FadeAnimationIcon(),
             SizedBox(height: 50.h),
             Text(
               'Successful',
@@ -38,7 +39,12 @@ class NewPasswordConfirmationScreen extends StatelessWidget {
             CustomAppButton1(
               width: 145.w,
               height: 50.h,
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamedAndRemoveUntil(
+                  Routes.appLayoutsScreen,
+                  predicate: (route) => false,
+                );
+              },
               backgroundColor: ColorsManager.primaryColor,
               // isCircular: true,
               borderRadius: 30,
