@@ -24,7 +24,6 @@ class AppImages {
   static const String morganImage = 'assets/images/morganImage.png';
   static const String electricianImage = 'assets/images/electricianImage.svg';
   static const String boltImage = 'assets/images/boltImage.png';
-  static const String browseBrojectImag = 'assets/images/browseBrojectImag.png';
   static const String manElectricalTechnician =
       'assets/images/manElectricalTechnician.png';
   static const String youngMan = 'assets/images/youngMan.png';
@@ -92,4 +91,18 @@ class AppImages {
   static const String shopPlumbImage2 = 'assets/images/shopPlumbImage2.png';
   static const String shopPlumbImage3 = 'assets/images/shopPlumbImage3.png';
   static const String shopPlumbImage4 = 'assets/images/shopPlumbImage4.png';
+  // ai images
+  static const String botImage = 'assets/images/botImage.png';
+  static const String homeVisionImage = 'assets/images/homeVisionImage.png';
+  // Browse Projects
+  static const String browseBrojectImage =
+      'assets/images/browseBrojectImag.png';
+  static const String browseBrojectImag1 =
+      'assets/images/browseBrojectImag1.png';
+  static const String browseBrojectImag2 =
+      'assets/images/browseBrojectImag2.png';
+  static const String browseBrojectImag3 =
+      'assets/images/browseBrojectImag3.png';
+  static const String browseBrojectImag4 =
+      'assets/images/browseBrojectImag4.png';
 }

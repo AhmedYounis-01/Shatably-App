@@ -74,4 +74,10 @@ class AppIcons {
   static const String schedualeIcon = 'assets/icons/schedualeIcon.svg';
   static const String clockIcon1 = 'assets/icons/clockIcon1.svg';
   static const String clockIcon2 = 'assets/icons/clockIcon2.svg';
+  static const String backgroundLines = 'assets/icons/backgroundLines.svg';
+  static const String addPhotoIcon = 'assets/icons/addPhotoIcon.svg';
+  static const String aiCopyIcon = 'assets/icons/aiCopyIcon.svg';
+  static const String aiEditIcon = 'assets/icons/aiEditIcon.svg';
+  static const String aiRegenerateIcon = 'assets/icons/aiRegenerateIcon.svg';
+  static const String aiShareIcon = 'assets/icons/aiShareIcon.svg';
 }

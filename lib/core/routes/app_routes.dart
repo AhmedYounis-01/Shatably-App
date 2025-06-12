@@ -6,6 +6,8 @@
  */
 import 'package:flutter/material.dart';
 import 'package:shatably_app/core/routes/routes.dart';
+import 'package:shatably_app/feature/AI/ui/screens/ai_screen.dart';
+import 'package:shatably_app/feature/AI/ui/screens/chat_bot_screen.dart';
 import 'package:shatably_app/feature/Appointments/ui/screens/appointments_screen.dart';
 import 'package:shatably_app/feature/Location/ui/confirm_location_screen.dart';
 import 'package:shatably_app/feature/Location/ui/location_screen.dart';
@@ -13,8 +15,6 @@ import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/password_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/forgot_password_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confirmation_screen.dart';
-import 'package:shatably_app/feature/auth/recover_password/ui/not%20used/otp_screen.dart';
-import 'package:shatably_app/feature/auth/recover_password/ui/not%20used/password_reset_confirmation_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
@@ -72,7 +72,10 @@ class AppRoutes {
       //     builder: (_) => const PasswordResetConfirmationScreen(),
       //   );
       case Routes.passwordResetScreen:
-        return MaterialPageRoute(builder: (_) => const PasswordResetScreen());
+        final email = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => PasswordResetScreen(email: email),
+        );
       case Routes.browseProjectsScreen:
         return MaterialPageRoute(builder: (_) => const ProjectsScreen());
       case Routes.newPasswordConfirmationScreen:
@@ -156,6 +159,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const CartScreen());
       case Routes.appointmentsScreen:
         return MaterialPageRoute(builder: (_) => const AppointmentsScreen());
+      case Routes.aiScreen:
+        return MaterialPageRoute(builder: (_) => const AiScreen());
+      case Routes.chatBotScreen:
+        return MaterialPageRoute(builder: (_) => const ChatBotScreen());
     }
     return null;
   }

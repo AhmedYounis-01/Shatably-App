@@ -9,8 +9,8 @@ final class ForgotPasswordLoading extends ForgotPasswordStates {}
 
 final class ForgotPasswordSuccess extends ForgotPasswordStates {
   final String seuccessMessage;
-
-  ForgotPasswordSuccess({required this.seuccessMessage});
+  final String email;
+  ForgotPasswordSuccess({required this.email, required this.seuccessMessage});
 }
 
 final class ForgotPasswordError extends ForgotPasswordStates {

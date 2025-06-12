@@ -15,14 +15,15 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordStates> {
     emit(ForgotPasswordLoading());
     try {
       final forgotPassowrdRequest = ForgotPasswordRequest(email: email);
-
       final forgotPassowrdResponse = await _forgotPasswordRepository
           .forgotPassword(forgotPassowrdRequest);
 
       Logger().i('Login response: $forgotPassowrdResponse');
-
       emit(
-        ForgotPasswordSuccess(seuccessMessage: forgotPassowrdResponse.message),
+        ForgotPasswordSuccess(
+          seuccessMessage: forgotPassowrdResponse.message,
+          email: email,
+        ),
       );
     } catch (err) {
       Logger().e('Login error: $err');

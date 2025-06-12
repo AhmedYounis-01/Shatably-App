@@ -333,35 +333,35 @@ final List<Map<String, dynamic>> generalProjects = [
   {
     'title': 'Handymen service package',
     'description': 'Reliable repair and maintenance services for your home.',
-    'image': AppImages.browseBrojectImag,
+    'image': AppImages.browseBrojectImage,
     'isComingSoon': false,
   },
   {
     'title': 'Kitchen installation',
     'description':
         'Expert kitchen setup with precise fitting and smooth finishes.',
-    'image': AppImages.browseBrojectImag,
+    'image': AppImages.browseBrojectImag1,
     'isComingSoon': false,
   },
   {
     'title': 'Elegant finishes',
     'description':
         'Refined details and stylish touches that bring a polished look to your space.',
-    'image': AppImages.browseBrojectImag,
+    'image': AppImages.browseBrojectImag2,
     'isComingSoon': false,
   },
   {
     'title': 'Bathroom installation',
     'description':
         'Seamless bathroom setup with quality fixtures and a clean, modern look.',
-    'image': AppImages.browseBrojectImag,
+    'image': AppImages.browseBrojectImag3,
     'isComingSoon': false,
   },
   {
     'title': 'Gas installation',
     'description':
         'Safe and efficient gas setup for kitchens, heating, and more — handled by experts.',
-    'image': AppImages.browseBrojectImag,
+    'image': AppImages.browseBrojectImag4,
     'isComingSoon': false,
   },
 ];

@@ -14,7 +14,8 @@ import 'package:shatably_app/feature/auth/recover_password/data/repository/passw
 import 'package:shatably_app/feature/auth/recover_password/logic/password%20reset/password_reset_cubit.dart';
 
 class PasswordResetScreen extends StatefulWidget {
-  const PasswordResetScreen({super.key});
+  final String email;
+  const PasswordResetScreen({super.key, required this.email});
 
   @override
   State<PasswordResetScreen> createState() => _PasswordResetScreenState();
@@ -141,7 +142,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                                         .read<PasswordResetCubit>()
                                         .resetPassword(
                                           //!!!!!!!!!!!111111
-                                          "email",
+                                          widget.email,
                                           "token", //? backend make not required
                                           //!!!!!!!!!!!111111
                                           newPasswordController.text.trim(),

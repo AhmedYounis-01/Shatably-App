@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 
 class CustomServicePackageScreen extends StatelessWidget {
@@ -551,5 +550,3 @@ class ReviewItemModel {
     this.avatarPath,
   });
 }
-
- 

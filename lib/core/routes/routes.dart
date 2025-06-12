@@ -47,4 +47,6 @@ class Routes {
   static const String shopScreen = '/shopScreen';
   static const String cartScreen = '/cartScreen';
   static const String appointmentsScreen = '/appointmentsScreen';
+  static const String aiScreen = '/aiScreen';
+  static const String chatBotScreen = '/chatBotScreen';
 }

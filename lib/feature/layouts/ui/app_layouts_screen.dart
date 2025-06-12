@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import '../../../core/themes/colors_manager.dart';
 import '../../../core/utils/app_icons.dart';
 import '../logic/cubit/applayout_cubit.dart';
@@ -196,12 +198,19 @@ class _CustomBottomNavBar extends StatelessWidget {
                       color: Color(0xFF0E3B43), // Dark teal color
                     ),
                     child: Center(
-                      child: Text(
-                        'AI',
-                        style: TextStyle(
-                          color: Color(0xFFA6CDC6), // Light teal color for text
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                      child: InkWell(
+                        onTap: () {
+                          context.pushNamed(Routes.aiScreen);
+                        },
+                        child: Text(
+                          'AI',
+                          style: TextStyle(
+                            color: Color(
+                              0xFFA6CDC6,
+                            ), // Light teal color for text
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

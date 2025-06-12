@@ -15,123 +15,128 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: Color(0XFFE5F1EF),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            SizedBox(height: 50.h),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Container(
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFBEE1DB),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 50.h),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFBEE1DB),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: ColorsManager.primaryColor,
+                          size: 16.sp,
+                        ),
+                      ),
                     ),
+                  ),
+                  Expanded(
                     child: Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: ColorsManager.primaryColor,
-                        size: 16.sp,
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: ColorsManager.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 32.w),
+                ],
+              ),
+              SizedBox(height: 18.h),
+              Container(
+                width: 85.r,
+                height: 85.r,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage(AppImages.circleAvatarIcon),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Center(
+                  child: Container(
+                    width: 70.r,
+                    height: 70.r,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha((25 * 255).toInt()),
+                          blurRadius: 4.r,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage(AppImages.morganImage2),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "Profile",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: ColorsManager.primaryColor,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 32.w),
-              ],
-            ),
-            SizedBox(height: 18.h),
-            Container(
-              width: 85.r,
-              height: 85.r,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: AssetImage(AppImages.circleAvatarIcon),
-                  fit: BoxFit.cover,
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                "Abdelrahman Morgan",
+                style: TextStyles.styleMedium(
+                  context,
+                  fontSize: 13.sp,
+                  color: ColorsManager.primaryColor,
                 ),
               ),
-              child: Center(
-                child: Container(
-                  width: 70.r,
-                  height: 70.r,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha((25 * 255).toInt()),
-                        blurRadius: 4.r,
-                        offset: const Offset(0, 1),
-                      ),
-                    ],
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(AppImages.morganImage2),
-                      fit: BoxFit.cover,
-                    ),
+              Text(
+                "abdelrahmanmorggan@gamil.com",
+                style: TextStyles.styleMedium(
+                  context,
+                  fontSize: 12.sp,
+                  color: ColorsManager.primaryColor.withAlpha(
+                    (64 * 255).toInt(),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 10.h),
-            Text(
-              "Abdelrahman Morgan",
-              style: TextStyles.styleMedium(
-                context,
-                fontSize: 13.sp,
-                color: ColorsManager.primaryColor,
-              ),
-            ),
-            Text(
-              "abdelrahmanmorggan@gamil.com",
-              style: TextStyles.styleMedium(
-                context,
-                fontSize: 12.sp,
-                color: ColorsManager.primaryColor.withAlpha((64 * 255).toInt()),
-              ),
-            ),
 
-            SizedBox(height: 53.h),
-            const ProfileMenuList(),
-            // Container(
-            //   width: double.infinity,
-            //   height: 48.h,
-            //   padding: EdgeInsets.only(left: 10.w, right: 18.w),
-            //   decoration: BoxDecoration(
-            //     color: ColorsManager.backGroundFormsColor,
-            //     border: Border.all(color: ColorsManager.yellowTextColor),
-            //     borderRadius: BorderRadius.circular(15.r),
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       SvgPicture.asset(AppIcons.userIcon),
-            //       SizedBox(width: 8.w),
-            //       Text("Edit Profile"),
-            //       Spacer(),
-            //       InkWell(
-            //         onTap: () {},
-            //         child: Icon(
-            //           Icons.arrow_forward_ios,
-            //           size: 16.sp,
-            //           color: ColorsManager.primaryColor,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-          ],
+              SizedBox(height: 53.h),
+              const ProfileMenuList(),
+              // Container(
+              //   width: double.infinity,
+              //   height: 48.h,
+              //   padding: EdgeInsets.only(left: 10.w, right: 18.w),
+              //   decoration: BoxDecoration(
+              //     color: ColorsManager.backGroundFormsColor,
+              //     border: Border.all(color: ColorsManager.yellowTextColor),
+              //     borderRadius: BorderRadius.circular(15.r),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       SvgPicture.asset(AppIcons.userIcon),
+              //       SizedBox(width: 8.w),
+              //       Text("Edit Profile"),
+              //       Spacer(),
+              //       InkWell(
+              //         onTap: () {},
+              //         child: Icon(
+              //           Icons.arrow_forward_ios,
+              //           size: 16.sp,
+              //           color: ColorsManager.primaryColor,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );

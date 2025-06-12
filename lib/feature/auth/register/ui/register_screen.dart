@@ -10,7 +10,6 @@ import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 import 'package:shatably_app/core/widgets/custom_text_form_feild.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
-import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
 import 'package:shatably_app/feature/auth/register/data/repository/register_repository.dart';
 import 'package:shatably_app/feature/auth/register/logic/cubit/register_cubit.dart';
 import 'package:toastification/toastification.dart';

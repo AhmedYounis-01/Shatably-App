@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
@@ -75,7 +77,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               type: ToastificationType.success,
               icon: Icons.check,
             );
+
+            Future.delayed(const Duration(seconds: 2), () {
+              if (!context.mounted) return;
+              context.pushNamed(
+                Routes.passwordResetScreen,
+                arguments: state.email,
+              );
+            });
           }
+
           if (state is ForgotPasswordError) {
             customToast(
               context: context,
