@@ -28,58 +28,36 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  # Flutter core SDK
+  bloc: ^9.0.0
+  cached_network_image: ^3.4.1
+  card_swiper: ^3.0.1
+  carousel_slider: ^5.0.0
+  collection: ^1.19.0
+  cupertino_icons: ^1.0.8
+  device_preview: ^1.2.0
+  dio: ^5.7.0
   flutter:
     sdk: flutter
-
-  # 📱 Responsive UI design
-  flutter_screenutil: ^5.5.3 # Helps make UI responsive to different screen sizes
-
-  # 🗺️ Map integration
-  flutter_map: ^8.1.1 # A flexible map widget (Leaflet-based) for displaying interactive maps
-  latlong2: ^0.9.1 # Used with flutter_map for handling geographical coordinates
-
-  # 📍 Location & address
-  geolocator: ^14.0.0 # Retrieves the device's current location
-  geocoding: ^3.0.0 # Converts coordinates (lat/lng) to human-readable addresses
-
-  # 🎨 UI and UX enhancements
-  # animated_bottom_navigation_bar: ^1.3.3 # Customizable animated bottom navigation bar
-  # convex_bottom_bar: ^3.2.0
-  card_swiper: ^3.0.1 # Enables card-style swipe UI like Tinder
-  carousel_slider: ^5.0.0 # Creates image or content sliders
-  shimmer: ^3.0.0 # Creates loading placeholders with shimmer effect
-  smooth_page_indicator: ^1.2.0+3 # Adds smooth, animated page indicators
-  flutter_svg: ^2.0.16 # Renders SVG images in Flutter
-  toastification: ^3.0.2 # Beautiful toast notifications for success, error, etc.
-
-  # 🔁 State Management
-  bloc: ^9.0.0 # Bloc pattern for managing app state
-  flutter_bloc: ^9.1.0 # Flutter widgets that integrate with the Bloc state management
-
-  # 📦 Network and storage
-  dio: ^5.7.0 # Powerful HTTP client for making API requests
-  http_parser: ^4.1.2 # Helper for parsing HTTP headers, used with Dio
-  cached_network_image: ^3.4.1 # Downloads and caches images from the internet
-  flutter_secure_storage: ^9.2.4 # Securely stores sensitive data like tokens
-  shared_preferences: ^2.3.5 # Stores simple key-value data locally (non-secure)
-
-  # 🔧 Utility libraries
-  collection: ^1.19.0 # Provides advanced collection manipulation (lists, maps, etc.)
-  cupertino_icons: ^1.0.8 # Default Cupertino-style icons for iOS look and feel
-  device_preview: ^1.2.0 # Simulates different devices and screens for preview/testing
-  get_it: ^8.0.3 # Service locator for dependency injection
-  jwt_decoder: ^2.0.1 # Decodes JWT tokens (e.g. for auth)
-  logger: ^2.5.0 # Logs debug information
-  mime: ^2.0.0 # Detects the MIME type of a file or data
-  retry: ^3.1.2 # Adds retry logic for network requests or operations
-
-  # 📸 Image handling
-  image_picker: ^1.1.2 # Picks images or videos from camera or gallery
-
-  # 📱 Persistent bottom navigation
-  # persistent_bottom_nav_bar: ^6.2.1 # Persistent bottom nav bar that maintains state across tabs
-
+  flutter_bloc: ^9.1.0
+  flutter_map: ^8.1.1
+  flutter_screenutil: ^5.5.3
+  flutter_secure_storage: ^9.2.4
+  flutter_svg: ^2.0.16
+  geocoding: ^3.0.0
+  geolocator: ^14.0.0
+  get_it: ^8.0.3
+  http_parser: ^4.1.2
+  image_picker: ^1.1.2
+  jwt_decoder: ^2.0.1
+  latlong2: ^0.9.1
+  logger: ^2.5.0
+  mime: ^2.0.0
+  retry: ^3.1.2
+  shared_preferences: ^2.3.5
+  shimmer: ^3.0.0
+  skeletonizer: ^2.0.1
+  smooth_page_indicator: ^1.2.0+3
+  toastification: ^3.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1

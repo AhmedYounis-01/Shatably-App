@@ -5,6 +5,8 @@
   The RouteSettings object contains information about the route, such as its name and any arguments passed to it.
  */
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/feature/AI/ui/screens/ai_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/chat_bot_screen.dart';
@@ -18,21 +20,19 @@ import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confi
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/hire_details_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
 import 'package:shatably_app/feature/home/ui/home_screen.dart';
 import 'package:shatably_app/feature/home/ui/projects_screen.dart';
-import 'package:shatably_app/feature/home/ui/service_screen.dart';
+import 'package:shatably_app/feature/home/ui/services_screen.dart';
 import 'package:shatably_app/feature/layouts/ui/app_layouts_screen.dart';
-import 'package:shatably_app/feature/maintenance%20work/ui/screens/ac_setup_screen.dart';
-import 'package:shatably_app/feature/maintenance%20work/ui/screens/surveillance_cameras.dart';
-import 'package:shatably_app/feature/maintenance%20work/ui/screens/water_purifier.dart';
-import 'package:shatably_app/feature/maintenance%20work/ui/screens/windows_screen.dart';
+import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
+import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
+import 'package:shatably_app/feature/maintenance%20work/ui/maintenance_work_screen.dart';
 import 'package:shatably_app/feature/onboarding/ui/onboarding_screen.dart';
-import 'package:shatably_app/feature/maintenance%20work/ui/screens/pest_control_screen.dart';
 import 'package:shatably_app/feature/profile/ui/screens/profile_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/Handymen_screen.dart';
 import 'package:shatably_app/feature/projects/ui/screens/bathroom_installation.dart';
@@ -51,6 +51,7 @@ import 'package:shatably_app/test_file.dart';
 
 class AppRoutes {
   Route? onGenerateRoute(RouteSettings settings) {
+    var arguments = settings.arguments;
     switch (settings.name) {
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
@@ -61,7 +62,7 @@ class AppRoutes {
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.passwordScreen:
-        final email = settings.arguments as String;
+        final email = arguments as String;
         return MaterialPageRoute(builder: (_) => PasswordScreen(email: email));
       case Routes.forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
@@ -72,7 +73,7 @@ class AppRoutes {
       //     builder: (_) => const PasswordResetConfirmationScreen(),
       //   );
       case Routes.passwordResetScreen:
-        final email = settings.arguments as String;
+        final email = arguments as String;
         return MaterialPageRoute(
           builder: (_) => PasswordResetScreen(email: email),
         );
@@ -111,8 +112,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
       case Routes.cleaningServiceScreen:
         return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
-      case Routes.pestControlScreen:
-        return MaterialPageRoute(builder: (_) => const PestControlSCreen());
       case Routes.handymenServiceScreen:
         return MaterialPageRoute(
           builder: (_) => const HandymenServicePackageScreen(),
@@ -131,14 +130,27 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const BookingDetailScreen());
       // case Routes.workerScreen:
       //   return MaterialPageRoute(builder: (_) => const WorkerScreen());
-      case Routes.acSetupScreen:
-        return MaterialPageRoute(builder: (_) => const AcSetupScreen());
-      case Routes.windowsScreen:
-        return MaterialPageRoute(builder: (_) => const WindowsScreen());
-      case Routes.waterPurifierScreen:
-        return MaterialPageRoute(builder: (_) => const WaterPurifierScreen());
-      case Routes.surveillanceCameras:
-        return MaterialPageRoute(builder: (_) => const SurveillanceCameras());
+      case Routes.maintenanceWorkScreen:
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create:
+                    (context) =>
+                        MaintenanceWorkCubit(sl<MaintenanceWorkRepository>())
+                          ..getMaintenanceWork(id: arguments as String),
+                child: const MaintenanceWorkScreen(),
+              ),
+        );
+      // case Routes.acSetupScreen:
+      //   return MaterialPageRoute(builder: (_) => const AcSetupScreen());
+      // case Routes.windowsScreen:
+      //   return MaterialPageRoute(builder: (_) => const WindowsScreen());
+      // case Routes.waterPurifierScreen:
+      //   return MaterialPageRoute(builder: (_) => const WaterPurifierScreen());
+      // case Routes.pestControlScreen:
+      //   return MaterialPageRoute(builder: (_) => const PestControlSCreen());
+      // case Routes.surveillanceCameras:
+      //   return MaterialPageRoute(builder: (_) => const SurveillanceCameras());
       case Routes.kitchenInstallation:
         return MaterialPageRoute(builder: (_) => const KitchenInstallation());
       case Routes.elegantFinishesScreen:

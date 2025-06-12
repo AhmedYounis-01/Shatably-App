@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for SystemUiOverlayStyle
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
@@ -106,22 +108,13 @@ class ServicesScreen extends StatelessWidget {
                               fontSize: 14.sp,
                               color: ColorsManager.geryIconColor,
                             ),
-                            // prefixIcon: Icon(
-                            //   Icons.location_on_outlined,
-                            //   color: ColorsManager.geryIconColor,
-                            // ),
+
                             suffixIcon: InkWell(
                               onTap: () {},
-                              // onTap:
-                              // () => _searchLocation(_searchController.text),
+
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
 
-                                // child: SvgPicture.asset(
-                                //   AppIcons.searchIcon1,
-
-                                //   color: ColorsManager.geryIconColor,
-                                // ),
                                 child: Image.asset(
                                   // width: 14,
                                   // height: 14,
@@ -191,25 +184,38 @@ class ServicesScreen extends StatelessWidget {
 
                     // Maintenance Services Grid
                     Wrap(
-                      spacing: 12.w, // المسافة الأفقية بين العناصر
-                      runSpacing: 12.h, // المسافة الرأسية بين الصفوف
+                      spacing: 12.w,
+                      runSpacing: 12.h,
                       children: [
-                        _buildMaintenanceItem('HVAC', AppIcons.takyeefIcon),
                         _buildMaintenanceItem(
+                          context,
+                          'HVAC',
+                          AppIcons.takyeefIcon,
+                          "d893e691-1ee6-40d6-98b9-c46f4ab9b120",
+                        ),
+                        _buildMaintenanceItem(
+                          context,
                           'Windows & Doors',
                           AppIcons.windowIcon,
+                          "d893e691-1ee6-40d6-98b9-c46f4ab9b120",
                         ),
                         _buildMaintenanceItem(
+                          context,
                           'Pest Control',
                           AppIcons.pestControlIcon,
+                          "d8834625-486c-4471-8c06-557f41b1cf8d",
                         ),
                         _buildMaintenanceItem(
+                          context,
                           'Water Purifier',
                           AppIcons.waterFilterIcon,
+                          "62b5bf31-8b8c-438a-8030-f5fd437bb354",
                         ),
                         _buildMaintenanceItem(
+                          context,
                           'Surveillance Cameras',
                           AppIcons.surveillanceCameraIcon,
+                          "3d8ae543-7aaa-460d-b8a5-3e56dd55245e",
                         ),
                       ],
                     ),
@@ -267,42 +273,52 @@ class ServicesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceItem(String? title, String icon) {
-    return Container(
-      width: 95,
-      height: 95,
-      decoration: BoxDecoration(
-        color: Color(0XFFE5E3DB),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha((0.1 * 255).toInt()),
-            spreadRadius: 1,
-            blurRadius: 2,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
-            ),
-            SizedBox(height: 2.h),
-
-            Text(
-              textAlign: TextAlign.center,
-              title ?? "Electrician",
-              style: TextStyles.styleRegular(
-                null,
-                fontSize: 12,
-                color: ColorsManager.primaryColor,
-              ),
+  Widget _buildMaintenanceItem(
+    BuildContext context,
+    String? title,
+    String icon,
+    String? id,
+  ) {
+    return InkWell(
+      onTap: () {
+        context.pushNamed(Routes.maintenanceWorkScreen, arguments: id);
+      },
+      child: Container(
+        width: 95,
+        height: 95,
+        decoration: BoxDecoration(
+          color: Color(0XFFE5E3DB),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha((0.1 * 255).toInt()),
+              spreadRadius: 1,
+              blurRadius: 2,
             ),
           ],
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
+              ),
+              SizedBox(height: 2.h),
+
+              Text(
+                textAlign: TextAlign.center,
+                title ?? "Electrician",
+                style: TextStyles.styleRegular(
+                  null,
+                  fontSize: 12,
+                  color: ColorsManager.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

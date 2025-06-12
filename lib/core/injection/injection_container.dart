@@ -8,6 +8,8 @@ import 'package:shatably_app/feature/auth/recover_password/logic/password%20rese
 import 'package:shatably_app/feature/auth/register/data/repository/register_repository.dart';
 import 'package:shatably_app/feature/auth/register/logic/cubit/register_cubit.dart';
 import 'package:shatably_app/feature/layouts/logic/cubit/applayout_cubit.dart';
+import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
+import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 
 import '../services/api/api_consumer.dart';
 import '../services/api/dio_consumer.dart';
@@ -23,6 +25,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => LoginRepository(sl<ApiConsumer>()));
   sl.registerLazySingleton(() => ForgotPasswordRepository(sl<ApiConsumer>()));
   sl.registerLazySingleton(() => PasswordResetRepository(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => MaintenanceWorkRepository(sl<ApiConsumer>()));
 
   // Cubits
   sl.registerFactory(() => ApplayoutCubit());
@@ -30,4 +33,5 @@ Future<void> init() async {
   sl.registerFactory(() => RegisterCubit(sl()));
   sl.registerFactory(() => ForgotPasswordCubit(sl()));
   sl.registerFactory(() => PasswordResetCubit(sl()));
+  sl.registerFactory(() => MaintenanceWorkCubit(sl()));
 }

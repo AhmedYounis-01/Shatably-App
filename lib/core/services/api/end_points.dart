@@ -4,4 +4,5 @@ class EndPoints {
   static const String login = 'api/Auth/login';
   static const String forgotPassword = 'api/Auth/forgot-password';
   static const String resetPassword = 'api/Auth/reset-password';
+  static const String maintenanceWorkById = '/api/Services';
 }

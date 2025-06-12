@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/app_routes.dart';
 import 'package:shatably_app/core/routes/navigatoin_service.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
+import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 import 'core/localization/app_localization.dart';
 import 'core/localization/localization_cubit.dart';
 
@@ -22,7 +24,7 @@ class ShatablyAdminApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => localizationCubit..loadLanguage()),
-        // BlocProvider(create: (context) => sl<AddProductCubit>()),
+        BlocProvider(create: (context) => sl<MaintenanceWorkCubit>()),
         // BlocProvider(create: (context) => sl<OrderCubit>()),
         // BlocProvider(create: (context) => sl<PendingCubit>()),
         // BlocProvider(create: (context) => sl<ProcessingCubit>()),
@@ -55,7 +57,7 @@ class ShatablyAdminApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               // initialRoute: Routes.splashScreen,
-              initialRoute: Routes.homeScreen,
+              initialRoute: Routes.browseProjectsScreen,
               onGenerateRoute: appRoutes.onGenerateRoute,
               navigatorKey: NavigationService.instance.rootNavKey,
             ),
