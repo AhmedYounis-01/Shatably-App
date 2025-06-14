@@ -25,7 +25,7 @@ void customToast({
       blurRadius: 16,
       offset: Offset(0, 16),
       spreadRadius: 0,
-    )
+    ),
   ],
   bool showProgressBar = true,
   CloseButtonShowType closeButtonShowType = CloseButtonShowType.onHover,
@@ -54,10 +54,7 @@ void customToast({
     direction: direction,
     animationDuration: animationDuration,
     animationBuilder: (context, animation, alignment, child) {
-      return FadeTransition(
-        opacity: animation,
-        child: child,
-      );
+      return FadeTransition(opacity: animation, child: child);
     },
     icon: Icon(icon, color: ColorsManager.textBasic1Color),
     showIcon: true,

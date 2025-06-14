@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:shatably_app/feature/auth/recover_password/data/model/password_reset_model.dart';
 import 'package:shatably_app/feature/auth/recover_password/data/repository/password_reset_repository.dart';
 
@@ -28,7 +29,7 @@ class PasswordResetCubit extends Cubit<PasswordResetStates> {
       final resetPasswordResponse = await _passwordResetRepository
           .resetPassword(resetPasswordReqest);
       Logger().i('reset password response: $resetPasswordResponse');
-    } catch (err) {
+    }on ServerFailure catch (err) {
       Logger().e('reset password error: $err');
       emit(PasswordResetErrorState(errMessage: err.toString()));
     }

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:shatably_app/feature/auth/recover_password/data/model/forgot_password_model.dart';
 import 'package:shatably_app/feature/auth/recover_password/data/repository/forgot_password_repository.dart';
 
@@ -25,7 +26,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordStates> {
           email: email,
         ),
       );
-    } catch (err) {
+    }on ServerFailure catch (err) {
       Logger().e('Login error: $err');
       emit(ForgotPasswordError(errMessage: err.toString()));
     }

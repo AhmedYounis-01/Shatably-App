@@ -181,7 +181,7 @@ class _CustomBottomNavBar extends StatelessWidget {
                       // color: Colors.redAccent,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withAlpha((0.1 * 255).toInt()),
                           blurRadius: 5,
                           spreadRadius: 1,
                         ),

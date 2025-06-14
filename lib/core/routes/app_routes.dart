@@ -10,6 +10,7 @@ import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/feature/AI/ui/screens/ai_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/chat_bot_screen.dart';
+import 'package:shatably_app/feature/AI/ui/screens/home_vision.dart';
 import 'package:shatably_app/feature/Appointments/ui/screens/appointments_screen.dart';
 import 'package:shatably_app/feature/Location/ui/confirm_location_screen.dart';
 import 'package:shatably_app/feature/Location/ui/location_screen.dart';
@@ -25,20 +26,17 @@ import 'package:shatably_app/feature/booking%20process/ui/screens/hire_details_s
 import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
+import 'package:shatably_app/feature/home/ui/browse___services/browse_services_screen.dart';
 import 'package:shatably_app/feature/home/ui/home_screen.dart';
-import 'package:shatably_app/feature/home/ui/projects_screen.dart';
-import 'package:shatably_app/feature/home/ui/services_screen.dart';
+import 'package:shatably_app/feature/home/ui/browse_projects_screen.dart';
 import 'package:shatably_app/feature/layouts/ui/app_layouts_screen.dart';
 import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 import 'package:shatably_app/feature/maintenance%20work/ui/maintenance_work_screen.dart';
+import 'package:shatably_app/feature/notification/ui/notification_screen.dart';
 import 'package:shatably_app/feature/onboarding/ui/onboarding_screen.dart';
 import 'package:shatably_app/feature/profile/ui/screens/profile_screen.dart';
-import 'package:shatably_app/feature/projects/ui/screens/Handymen_screen.dart';
-import 'package:shatably_app/feature/projects/ui/screens/bathroom_installation.dart';
-import 'package:shatably_app/feature/projects/ui/screens/elegant_finishes_screen.dart';
-import 'package:shatably_app/feature/projects/ui/screens/gas_installatioin.dart';
-import 'package:shatably_app/feature/projects/ui/screens/kitchen_installation.dart';
+import 'package:shatably_app/feature/projects/ui/projects_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/electrician_screen.dart';
@@ -78,7 +76,7 @@ class AppRoutes {
           builder: (_) => PasswordResetScreen(email: email),
         );
       case Routes.browseProjectsScreen:
-        return MaterialPageRoute(builder: (_) => const ProjectsScreen());
+        return MaterialPageRoute(builder: (_) => const BrowseProjectsScreen());
       case Routes.newPasswordConfirmationScreen:
         return MaterialPageRoute(
           builder: (_) => const NewPasswordConfirmationScreen(),
@@ -94,14 +92,13 @@ class AppRoutes {
       case Routes.appLayoutsScreen:
         return MaterialPageRoute(builder: (_) => const AppLayoutsScreen());
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case Routes.servicesScreen:
-        return MaterialPageRoute(builder: (_) => const ServicesScreen());
+        return MaterialPageRoute(builder: (_) => const BrowseServicesScreen());
       case Routes.electricianServiceScreen:
         return MaterialPageRoute(
           builder: (_) => const ElectricianServiceScreen(),
         );
-      //! Uncomment the following lines
       case Routes.carpentryServiceScreen:
         return MaterialPageRoute(
           builder: (_) => const CarpentryServiceScreen(),
@@ -112,10 +109,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
       case Routes.cleaningServiceScreen:
         return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
-      case Routes.handymenServiceScreen:
-        return MaterialPageRoute(
-          builder: (_) => const HandymenServicePackageScreen(),
-        );
       case Routes.bookingScreen:
         return MaterialPageRoute(builder: (_) => const BookingScreen());
       case Routes.testScreen:
@@ -141,27 +134,20 @@ class AppRoutes {
                 child: const MaintenanceWorkScreen(),
               ),
         );
-      // case Routes.acSetupScreen:
-      //   return MaterialPageRoute(builder: (_) => const AcSetupScreen());
-      // case Routes.windowsScreen:
-      //   return MaterialPageRoute(builder: (_) => const WindowsScreen());
-      // case Routes.waterPurifierScreen:
-      //   return MaterialPageRoute(builder: (_) => const WaterPurifierScreen());
-      // case Routes.pestControlScreen:
-      //   return MaterialPageRoute(builder: (_) => const PestControlSCreen());
-      // case Routes.surveillanceCameras:
-      //   return MaterialPageRoute(builder: (_) => const SurveillanceCameras());
-      case Routes.kitchenInstallation:
-        return MaterialPageRoute(builder: (_) => const KitchenInstallation());
-      case Routes.elegantFinishesScreen:
-        return MaterialPageRoute(builder: (_) => const ElegantFinishesScreen());
-      case Routes.bathroomInstallationScreen:
+      // case Routes.projectsScreen:
+      //   return MaterialPageRoute(
+      //     builder:
+      //         (_) => BlocProvider(
+      //           create:
+      //               (context) =>
+      //                   ProjectsCubit(sl<ProjectsRepository>())
+      //                     ..getProjectDetails(arguments),
+      //           child: ProjectsScreen(projectId: arguments as String),
+      //         ),
+      //   );
+      case Routes.projectsScreen:
         return MaterialPageRoute(
-          builder: (_) => const BathroomInstallationScreen(),
-        );
-      case Routes.gasInstallatioinScreen:
-        return MaterialPageRoute(
-          builder: (_) => const GasInstallatioinScreen(),
+          builder: (_) => ProjectsScreen(projectId: arguments as String),
         );
       case Routes.profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
@@ -175,6 +161,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const AiScreen());
       case Routes.chatBotScreen:
         return MaterialPageRoute(builder: (_) => const ChatBotScreen());
+      case Routes.homeVisionScreen:
+        return MaterialPageRoute(builder: (_) => const HomeVisionScreen());
+      case Routes.notificationScreen:
+        return MaterialPageRoute(builder: (_) => const NotificationScreen());
     }
     return null;
   }

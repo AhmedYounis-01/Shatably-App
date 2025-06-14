@@ -30,6 +30,7 @@ class DioConsumer implements ApiConsumer {
           headers: {
             'Content-Type': 'application/json',
             "Connection": "keep-alive",
+            "Accept": "application/json",
           },
         ),
         // options: options ?? Options(headers: headers),

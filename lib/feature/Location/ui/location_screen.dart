@@ -533,7 +533,7 @@ class _LocationDetectionScreenState extends State<LocationDetectionScreen> {
                     'Skip',
                     style: TextStyles.styleRegular(
                       context,
-                      color: Color(0xff16404D).withOpacity(.4),
+                      color: Color(0xff16404D).withAlpha((.4 * 255).toInt()),
                     ),
                   ),
                 ),

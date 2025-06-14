@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
+import 'package:shatably_app/feature/projects/data/repository/projects_repository.dart';
+import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
+import 'package:shatably_app/feature/projects/ui/projects_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -396,6 +401,7 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         children: [
                           _buildServiceCategory(
+                            context,
                             'Electrician',
                             AppIcons.electricianIcon,
                             () => Navigator.of(
@@ -405,6 +411,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           _buildServiceCategory(
+                            context,
                             'Carpenter',
                             AppIcons.carpenterIcon,
                             () => Navigator.of(
@@ -414,6 +421,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           _buildServiceCategory(
+                            context,
                             'Painter',
                             AppIcons.painterIcon,
                             () => Navigator.of(
@@ -423,6 +431,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           _buildServiceCategory(
+                            context,
                             'Plumber',
                             AppIcons.plumberIcon,
                             () => Navigator.of(
@@ -432,6 +441,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           _buildServiceCategory(
+                            context,
                             'Cleaning',
                             AppIcons.housekeepingIcon,
                             () => Navigator.of(
@@ -480,76 +490,42 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-
                     SizedBox(height: 12.h),
 
                     SizedBox(
                       height: 164.h,
-                      child: ListView(
+                      child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        children: [
-                          buildCardImage(
+                        itemBuilder: (context, index) {
+                          final category = projectCategories[index];
+                          return buildProjectCategory(
                             context,
-                            'From 1500 EGP',
-                            'Kitchen Finishing',
-                            AppImages.browseBrojectImage,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.kitchenInstallation),
-                          ),
-                          SizedBox(width: 12.5.w),
-                          buildCardImage(
-                            context,
-                            'From 3000 EGP',
-                            'Handymen service',
-                            AppImages.browseBrojectImag1,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.handymenServiceScreen),
-                          ),
-                          SizedBox(width: 12.5.w),
-                          buildCardImage(
-                            context,
-                            'From 1000 EGP',
-                            ' Elegant finishes',
-                            AppImages.browseBrojectImag2,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.elegantFinishesScreen),
-                          ),
-                          SizedBox(width: 12.5.w),
-                          buildCardImage(
-                            context,
-                            'From 4000 EGP',
-                            'Bathroom installation',
-                            AppImages.browseBrojectImag3,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.bathroomInstallationScreen),
-                          ),
-                          SizedBox(width: 12.5.w),
-                          buildCardImage(
-                            context,
-                            'From 6520 EGP',
-                            'Gas installation',
-                            AppImages.browseBrojectImag4,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.gasInstallatioinScreen),
-                          ),
-                          SizedBox(width: 12.5.w),
-                        ],
+                            category["id"]!,
+                            category["title"]!,
+                            category["image"]!,
+                            category["price"]!,
+                            () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider(
+                                      create:
+                                          (context) => ProjectsCubit(
+                                            sl<ProjectsRepository>(),
+                                          ),
+                                      child: ProjectsScreen(
+                                        projectId: category["id"]!,
+                                      ),
+                                    ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder:
+                            (context, index) => SizedBox(width: 12.5.w),
+                        itemCount: projectCategories.length,
                       ),
                     ),
-
-                    const SizedBox(
-                      height: 50,
-                    ), // Add space for bottom navigation
+                    SizedBox(height: 80.h),
                   ],
                 ),
               ),
@@ -560,27 +536,29 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  //! constant functions
   Widget _buildServiceCategory(
+    BuildContext context,
     String title,
     String imagePath,
     void Function()? onTap,
   ) {
-    return Container(
-      width: 95,
-      height: 95,
-      decoration: BoxDecoration(
-        color: const Color(0XFFE5E3DB),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha((0.1 * 255).toInt()),
-            spreadRadius: 1,
-            blurRadius: 2,
-          ),
-        ],
-      ),
-      child: InkWell(
-        onTap: onTap,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 95,
+        height: 95,
+        decoration: BoxDecoration(
+          color: const Color(0XFFE5E3DB),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha((0.1 * 255).toInt()),
+              spreadRadius: 1,
+              blurRadius: 2,
+            ),
+          ],
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -603,12 +581,46 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildCardImage(
+  final List<Map<String, String>> projectCategories = [
+    {
+      "id": "faed0c7c-3e71-453d-9d27-aeaf0b4a1e42",
+      "title": "Handymen service package",
+      "image": AppImages.browseBrojectImage,
+      "price": "3000 EGP",
+    },
+    {
+      "id": "3f9f3c71-4f9e-4a7d-9820-b24e174d10eb",
+      "title": "Kitchen installation",
+      "image": AppImages.browseBrojectImag1,
+      "price": "8000 EGP",
+    },
+    {
+      "id": "836cf4d8-f804-4c63-90e0-040aa948a31c",
+      "title": "Elegant finishes",
+      "image": AppImages.browseBrojectImag2,
+      "price": "2000 EGP",
+    },
+    {
+      "id": "126d1f43-e166-4363-951f-fb6c3b8d2bd0",
+      "title": "Bathroom installation",
+      "image": AppImages.browseBrojectImag3,
+      "price": "4000 EGP",
+    },
+    {
+      "id": "35d7e7be-4088-4525-9932-5bb551b27a5b",
+      "title": "Gas installation",
+      "image": AppImages.browseBrojectImag4,
+      "price": "15000 EGP",
+    },
+  ];
+
+  Widget buildProjectCategory(
     BuildContext context,
-    String price,
+    String projectId,
     String title,
-    String imageUrl,
-    void Function()? onTap,
+    String imagePath,
+    String price,
+    VoidCallback? onTap,
   ) {
     return InkWell(
       onTap: onTap,
@@ -618,7 +630,7 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           image: DecorationImage(
-            image: AssetImage(imageUrl),
+            image: AssetImage(imagePath),
             fit: BoxFit.cover,
           ),
         ),

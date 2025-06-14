@@ -9,8 +9,8 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 
-class ServicesScreen extends StatelessWidget {
-  const ServicesScreen({super.key});
+class BrowseServicesScreen extends StatelessWidget {
+  const BrowseServicesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -148,8 +148,8 @@ class ServicesScreen extends StatelessWidget {
 
                     SizedBox(height: 11.h),
                     Wrap(
-                      spacing: 12.w, // المسافة الأفقية بين العناصر
-                      runSpacing: 12.h, // المسافة الرأسية بين الصفوف
+                      spacing: 12.w,
+                      runSpacing: 12.h,
                       children: [
                         _buildServiceCategory(
                           'Electrician',
@@ -240,7 +240,7 @@ class ServicesScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha((0.1 * 255).toInt()),
             spreadRadius: 1,
             blurRadius: 2,
           ),

@@ -16,8 +16,8 @@ class ServiceWorkerScreen extends StatelessWidget {
   final double backgroundOpacity;
   final List<WorkerInfo> workers;
   final String workerIcon;
-  final String jobTitle; // Add this parameter
-  final String workerProfileImage; // Add this parameter
+  final String jobTitle;
+  final String workerProfileImage;
 
   const ServiceWorkerScreen({
     super.key,
@@ -88,54 +88,47 @@ class ServiceWorkerScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 30.w), // Balance the spacing
+                      SizedBox(width: 30.w),
                     ],
                   ),
                 ),
 
-                Expanded(
-                  child: Container(),
-                ), // Push the worker list to the bottom
-                // Workers Available Container with BackdropFilter and Grainy Overlay
+                Expanded(child: Container()),
+
                 ClipRRect(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30.r),
                     topRight: Radius.circular(30.r),
                   ),
                   child: BackdropFilter(
-                    filter: ImageFilter.blur(
-                      sigmaX: 22.7,
-                      sigmaY: 22.7,
-                    ), // قيمة الـ blur من الصورة
+                    filter: ImageFilter.blur(sigmaX: 22.7, sigmaY: 22.7),
                     child: Stack(
-                      // استخدم Stack عشان تحط الـ Container والـ GrainyOverlay فوق بعض
                       children: [
-                        // ده الـ Container الأساسي اللي كان موجود عندك، مع لونه و الـ shadow
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 25.w,
                             vertical: 10.h,
                           ),
                           decoration: BoxDecoration(
-                            color: backgroundColor.withOpacity(
-                              backgroundOpacity,
-                            ), // اللون الشفاف
+                            color: backgroundColor.withAlpha(
+                              backgroundOpacity.toInt() * 255,
+                            ),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30.r),
                               topRight: Radius.circular(30.r),
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(
-                                  0.25,
-                                ), // #000000 مع 25% opacity
-                                offset: const Offset(0, -3), // X: 0, Y: -3
-                                blurRadius: 4, // Blur: 4
-                                spreadRadius: 0, // Spread: 0
+                                color: Colors.black.withAlpha(
+                                  (0.25 * 255).toInt(),
+                                ),
+                                offset: const Offset(0, -3),
+                                blurRadius: 4,
+                                spreadRadius: 0,
                               ),
                             ],
                           ),
-                          // الـ child بتاع الـ Container هيفضل زي ما هو
+
                           child: Column(
                             children: [
                               Container(
@@ -180,16 +173,6 @@ class ServiceWorkerScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // إضافة طبقة التشبيحه باستخدام CustomPaint
-                        // Positioned.fill(
-                        //   child: CustomPaint(
-                        //     painter: GrainyOverlayPainter(
-                        //       grainColor: Colors.white,
-                        //       grainOpacity: 0.05,
-                        //       density: 10000,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -334,7 +317,7 @@ class WorkerInfo {
 class GrainyOverlayPainter extends CustomPainter {
   final Color grainColor;
   final double grainOpacity;
-  final int density; // عدد النقاط/الحبيبات للرسم
+  final int density;
 
   GrainyOverlayPainter({
     this.grainColor = Colors.white,
@@ -347,10 +330,9 @@ class GrainyOverlayPainter extends CustomPainter {
     final random = Random();
     final paint =
         Paint()
-          ..color = grainColor.withOpacity(grainOpacity)
-          ..strokeWidth = 1.0; // حجم النقطة الواحدة
+          ..color = grainColor.withAlpha(grainOpacity.toInt() * 255)
+          ..strokeWidth = 1.0;
 
-    // نرسم عدد معين من النقاط العشوائية لعمل تأثير الـ grain
     for (int i = 0; i < density; i++) {
       final x = random.nextDouble() * size.width;
       final y = random.nextDouble() * size.height;
@@ -360,7 +342,6 @@ class GrainyOverlayPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant GrainyOverlayPainter oldDelegate) {
-    // إعادة الرسم فقط لو تغيرت الـ properties (اللون، الشفافية، الكثافة)
     return oldDelegate.grainColor != grainColor ||
         oldDelegate.grainOpacity != grainOpacity ||
         oldDelegate.density != density;

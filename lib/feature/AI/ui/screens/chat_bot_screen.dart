@@ -1,26 +1,33 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:dio/dio.dart'; // Import Dio
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-
-// Assuming these are defined in your project
 import 'package:shatably_app/core/utils/app_images.dart';
+import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:shatably_app/feature/AI/data/models/chat_model.dart';
+import 'package:shatably_app/feature/AI/logic/chat%20ai/chat_cubit.dart';
+import 'package:shatably_app/feature/AI/logic/chat%20ai/chat_state.dart';
+import 'package:toastification/toastification.dart';
 
-// Define message types for clear distinction
+// Chat Screen UI
 enum MessageSender { user, bot }
 
-// Message data model
 class ChatMessage {
   final String text;
   final MessageSender sender;
   final bool isTyping;
+  final String? base64Image;
 
   ChatMessage({
     required this.text,
     required this.sender,
     this.isTyping = false,
+    this.base64Image,
   });
 }
 
@@ -31,20 +38,18 @@ class ChatBotScreen extends StatefulWidget {
   State<ChatBotScreen> createState() => _ChatBotScreenState();
 }
 
-class _ChatBotScreenState extends State<ChatBotScreen> {
+class _ChatBotScreenState extends State<ChatBotScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _messageController = TextEditingController();
-  // _messages list starts empty now, populated after the first user interaction
   final List<ChatMessage> _messages = [];
+  final ImagePicker _picker = ImagePicker();
 
-  bool _isBotTyping = false; // State to manage bot typing indicator
-  bool _isInitialScreen =
-      true; // State to manage initial welcome screen display
+  String?
+  _selectedImageBase64; // To hold the base64 string of the selected image
+  bool _isBotTyping = false;
+  bool _isInitialScreen = true;
 
-  // Scroll controller to automatically scroll to the bottom of the chat
   final ScrollController _scrollController = ScrollController();
-
-  // Initialize Dio instance
-  final Dio _dio = Dio();
 
   @override
   void initState() {
@@ -62,9 +67,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
-          _scrollController
-              .position
-              .minScrollExtent, // minScrollExtent for reverse: true
+          _scrollController.position.minScrollExtent,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
@@ -73,226 +76,78 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   void _handleSendMessage() {
-    if (_messageController.text.trim().isEmpty || _isBotTyping) return;
+    final userMessageText = _messageController.text.trim();
 
-    final userMessageText = _messageController.text;
+    if (userMessageText.isEmpty && _selectedImageBase64 == null) {
+      customToast(
+        context: context,
+        message: "Please enter a message or select an image",
+        type: ToastificationType.warning,
+        icon: Icons.warning,
+      );
+      return;
+    }
+    if (_isBotTyping) return;
 
     setState(() {
-      if (_isInitialScreen) {
-        _isInitialScreen =
-            false; // Transition from welcome screen to chat screen
-
-        // Add the initial conversation history here. These messages will appear once the user sends their first message.
-        // Uncomment and modify this section to add your desired initial bot/user conversation.
-        // _messages.add(
-        //   ChatMessage(text: "Hey, what's on your mind today?", sender: MessageSender.bot),
-        // );
-        _messages.add(
-          ChatMessage(
-            text:
-                "Hi, I just bought a new apartment and I'm not sure where to start with finishing it. Can you give me some advice?",
-            sender: MessageSender.user,
-          ),
-        );
-        _messages.add(
-          ChatMessage(
-            text:
-                "Sure. Start with electrical and plumbing work to avoid rework later. Then move to flooring and wall finishes. After that, install ceilings and lighting. Finally, handle carpentry like doors, kitchen units, and wardrobes. Let me know if you'd like help booking professionals for any step.",
-            sender: MessageSender.bot,
-          ),
-        );
-      }
+      _isInitialScreen = false;
 
       _messages.add(
-        ChatMessage(text: userMessageText, sender: MessageSender.user),
-      );
-      _messageController.clear();
-      _isBotTyping = true; // Show typing indicator
-      _messages.add(
-        ChatMessage(text: '...', sender: MessageSender.bot, isTyping: true),
-      ); // Add a typing message
-    });
-
-    _scrollToBottom(); // Scroll to show the new message and typing indicator
-
-    _getBotResponse(userMessageText); // Call the actual API function
-  }
-
-  Future<void> _getBotResponse(String prompt) async {
-    // --- START: API Integration for Bot Response ---
-    // This is where you will integrate your actual chatbot API (e.g., Gemini API, your backend).
-
-    // Define your API endpoint here.
-    // Replace 'https://api.example.com/chatbot-response' with your actual backend API endpoint.
-    const String apiUrl = 'https://api.example.com/chatbot-response';
-    // If your backend requires an API key, uncomment and set it here.
-    // String apiKey = "YOUR_API_KEY_HERE";
-
-    try {
-      // Prepare the chat history payload for your API request.
-      // The structure below is an example (e.g., for Gemini API). Adjust if your API requires a different format.
-      final chatHistory = [
-        {
-          "role": "user",
-          "parts": [
-            {"text": prompt},
-          ],
-        },
-      ];
-
-      final payload = {"contents": chatHistory};
-
-      // --- REPLACE THIS MOCK RESPONSE WITH ACTUAL DIO.POST CALL ---
-      // When your backend is ready, replace this entire 'await Future.delayed' and 'final Response' block
-      // with your actual Dio.post call, similar to the commented-out structure below.
-      /*
-      final Response<Map<String, dynamic>> response = await _dio.post(
-        apiUrl,
-        data: payload,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            // If you have an API key that goes in headers:
-            // 'Authorization': 'Bearer $apiKey',
-          },
+        ChatMessage(
+          text: userMessageText,
+          sender: MessageSender.user,
+          base64Image: _selectedImageBase64,
         ),
       );
-      */
-      // Mock Dio Response (remove this block when integrating actual API)
-      await Future.delayed(
-        const Duration(seconds: 2),
-      ); // Simulate network delay
-      final Response<Map<String, dynamic>> response = Response(
-        requestOptions: RequestOptions(path: apiUrl),
-        data: {
-          'candidates': [
-            {
-              'content': {
-                'parts': [
-                  {
-                    'text':
-                        "Got it! Based on your query, here's some simulated advice. When you connect me to the actual AI, I'll provide real-time suggestions!",
-                  },
-                ],
-              },
-            },
-          ],
-        },
-        statusCode: 200,
+      _messageController.clear();
+      _selectedImageBase64 = null; // Clear selected image after sending
+      _isBotTyping = true;
+      _messages.add(
+        ChatMessage(text: '...', sender: MessageSender.bot, isTyping: true),
       );
-      // End Mock Dio Response
-      // --- END OF MOCK RESPONSE ---
+    });
 
-      // Remove typing indicator immediately after receiving a response or an error.
+    _scrollToBottom();
+
+    context.read<ChatCubit>().chatPrompt(
+      ChatRequestModel(message: userMessageText, image: _selectedImageBase64),
+    );
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+      final base64Image = base64Encode(bytes);
       setState(() {
-        _messages.removeWhere((msg) => msg.isTyping);
-        _isBotTyping = false;
+        _selectedImageBase64 = base64Image;
       });
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> result = response.data!;
-
-        // Parse the bot's response.
-        // Adjust this parsing logic based on the actual structure of your API's successful response.
-        String botText =
-            "Error: Could not get response."; // Default error message
-        if (result['candidates'] != null &&
-            result['candidates'].isNotEmpty &&
-            result['candidates'][0]['content'] != null &&
-            result['candidates'][0]['content']['parts'] != null &&
-            result['candidates'][0]['content']['parts'].isNotEmpty) {
-          botText = result['candidates'][0]['content']['parts'][0]['text'];
-        }
-
-        setState(() {
-          _messages.add(ChatMessage(text: botText, sender: MessageSender.bot));
-        });
-      } else {
-        // Handle non-200 HTTP responses.
-        setState(() {
-          _messages.add(
-            ChatMessage(
-              text:
-                  "Error: Failed to get a response from the assistant. Status code: ${response.statusCode}",
-              sender: MessageSender.bot,
-            ),
-          );
-        });
-        print('Error fetching bot response: ${response.statusCode}');
-        print('Response body: ${response.data}');
-      }
-    } on DioException catch (e) {
-      // Handle Dio-specific network or API errors.
-      setState(() {
-        _messages.removeWhere((msg) => msg.isTyping);
-        _isBotTyping = false;
-        String errorMessage =
-            "Network Error: Could not connect to the assistant.";
-        if (e.response != null) {
-          errorMessage =
-              "Server Error: ${e.response?.statusCode}. ${e.response?.data}";
-        } else {
-          errorMessage = "Network Error: ${e.message}";
-        }
-        _messages.add(
-          ChatMessage(text: errorMessage, sender: MessageSender.bot),
-        );
-      });
-      print('DioError during API call: $e');
-    } catch (e) {
-      // Catch any other unexpected errors during the API call process.
-      setState(() {
-        _messages.removeWhere((msg) => msg.isTyping);
-        _isBotTyping = false;
-        _messages.add(
-          ChatMessage(
-            text: "Error: Something went wrong. Please try again.",
-            sender: MessageSender.bot,
-          ),
-        );
-      });
-      print('Exception during API call: $e');
-    } finally {
-      _scrollToBottom(); // Always scroll to bottom after bot responds or an error occurs.
     }
-    // --- END: API Integration for Bot Response ---
   }
 
   @override
   Widget build(BuildContext context) {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    // Estimated height of the message input bar.
-    final double inputBarEstimatedHeight = 70.h; // Scaled by ScreenUtil
+    final double inputBarEstimatedHeight = 70.h;
 
     double inputFieldBottomOffset;
     double listViewContentBottomPadding;
 
     if (_isInitialScreen) {
-      // On the initial screen:
-      // If keyboard is open, input field sticks to keyboard (no extra padding).
-      // If keyboard is closed, it's at the default initial screen position (140.h) from the bottom.
       inputFieldBottomOffset = keyboardHeight > 0 ? keyboardHeight : 140.h;
-      // ListView is not displayed on initial screen, so this padding is not actively used.
       listViewContentBottomPadding = 0.0;
     } else {
-      // Once the conversation starts:
-      // Input field always sticks directly above the keyboard (no extra padding).
       inputFieldBottomOffset = keyboardHeight;
-      // The ListView's bottom padding needs to account for:
-      // 1. The height of the input bar.
-      // 2. The height of the keyboard (if open).
-      // 3. The additional 100.h scroll space requested by the user.
       listViewContentBottomPadding =
           inputBarEstimatedHeight + keyboardHeight + 100.h;
     }
 
     return Scaffold(
       backgroundColor: const Color(0XFF0A252E),
-      // Setting resizeToAvoidBottomInset to false gives us full control over keyboard avoidance.
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        backgroundColor: const Color(0XFF0A252E), // Dark background
+        backgroundColor: const Color(0XFF0A252E),
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -303,89 +158,104 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             color: Colors.white,
           ),
         ),
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back_ios, color: Colors.white, size: 20.w),
-        //   onPressed: () {
-        //   },
-        // ),
       ),
-      body: Stack(
-        // Use Stack to position the input field at the bottom
-        children: [
-          if (_isInitialScreen) // Display welcome screen if initial
-            Positioned.fill(
-              child: Padding(
-                padding: EdgeInsets.only(top: 190.h),
-                child: Text(
-                  "Hey, what's on your mind today?",
-                  textAlign: TextAlign.center,
-                  style: TextStyles.styleRegular(
-                    context,
-                    fontSize: 20.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+      body: BlocConsumer<ChatCubit, ChatPromptState>(
+        listener: (context, state) {
+          if (state.status == ChatPromptStatus.loading && !_isBotTyping) {
+            // Already handled in _handleSendMessage
+          } else {
+            setState(() {
+              _messages.removeWhere((msg) => msg.isTyping);
+              _isBotTyping = false;
+            });
+            if (state.status == ChatPromptStatus.success) {
+              if (state.chatResponseModel != null &&
+                  state.chatResponseModel!.response.isNotEmpty) {
+                setState(() {
+                  _messages.add(
+                    ChatMessage(
+                      text: state.chatResponseModel!.response,
+                      sender: MessageSender.bot,
+                    ),
+                  );
+                });
+              }
+              _scrollToBottom();
+            } else if (state.status == ChatPromptStatus.error) {
+              customToast(
+                context: context,
+                message: 'Error: ${state.errorMessage ?? "Unknown error"}',
+                type: ToastificationType.error,
+                icon: Icons.error,
+              );
+              _scrollToBottom();
+            }
+          }
+        },
+        builder: (context, state) {
+          return Stack(
+            children: [
+              if (_isInitialScreen)
+                Positioned.fill(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 190.h),
+                    child: Text(
+                      "Hey, what's on your mind today?",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.styleRegular(
+                        context,
+                        fontSize: 20.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Positioned.fill(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    reverse: true,
+                    padding: EdgeInsets.only(
+                      left: 15.w,
+                      right: 15.w,
+                      top: 10.h,
+                      bottom: listViewContentBottomPadding,
+                    ),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      final message = _messages[_messages.length - 1 - index];
+                      return _buildMessageBubble(message, context);
+                    },
                   ),
                 ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: inputFieldBottomOffset,
+                child: _buildMessageInput(context),
               ),
-            )
-          else // Display chat messages if conversation has started
-            Positioned.fill(
-              child: ListView.builder(
-                controller: _scrollController, // Assign the scroll controller
-                reverse: true, // To show latest messages at the bottom
-                // Adjust padding based on input field height, keyboard inset, and additional scroll space
-                padding: EdgeInsets.only(
-                  left: 15.w,
-                  right: 15.w,
-                  top: 10.h,
-                  bottom:
-                      listViewContentBottomPadding, // Dynamically calculated bottom padding
-                ),
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  final message =
-                      _messages[_messages.length -
-                          1 -
-                          index]; // Display in correct order
-                  return _buildMessageBubble(message, context);
-                },
-              ),
-            ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom:
-                inputFieldBottomOffset, // Control bottom position dynamically
-            child: _buildMessageInput(context),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildMessageBubble(ChatMessage message, BuildContext context) {
     final bool isUser = message.sender == MessageSender.user;
-    final Color messageTextColor =
-        Colors.white; // Both user and bot messages are white
     final Color nameTextColor = Colors.white.withAlpha((0.49 * 255).toInt());
 
     return Align(
-      alignment:
-          Alignment
-              .centerLeft, // Both user and bot messages are aligned to the left
+      alignment: Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(
-          vertical: 8.h,
-          horizontal: 5.w,
-        ), // Adjusted vertical margin
+        margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 5.w),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // All text aligns to the start
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisSize: MainAxisSize.min, // To wrap content horizontally
+              mainAxisSize: MainAxisSize.min,
               children: [
-                // Avatar for both user and bot
                 Padding(
                   padding: EdgeInsets.only(right: 8.w),
                   child: CircleAvatar(
@@ -411,7 +281,6 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
             Padding(
               padding: EdgeInsets.only(left: 32.w),
               child: ConstrainedBox(
-                // Use ConstrainedBox to limit width
                 constraints: BoxConstraints(maxWidth: 0.75.sw),
                 child:
                     message.isTyping
@@ -423,24 +292,48 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
                             color: Colors.redAccent,
                           ),
                         )
-                        : Text(
-                          message.text,
-                          style: TextStyles.styleRegular(
-                            context,
-                            fontSize: 13.sp,
-                            color: Colors.white,
-                          ),
+                        : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              message.text,
+                              style: TextStyles.styleRegular(
+                                context,
+                                fontSize: 13.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            if (message.base64Image != null)
+                              Padding(
+                                padding: EdgeInsets.only(top: 8.h),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  child: Image.memory(
+                                    base64Decode(message.base64Image!),
+                                    width: 150.w,
+                                    height: 150.h,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) => Text(
+                                          'Failed to load image',
+                                          style: TextStyles.styleRegular(
+                                            context,
+                                            fontSize: 10.sp,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
               ),
             ),
             SizedBox(height: 16.h),
-            if (!message.isTyping) // Hide actions for typing indicator
+            if (!message.isTyping)
               Padding(
                 padding: EdgeInsets.only(left: 32.w, bottom: 32.h),
-                child: _buildMessageActions(
-                  isUser,
-                  nameTextColor,
-                ), // Use nameTextColor for actions
+                child: _buildMessageActions(isUser, nameTextColor, message),
               ),
           ],
         ),
@@ -448,17 +341,25 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     );
   }
 
-  Widget _buildMessageActions(bool isUser, Color textColor) {
+  Widget _buildMessageActions(
+    bool isUser,
+    Color textColor,
+    ChatMessage message,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (isUser) ...[
-          // User's message actions
           _buildActionButton(
             "Edit",
             AppIcons.aiEditIcon,
-            () {},
+            () {
+              _messageController.text = message.text;
+              _messageController.selection = TextSelection.fromPosition(
+                TextPosition(offset: _messageController.text.length),
+              );
+            },
             textColor,
             true,
           ),
@@ -466,19 +367,34 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           _buildActionButton(
             "Copy",
             AppIcons.aiCopyIcon,
-            () {
-              // Implement copy functionality
+            () async {
+              await Clipboard.setData(ClipboardData(text: message.text));
+              if (mounted) {
+                customToast(
+                  context: context,
+                  message: "Message copied to clipboard",
+                  type: ToastificationType.success,
+                  icon: Icons.check,
+                );
+              }
             },
             textColor,
             true,
           ),
         ] else ...[
-          // Bot's message actions
           _buildActionButton(
             "Copy",
             AppIcons.aiCopyIcon,
-            () {
-              // Implement copy functionality
+            () async {
+              await Clipboard.setData(ClipboardData(text: message.text));
+              if (mounted) {
+                customToast(
+                  context: context,
+                  message: "Message copied to clipboard",
+                  type: ToastificationType.success,
+                  icon: Icons.check,
+                );
+              }
             },
             Colors.white,
             false,
@@ -487,7 +403,14 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           _buildActionButton(
             "Share",
             AppIcons.aiShareIcon,
-            () {},
+            () {
+              customToast(
+                context: context,
+                message: "Share functionality not implemented yet.",
+                type: ToastificationType.info,
+                icon: Icons.info,
+              );
+            },
             Colors.white,
             false,
           ),
@@ -495,7 +418,26 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           _buildActionButton(
             "Regenerate",
             AppIcons.aiRegenerateIcon,
-            () {},
+            () {
+              if (_messages.isNotEmpty) {
+                final lastUserMessage = _messages.firstWhere(
+                  (msg) => msg.sender == MessageSender.user && !msg.isTyping,
+                  orElse:
+                      () => ChatMessage(text: '', sender: MessageSender.user),
+                );
+                if (lastUserMessage.text.isNotEmpty) {
+                  _messageController.text = lastUserMessage.text;
+                  _handleSendMessage(); // Call without image for text regeneration
+                } else {
+                  customToast(
+                    context: context,
+                    message: "No previous user message to regenerate from.",
+                    type: ToastificationType.info,
+                    icon: Icons.info,
+                  );
+                }
+              }
+            },
             Colors.white,
             false,
           ),
@@ -506,7 +448,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
 
   Widget _buildActionButton(
     String text,
-    String icon,
+    String iconPath,
     VoidCallback onPressed,
     Color textColor,
     bool isUser,
@@ -514,23 +456,29 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(8.r),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // ignore: deprecated_member_use
-          SvgPicture.asset(icon, color: textColor),
-          // Icon(icon, size: 16.sp, color: textColor),
-          SizedBox(width: 8.w),
-          Text(
-            text,
-            style: TextStyles.styleRegular(
-              context,
-              fontSize: 14.sp,
-              color: isUser ? Color(0XFF776F69) : Colors.white,
-              fontWeight: FontWeight.w600,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.asset(
+              iconPath,
+              colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
+              width: 20.sp,
+              height: 20.sp,
             ),
-          ),
-        ],
+            SizedBox(width: 8.w),
+            Text(
+              text,
+              style: TextStyles.styleRegular(
+                context,
+                fontSize: 14.sp,
+                color: isUser ? const Color(0XFF776F69) : Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -542,7 +490,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [Color(0xFF0E3441), Color(0xFF081D23)],
@@ -563,48 +511,117 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [Color(0xFF113B49), Color(0xFF0A252E)],
             ),
             border: Border.all(color: const Color(0xFF124353), width: 1),
           ),
-          child: Row(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _messageController,
-                  // maxLines: null,
-                  // keyboardType: TextInputType.multiline,
-                  style: TextStyles.styleRegular(
-                    context,
-                    color: Color(
-                      0xFF089ECC,
-                    ).withAlpha((.46 * 255).toInt()), // لون الخط
-                    fontSize: 14.sp,
+              if (_selectedImageBase64 != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.h, top: 4.h),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.memory(
+                          base64Decode(_selectedImageBase64!),
+                          width: 40.w,
+                          height: 40.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: Text(
+                          'Image selected. Type a message...',
+                          style: TextStyles.styleRegular(
+                            context,
+                            fontSize: 12.sp,
+                            color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.white.withAlpha((0.7 * 255).toInt()),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _selectedImageBase64 = null;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-                  decoration: InputDecoration(
-                    hintText: 'Message Shatably Assistant.......',
-                    hintStyle: TextStyles.styleRegular(
-                      context,
-                      color: Color(
-                        0xFF089ECC,
-                      ).withAlpha((.46 * 255).toInt()), // لون الخط
-                      fontSize: 14.sp,
+                ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _messageController,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyles.styleRegular(
+                        context,
+                        fontSize: 14.sp,
+                        color: const Color(
+                          0xFF089ECC,
+                        ).withAlpha((0.46 * 255).toInt()),
+                      ),
+                      decoration: InputDecoration(
+                        hintText:
+                            _selectedImageBase64 != null
+                                ? 'Add text for image...'
+                                : 'Message Shatably Assistant.......',
+                        hintStyle: TextStyles.styleRegular(
+                          context,
+                          fontSize: 14.sp,
+                          color: const Color(
+                            0xFF089ECC,
+                          ).withAlpha((0.46 * 255).toInt()),
+                        ),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
                     ),
-                    border: InputBorder.none,
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: _handleSendMessage,
-
-                child: SvgPicture.asset(
-                  AppIcons.addPhotoIcon,
-                  width: 25.w,
-                  height: 25.h,
-                ),
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: SvgPicture.asset(
+                      AppIcons.addPhotoIcon,
+                      colorFilter: ColorFilter.mode(
+                        _selectedImageBase64 != null
+                            ? Colors.blueAccent
+                            : const Color(0XFF33B0EE),
+                        BlendMode.srcIn,
+                      ),
+                      width: 25.w,
+                      height: 25.h,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  GestureDetector(
+                    onTap: _handleSendMessage,
+                    child: Container(
+                      padding: EdgeInsets.all(8.r),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0XFF33B0EE),
+                      ),
+                      child: Icon(
+                        Icons.send_rounded,
+                        color: Colors.white,
+                        size: 24.sp,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

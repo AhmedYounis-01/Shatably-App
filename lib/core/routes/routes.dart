@@ -32,7 +32,8 @@ class Routes {
   static const String transactionSucess = '/transactionSucess';
   static const String transactionFailed = '/transactionFailed';
   static const String customHireDetails = '/customHireDetails';
-  static const String workerScreen = '/workerScreen';
+  // static const String workerScreen = '/workerScreen';
+  static const String projectsScreen = '/projectsScreen';
   static const String acSetupScreen = '/acSetupScreen';
   static const String windowsScreen = '/windowsScreen';
   static const String waterPurifierScreen = '/waterPurifierScreen';
@@ -50,4 +51,6 @@ class Routes {
   static const String aiScreen = '/aiScreen';
   static const String chatBotScreen = '/chatBotScreen';
   static const String maintenanceWorkScreen = '/maintenanceWorkScreen';
+  static const String homeVisionScreen = '/homeVisionScreen';
+  static const String notificationScreen = '/notificationScreen';
 }

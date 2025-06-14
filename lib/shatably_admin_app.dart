@@ -5,10 +5,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/app_routes.dart';
-import 'package:shatably_app/core/routes/navigatoin_service.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
+import 'package:shatably_app/feature/AI/logic/chat%20ai/chat_cubit.dart';
+import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_cubit.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
+import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'core/localization/app_localization.dart';
 import 'core/localization/localization_cubit.dart';
 
@@ -25,8 +27,9 @@ class ShatablyAdminApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => localizationCubit..loadLanguage()),
         BlocProvider(create: (context) => sl<MaintenanceWorkCubit>()),
-        // BlocProvider(create: (context) => sl<OrderCubit>()),
-        // BlocProvider(create: (context) => sl<PendingCubit>()),
+        BlocProvider(create: (context) => sl<ProjectsCubit>()),
+        BlocProvider(create: (context) => sl<ImageGeneratorCubit>()),
+        BlocProvider(create: (context) => sl<ChatCubit>()),
         // BlocProvider(create: (context) => sl<ProcessingCubit>()),
         // BlocProvider(create: (context) => sl<ShippingCubit>()),
         // BlocProvider(create: (context) => sl<DeliveredCubit>()),
@@ -57,9 +60,9 @@ class ShatablyAdminApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               // initialRoute: Routes.splashScreen,
-              initialRoute: Routes.browseProjectsScreen,
+              initialRoute: Routes.chatBotScreen,
               onGenerateRoute: appRoutes.onGenerateRoute,
-              navigatorKey: NavigationService.instance.rootNavKey,
+              // navigatorKey: NavigationService.instance.rootNavKey,
             ),
           );
         },
