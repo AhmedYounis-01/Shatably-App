@@ -215,7 +215,9 @@ class AiScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 30.w),
                               CustomAppButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.pushNamed(Routes.homeVisionScreen);
+                                },
                                 width: 55.w,
                                 height: 25.h,
                                 child: Text(

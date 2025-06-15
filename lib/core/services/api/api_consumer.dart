@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 abstract class ApiConsumer {
   Future<dynamic> get(
     String endPoint, {
@@ -12,6 +14,7 @@ abstract class ApiConsumer {
     Object? data,
     bool isFormData = false,
     Map<String, dynamic>? headers,
+    Options? options,
   });
 
   Future<dynamic> put(

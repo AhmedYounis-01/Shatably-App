@@ -105,4 +105,6 @@ class AppImages {
       'assets/images/browseBrojectImag3.png';
   static const String browseBrojectImag4 =
       'assets/images/browseBrojectImag4.png';
+  // splash screen
+  static const String splashIcon = 'assets/images/splashIcon.png';
 }

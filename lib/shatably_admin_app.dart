@@ -9,6 +9,8 @@ import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/feature/AI/logic/chat%20ai/chat_cubit.dart';
 import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/logic/booking%20cubit/booking_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/logic/hire%20details/hire_details_cubit.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'core/localization/app_localization.dart';
@@ -30,8 +32,8 @@ class ShatablyAdminApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<ProjectsCubit>()),
         BlocProvider(create: (context) => sl<ImageGeneratorCubit>()),
         BlocProvider(create: (context) => sl<ChatCubit>()),
-        // BlocProvider(create: (context) => sl<ProcessingCubit>()),
-        // BlocProvider(create: (context) => sl<ShippingCubit>()),
+        BlocProvider(create: (context) => sl<BookingCubit>()),
+        BlocProvider(create: (context) => sl<HireDetailsCubit>()),
         // BlocProvider(create: (context) => sl<DeliveredCubit>()),
       ],
       child: BlocBuilder<LocalizationCubit, Locale>(
@@ -60,7 +62,7 @@ class ShatablyAdminApp extends StatelessWidget {
                 GlobalCupertinoLocalizations.delegate,
               ],
               // initialRoute: Routes.splashScreen,
-              initialRoute: Routes.chatBotScreen,
+              initialRoute: Routes.servicesScreen,
               onGenerateRoute: appRoutes.onGenerateRoute,
               // navigatorKey: NavigationService.instance.rootNavKey,
             ),

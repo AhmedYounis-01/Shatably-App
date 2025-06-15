@@ -45,11 +45,11 @@ import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/cart_screen.dart';
 import 'package:shatably_app/feature/shop/ui/screens/shop_screen.dart';
 import 'package:shatably_app/feature/splash/ui/splash_screen.dart';
-import 'package:shatably_app/test_file.dart';
 
 class AppRoutes {
   Route? onGenerateRoute(RouteSettings settings) {
     var arguments = settings.arguments;
+
     switch (settings.name) {
       case Routes.splashScreen:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
@@ -109,10 +109,14 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const PlumbingServiceScreen());
       case Routes.cleaningServiceScreen:
         return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
+      // !!!!!!!!!! complete from here
       case Routes.bookingScreen:
-        return MaterialPageRoute(builder: (_) => const BookingScreen());
-      case Routes.testScreen:
-        return MaterialPageRoute(builder: (_) => const TestScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BookingScreen(image: arguments as String, id: arguments),
+        );
+      // case Routes.bookingScreen:
+      //   return MaterialPageRoute(builder: (_) => BookingScreen());
       case Routes.paymentScreen:
         return MaterialPageRoute(builder: (_) => const PaymentScreen());
       case Routes.transactionSucess:
@@ -130,8 +134,8 @@ class AppRoutes {
                 create:
                     (context) =>
                         MaintenanceWorkCubit(sl<MaintenanceWorkRepository>())
-                          ..getMaintenanceWork(id: arguments as String),
-                child: const MaintenanceWorkScreen(),
+                          ..getMaintenanceWork(id: arguments),
+                child: MaintenanceWorkScreen(serviceId: arguments as String),
               ),
         );
       // case Routes.projectsScreen:

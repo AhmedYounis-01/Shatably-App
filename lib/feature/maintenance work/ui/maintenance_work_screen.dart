@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
@@ -12,7 +14,8 @@ import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_state.dart';
 
 class MaintenanceWorkScreen extends StatelessWidget {
-  const MaintenanceWorkScreen({super.key});
+  final String serviceId;
+  const MaintenanceWorkScreen({super.key, required this.serviceId});
 
   @override
   Widget build(BuildContext context) {
@@ -371,7 +374,12 @@ class MaintenanceWorkScreen extends StatelessWidget {
                                     child: CustomAppButton1(
                                       width: 145.w,
                                       height: 50.h,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        context.pushNamed(
+                                          Routes.bookingScreen,
+                                          arguments: serviceId,
+                                        );
+                                      },
                                       backgroundColor: const Color(0xFF1C4857),
                                       borderRadius: 25.r,
                                       hasShadow: true,

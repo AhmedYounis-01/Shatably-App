@@ -43,7 +43,6 @@ class Routes {
   static const String bathroomInstallationScreen =
       '/bathroomInstallationScreen';
   static const String gasInstallatioinScreen = '/gasInstallatioinScreen';
-  static const String bookingScreen1 = '/bookingScreen1';
   static const String profileScreen = '/profileScreen';
   static const String shopScreen = '/shopScreen';
   static const String cartScreen = '/cartScreen';

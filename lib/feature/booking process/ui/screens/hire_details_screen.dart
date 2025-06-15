@@ -2,16 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
+import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:shatably_app/feature/booking%20process/data/models/model____for%20me/book_model.dart';
+import 'package:shatably_app/feature/booking%20process/data/models/model____for%20me/hire_details_model.dart';
+import 'package:shatably_app/feature/booking%20process/logic/booking%20cubit/booking_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/logic/hire%20details/hire_details_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/logic/hire%20details/hire_details_state.dart';
+import 'package:shatably_app/feature/home/ui/home_screen.dart';
+import 'package:toastification/toastification.dart';
 
 class BookingDetailScreen extends StatelessWidget {
-  const BookingDetailScreen({super.key});
+  // final String? bookingId;
+  final BookingResponseModel? bookingResponse;
+  const BookingDetailScreen({super.key, this.bookingResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -157,21 +169,205 @@ class BookingDetailScreen extends StatelessWidget {
                       child: PaymentSummary(),
                     ),
                     SizedBox(height: 23.h),
-                    Center(
-                      child: CustomAppButton1(
-                        width: 150.w,
-                        height: 50.h,
-                        hasShadow: true,
-                        borderRadius: 25.r,
-                        onPressed: () {},
-                        child: Text(
-                          "Confirm",
-                          style: TextStyles.styleMedium(
-                            context,
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                          ),
-                        ),
+
+                    // الزر بتاع الـ Confirm
+                    // MultiBlocProvider(
+                    //   providers: [
+                    //     BlocProvider(
+                    //       create: (context) => sl<HireDetailsCubit>(),
+                    //     ),
+                    //     BlocProvider(create: (context) => sl<BookingCubit>()),
+                    //   ],
+                    //   child: BlocConsumer<HireDetailsCubit, HireDetailsState>(
+                    //     listener: (context, state) {
+                    //       if (state.status == HireDetailsStates.error) {
+                    //         customToast(
+                    //           context: context,
+                    //           message:
+                    //               state.errorMessage ??
+                    //               'Failed to book service.',
+                    //           type: ToastificationType.error,
+                    //           icon: Icons.error,
+                    //         );
+                    //       } else if (state.status ==
+                    //           HireDetailsStates.success) {
+                    //         customToast(
+                    //           context: context,
+                    //           message: 'Service booked successfully.',
+                    //           type: ToastificationType.success,
+                    //           icon: Icons.check_circle,
+                    //         );
+
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => HomeScreen(),
+                    //           ),
+                    //         );
+                    //       }
+                    //     },
+                    //     builder: (
+                    //       BuildContext context,
+                    //       HireDetailsState state,
+                    //     ) {
+                    //       return Center(
+                    //         child: CustomAppButton1(
+                    //           width: 150.w,
+                    //           height: 50.h,
+                    //           hasShadow: true,
+                    //           borderRadius: 25.r,
+                    //           onPressed: () {
+                    //             final bookingId =
+                    //                 context
+                    //                     .read<BookingCubit>()
+                    //                     .state
+                    //                     .bookingResponseModel
+                    //                     ?.bookingId;
+
+                    //             if (bookingId != null) {
+                    //               print("✅ Booking ID to use in hire: //");
+
+                    //               final bookingDetailsRequest =
+                    //                   BookingDetailsRequestModel(
+                    //                     bookingId: bookingId,
+                    //                     // أضف باقي الحقول حسب الحاجة
+                    //                   );
+
+                    //               context
+                    //                   .read<HireDetailsCubit>()
+                    //                   .createBookingRecord(
+                    //                     bookingDetailsRequest,
+                    //                   );
+                    //             } else {
+                    //               print(
+                    //                 "❌ Booking ID not found in BookingCubit state",
+                    //               );
+                    //               customToast(
+                    //                 context: context,
+                    //                 message: 'Booking ID not found',
+                    //                 type: ToastificationType.error,
+                    //                 icon: Icons.error,
+                    //               );
+                    //             }
+                    //           },
+                    //           child: Text(
+                    //             "Confirm",
+                    //             style: TextStyles.styleMedium(
+                    //               context,
+                    //               fontSize: 16.sp,
+                    //               color: Colors.white,
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
+                    // استبدل الـ MultiBlocProvider section بـ:
+                    // إذا كنت محتاج تستخدم الـ BookingCubit من parent widget
+                    // استخدم BlocProvider.of بدلاً من context.read
+                    BlocProvider(
+                      create: (context) => sl<HireDetailsCubit>(),
+                      child: BlocConsumer<HireDetailsCubit, HireDetailsState>(
+                        listener: (context, state) {
+                          if (state.status == HireDetailsStates.error) {
+                            customToast(
+                              context: context,
+                              message:
+                                  state.errorMessage ??
+                                  'Failed to book service.',
+                              type: ToastificationType.error,
+                              icon: Icons.error,
+                            );
+                          } else if (state.status ==
+                              HireDetailsStates.success) {
+                            customToast(
+                              context: context,
+                              message: 'Service booked successfully.',
+                              type: ToastificationType.success,
+                              icon: Icons.check_circle,
+                            );
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          }
+                        },
+                        builder: (
+                          BuildContext context,
+                          HireDetailsState state,
+                        ) {
+                          return Center(
+                            child: CustomAppButton1(
+                              width: 150.w,
+                              height: 50.h,
+                              hasShadow: true,
+                              borderRadius: 25.r,
+                              onPressed: () {
+                                String? bookingId;
+
+                                // جرب تاخد الـ bookingId من الـ parent BookingCubit
+                                try {
+                                  final bookingCubit =
+                                      BlocProvider.of<BookingCubit>(
+                                        context,
+                                        listen: false,
+                                      );
+                                  bookingId =
+                                      bookingCubit
+                                          .state
+                                          .bookingResponseModel
+                                          ?.bookingId;
+                                  print("✅ من BookingCubit: $bookingId");
+                                } catch (e) {
+                                  print(
+                                    "❌ مش قادر أجيب BookingCubit من الـ parent: $e",
+                                  );
+                                }
+
+                                // لو مش موجود، استخدم الـ bookingResponse من الـ constructor
+                                bookingId ??= bookingResponse?.bookingId;
+
+                                if (bookingId != null) {
+                                  print(
+                                    "✅ Booking ID to use in hire: $bookingId",
+                                  );
+
+                                  final bookingDetailsRequest =
+                                      BookingDetailsRequestModel(
+                                        bookingId: bookingId,
+                                        // أضف باقي الحقول حسب الحاجة
+                                      );
+
+                                  context
+                                      .read<HireDetailsCubit>()
+                                      .createBookingRecord(
+                                        bookingDetailsRequest,
+                                      );
+                                } else {
+                                  print("❌ Booking ID not found anywhere");
+                                  customToast(
+                                    context: context,
+                                    message: 'Booking ID not found',
+                                    type: ToastificationType.error,
+                                    icon: Icons.error,
+                                  );
+                                }
+                              },
+                              child: Text(
+                                "Confirm",
+                                style: TextStyles.styleMedium(
+                                  context,
+                                  fontSize: 16.sp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     SizedBox(height: 10.h),

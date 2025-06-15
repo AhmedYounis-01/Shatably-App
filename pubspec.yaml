@@ -29,31 +29,25 @@ environment:
 dependencies:
   bloc: ^9.0.0
   cached_network_image: ^3.4.1
-  card_swiper: ^3.0.1
-  carousel_slider: ^5.0.0
-  collection: ^1.19.0
   cupertino_icons: ^1.0.8
+  dartz: ^0.10.1
   device_preview: ^1.2.0
   dio: ^5.7.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
+  # flutter_credit_card: ^4.1.0
   flutter_map: ^8.1.1
   flutter_screenutil: ^5.5.3
   flutter_secure_storage: ^9.2.4
+  # flutter_stripe: ^11.5.0
   flutter_svg: ^2.0.16
   geocoding: ^3.0.0
   geolocator: ^14.0.0
   get_it: ^8.0.3
-  http_parser: ^4.1.2
   image_picker: ^1.1.2
-  jwt_decoder: ^2.0.1
   latlong2: ^0.9.1
   logger: ^2.5.0
-  mime: ^2.0.0
-  path_provider: ^2.1.5
-  retry: ^3.1.2
-  share_plus: ^11.0.0
   shared_preferences: ^2.3.5
   shimmer: ^3.0.0
   skeletonizer: ^2.0.1

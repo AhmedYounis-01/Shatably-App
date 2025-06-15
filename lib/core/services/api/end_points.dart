@@ -10,4 +10,10 @@ class EndPoints {
   static const String projectsById = 'api/Projects';
   static const String imageGenerate =
       'https://shatablyai.up.railway.app/image/generate';
+  static const String booking = 'api/Booking';
+  static const String bookingPayment = 'api/BookingPayment/{bookingId}';
+  // أضف helper method لبناء الـ URL
+  static String getBookingPaymentEndpoint(String bookingId) {
+    return bookingPayment.replaceAll('{bookingId}', bookingId);
+  }
 }

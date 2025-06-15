@@ -11,6 +11,10 @@ import 'package:shatably_app/feature/auth/recover_password/logic/forgot%20passwo
 import 'package:shatably_app/feature/auth/recover_password/logic/password%20reset/password_reset_cubit.dart';
 import 'package:shatably_app/feature/auth/register/data/repository/register_repository.dart';
 import 'package:shatably_app/feature/auth/register/logic/cubit/register_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/data/repository/book_repository.dart';
+import 'package:shatably_app/feature/booking%20process/data/repository/hire_details_repository.dart';
+import 'package:shatably_app/feature/booking%20process/logic/booking%20cubit/booking_cubit.dart';
+import 'package:shatably_app/feature/booking%20process/logic/hire%20details/hire_details_cubit.dart';
 import 'package:shatably_app/feature/layouts/logic/cubit/applayout_cubit.dart';
 import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
@@ -35,6 +39,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ProjectsRepository(sl<ApiConsumer>()));
   sl.registerLazySingleton(() => ImageGeneratorRepository(sl<ApiConsumer>()));
   sl.registerLazySingleton(() => ChatRepository(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => BookingRepository(sl<ApiConsumer>()));
+  //! HireDetailsRepository = Booking Details Cubit
+  sl.registerLazySingleton(() => HireDetailsRepository(sl<ApiConsumer>()));
 
   // Cubits
   sl.registerFactory(() => ApplayoutCubit());
@@ -46,4 +53,6 @@ Future<void> init() async {
   sl.registerFactory(() => ProjectsCubit(sl()));
   sl.registerFactory(() => ImageGeneratorCubit(sl()));
   sl.registerFactory(() => ChatCubit(sl()));
+  sl.registerFactory(() => BookingCubit(sl()));
+  sl.registerFactory(() => HireDetailsCubit(sl()));
 }

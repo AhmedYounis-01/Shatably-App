@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
 import 'package:shatably_app/core/helpers/constant/constant.dart';
 import 'package:shatably_app/core/helpers/extensions.dart';
 import 'package:shatably_app/core/routes/routes.dart';
-import 'package:shatably_app/core/themes/text_styles.dart';
 import 'dart:async';
+import 'package:shatably_app/core/utils/app_images.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -59,14 +60,7 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          "Shatably",
-          style: TextStyles.styleBold(
-            context,
-            fontSize: 36,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
+        child: Image.asset(AppImages.splashIcon, width: 280.w, height: 100.h),
       ),
     );
   }

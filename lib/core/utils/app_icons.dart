@@ -80,4 +80,13 @@ class AppIcons {
   static const String aiEditIcon = 'assets/icons/aiEditIcon.svg';
   static const String aiRegenerateIcon = 'assets/icons/aiRegenerateIcon.svg';
   static const String aiShareIcon = 'assets/icons/aiShareIcon.svg';
+  // notification screen
+  static const String notificationIcon1 = 'assets/icons/notificationIcon1.svg';
+  static const String notificationIcon2 = 'assets/icons/notificationIcon2.svg';
+  static const String notificationIcon3 = 'assets/icons/notificationIcon3.svg';
+  static const String notificationIcon4 = 'assets/icons/notificationIcon4.svg';
+  static const String notificationIcon5 = 'assets/icons/notificationIcon5.svg';
+  static const String notificationIcon6 = 'assets/icons/notificationIcon6.svg';
+  static const String notificationIcon7 = 'assets/icons/notificationIcon7.svg';
+  static const String notificationIcon8 = 'assets/icons/notificationIcon8.svg';
 }

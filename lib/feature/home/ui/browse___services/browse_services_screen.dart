@@ -154,16 +154,52 @@ class BrowseServicesScreen extends StatelessWidget {
                         _buildServiceCategory(
                           'Electrician',
                           AppIcons.electricianIcon,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.electricianServiceScreen,
+                            );
+                          },
                         ),
                         _buildServiceCategory(
                           'Carpentry',
                           AppIcons.carpenterIcon,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.carpentryServiceScreen,
+                            );
+                          },
                         ),
-                        _buildServiceCategory('Painter', AppIcons.painterIcon),
-                        _buildServiceCategory('Plumber', AppIcons.plumberIcon),
+                        _buildServiceCategory(
+                          'Painter',
+                          AppIcons.painterIcon,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.paintingServiceScreen,
+                            );
+                          },
+                        ),
+                        _buildServiceCategory(
+                          'Plumber',
+                          AppIcons.plumberIcon,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.plumbingServiceScreen,
+                            );
+                          },
+                        ),
                         _buildServiceCategory(
                           'Cleaning',
                           AppIcons.housekeepingIcon,
+                          () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.cleaningServiceScreen,
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -231,43 +267,50 @@ class BrowseServicesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCategory(String? title, String icon) {
-    return Container(
-      width: 95,
-      height: 95,
-      decoration: BoxDecoration(
-        color: Color(0XFFE5E3DB),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha((0.1 * 255).toInt()),
-            spreadRadius: 1,
-            blurRadius: 2,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
-            ),
-            SizedBox(height: 2.h),
-
-            Text(
-              textAlign: TextAlign.center,
-
-              title ?? "Electrician",
-              style: TextStyles.styleRegular(
-                null,
-                fontSize: 12,
-                color: ColorsManager.primaryColor,
-              ),
+  Widget _buildServiceCategory(
+    String? title,
+    String icon,
+    void Function()? onTap,
+  ) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 95,
+        height: 95,
+        decoration: BoxDecoration(
+          color: Color(0XFFE5E3DB),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withAlpha((0.1 * 255).toInt()),
+              spreadRadius: 1,
+              blurRadius: 2,
             ),
           ],
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: SvgPicture.asset(icon, width: 26.w, height: 26.h),
+              ),
+              SizedBox(height: 2.h),
+
+              Text(
+                textAlign: TextAlign.center,
+
+                title ?? "Electrician",
+                style: TextStyles.styleRegular(
+                  null,
+                  fontSize: 12,
+                  color: ColorsManager.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

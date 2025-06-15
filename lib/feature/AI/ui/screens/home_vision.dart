@@ -213,7 +213,7 @@ class _HomeVisionScreenState extends State<HomeVisionScreen>
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 330.h,
+                        height: 340.h,
                         decoration: BoxDecoration(
                           color: const Color(0xFF113B49),
                           borderRadius: BorderRadius.circular(15),
@@ -390,14 +390,21 @@ class _HomeVisionScreenState extends State<HomeVisionScreen>
 
   Widget _buildPlaceholderMessage() {
     return Center(
-      child: Text(
-        "Your generated vision will appear here",
-        textAlign: TextAlign.center,
-        style: TextStyles.styleRegular(
-          context,
-          fontSize: 14.sp,
-          color: Colors.white.withAlpha((0.5 * 255).toInt()),
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.auto_awesome, color: Colors.blueAccent),
+          const SizedBox(width: 6),
+          Text(
+            'Your AI-generated vision is ready to explore',
+            textAlign: TextAlign.center,
+            style: TextStyles.styleRegular(
+              context,
+              fontSize: 12.sp,
+              color: Colors.blueAccent.withAlpha((0.5 * 255).toInt()),
+            ),
+          ),
+        ],
       ),
     );
   }
