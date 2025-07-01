@@ -120,150 +120,155 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Dynamic top spacing based on keyboard state
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 300),
-                              height: keyboardHeight > 0 ? 200.h : 405.h,
-                            ),
-
-                            // Scrollable content area
-                            Expanded(
-                              child: SingleChildScrollView(
-                                controller: _scrollController,
-                                physics: const ClampingScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // Title with animation
-                                    AnimatedOpacity(
-                                      duration: const Duration(
-                                        milliseconds: 300,
-                                      ),
-                                      opacity: keyboardHeight > 0 ? 0.8 : 1.0,
-                                      child: Text(
-                                        'Forgot\nPassword?',
-                                        style: TextStyles.styleBold(
-                                          context,
-                                          fontSize:
-                                              keyboardHeight > 0
-                                                  ? 28.sp
-                                                  : 36.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: ColorsManager.primaryColor,
-                                        ),
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 5.h),
-
-                                    // Description text with animation
-                                    AnimatedOpacity(
-                                      duration: const Duration(
-                                        milliseconds: 300,
-                                      ),
-                                      opacity: keyboardHeight > 0 ? 0.7 : 1.0,
-                                      child: Text(
-                                        'Don\'t worry ! It happens. Please enter the phone\nnumber we will send the OTP in this phone number.',
-                                        style: TextStyles.styleRegular(
-                                          context,
-                                          fontSize:
-                                              keyboardHeight > 0
-                                                  ? 12.sp
-                                                  : 14.sp,
-                                          color: Color(0XFF5B5858),
-                                        ),
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 25.h),
-
-                                    // Phone number input field - always visible and focused
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow:
-                                            keyboardHeight > 0
-                                                ? [
-                                                  BoxShadow(
-                                                    color: ColorsManager
-                                                        .primaryColor
-                                                        .withAlpha(
-                                                          (0.1 * 255).toInt(),
-                                                        ),
-                                                    blurRadius: 8,
-                                                    offset: const Offset(0, 2),
-                                                  ),
-                                                ]
-                                                : [],
-                                      ),
-                                      child: CustomTextFormField(
-                                        hintText: 'Enter Your E-mail',
-                                        textAlign: TextAlign.start,
-                                        inputType: TextInputType.emailAddress,
-                                        controller: _emailTextController,
-                                        focusNode: __emailFocusNode,
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 40.h),
-
-                                    // Continue button with animation
-                                    AnimatedScale(
-                                      duration: const Duration(
-                                        milliseconds: 200,
-                                      ),
-                                      scale: keyboardHeight > 0 ? 0.95 : 1.0,
-                                      child: CustomAppButton1(
-                                        width: double.infinity,
-                                        height: 68.h,
-                                        backgroundColor:
-                                            ColorsManager.primaryColor,
-                                        borderRadius: 25,
-                                        hasShadow: true,
-                                        onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            context
-                                                .read<ForgotPasswordCubit>()
-                                                .forgotPassword(
-                                                  _emailTextController.text
-                                                      .trim(),
-                                                );
-                                          }
-                                        },
-                                        child: Center(
-                                          child:
-                                              state is ForgotPasswordLoading
-                                                  ? CircularProgressIndicator(
-                                                    strokeWidth: 2.5,
-                                                    color: Colors.white,
-                                                  )
-                                                  : Text(
-                                                    "Continue",
-                                                    style: TextStyles.styleSemiBold(
-                                                      context,
-                                                      fontSize: 18.sp,
-                                                      color:
-                                                          ColorsManager
-                                                              .whiteButtonColor,
-                                                    ),
-                                                  ),
-                                        ),
-                                      ),
-                                    ),
-
-                                    // Bottom padding
-                                    SizedBox(height: 45.h),
-                                  ],
-                                ),
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const ClampingScrollPhysics(),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Dynamic top spacing based on keyboard state
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                height: keyboardHeight > 0 ? 200.h : 405.h,
                               ),
-                            ),
-                          ],
+
+                              // Scrollable content area
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Title with animation
+                                  AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 300),
+                                    opacity: keyboardHeight > 0 ? 0.8 : 1.0,
+                                    child: Text(
+                                      'Forgot\nPassword?',
+                                      style: TextStyles.styleBold(
+                                        context,
+                                        fontSize:
+                                            keyboardHeight > 0 ? 28.sp : 36.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorsManager.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 5.h),
+
+                                  // Description text with animation
+                                  AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 300),
+                                    opacity: keyboardHeight > 0 ? 0.7 : 1.0,
+                                    child: Text(
+                                      'Don\'t worry ! It happens. Please enter the email\naddress we used to send you your password reset instructions.',
+                                      style: TextStyles.styleRegular(
+                                        context,
+                                        fontSize:
+                                            keyboardHeight > 0 ? 12.sp : 14.sp,
+                                        color: Color(0XFF5B5858),
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 25.h),
+
+                                  // Phone number input field - always visible and focused
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow:
+                                          keyboardHeight > 0
+                                              ? [
+                                                BoxShadow(
+                                                  color: ColorsManager
+                                                      .primaryColor
+                                                      .withAlpha(
+                                                        (0.1 * 255).toInt(),
+                                                      ),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ]
+                                              : [],
+                                    ),
+                                    child: CustomTextFormField(
+                                      hintText: 'Enter Your E-mail',
+                                      textAlign: TextAlign.start,
+                                      inputType: TextInputType.emailAddress,
+                                      controller: _emailTextController,
+                                      focusNode: __emailFocusNode,
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return 'Please enter your email';
+                                        }
+
+                                        final emailRegex = RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                        );
+
+                                        if (!emailRegex.hasMatch(
+                                          value.trim(),
+                                        )) {
+                                          return 'Please enter a valid email';
+                                        }
+
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 40.h),
+
+                                  // Continue button with animation
+                                  AnimatedScale(
+                                    duration: const Duration(milliseconds: 200),
+                                    scale: keyboardHeight > 0 ? 0.95 : 1.0,
+                                    child: CustomAppButton1(
+                                      width: double.infinity,
+                                      height: 68.h,
+                                      backgroundColor:
+                                          ColorsManager.primaryColor,
+                                      borderRadius: 25,
+                                      hasShadow: true,
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          context
+                                              .read<ForgotPasswordCubit>()
+                                              .forgotPassword(
+                                                _emailTextController.text
+                                                    .trim(),
+                                              );
+                                        }
+                                      },
+                                      child: Center(
+                                        child:
+                                            state is ForgotPasswordLoading
+                                                ? CircularProgressIndicator(
+                                                  strokeWidth: 2.5,
+                                                  color: Colors.white,
+                                                )
+                                                : Text(
+                                                  "Continue",
+                                                  style: TextStyles.styleSemiBold(
+                                                    context,
+                                                    fontSize: 18.sp,
+                                                    color:
+                                                        ColorsManager
+                                                            .whiteButtonColor,
+                                                  ),
+                                                ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  // Bottom padding
+                                  SizedBox(height: 45.h),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

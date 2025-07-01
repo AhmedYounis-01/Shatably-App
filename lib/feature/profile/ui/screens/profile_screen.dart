@@ -20,40 +20,15 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 50.h),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFBEE1DB),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          color: ColorsManager.primaryColor,
-                          size: 16.sp,
-                        ),
-                      ),
-                    ),
+              Center(
+                child: Text(
+                  "Profile",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                    color: ColorsManager.primaryColor,
                   ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: ColorsManager.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 32.w),
-                ],
+                ),
               ),
               SizedBox(height: 18.h),
               Container(
@@ -109,32 +84,7 @@ class ProfileScreen extends StatelessWidget {
 
               SizedBox(height: 53.h),
               const ProfileMenuList(),
-              // Container(
-              //   width: double.infinity,
-              //   height: 48.h,
-              //   padding: EdgeInsets.only(left: 10.w, right: 18.w),
-              //   decoration: BoxDecoration(
-              //     color: ColorsManager.backGroundFormsColor,
-              //     border: Border.all(color: ColorsManager.yellowTextColor),
-              //     borderRadius: BorderRadius.circular(15.r),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       SvgPicture.asset(AppIcons.userIcon),
-              //       SizedBox(width: 8.w),
-              //       Text("Edit Profile"),
-              //       Spacer(),
-              //       InkWell(
-              //         onTap: () {},
-              //         child: Icon(
-              //           Icons.arrow_forward_ios,
-              //           size: 16.sp,
-              //           color: ColorsManager.primaryColor,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:logger/logger.dart';
 import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
 import 'package:shatably_app/core/helpers/extensions.dart';
-import 'package:shatably_app/core/localization/localization_extension.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
@@ -141,7 +140,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
 
   void submitOnboarding() {
     StorageManager.instance.setHasSeenOnboarding();
-    context.pushReplacementNamed(Routes.loginScreen);
+    context.pushReplacementNamed(Routes.typeScreen);
     Logger().i('Onboarding Done');
   }
 
@@ -154,7 +153,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
           child: Column(
             children: [
               Expanded(
-                flex: 4,
+                flex: 8,
                 child: PageView.builder(
                   controller: pageController,
                   itemCount: onboardingItems.length,
@@ -227,7 +226,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                   fontFamily: "Inter_24pt",
                                 ),
                                 child: Text(
-                                  onboardingItems[index].title.t(context),
+                                  onboardingItems[index].title,
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -270,9 +269,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                     fontSize: 13.sp,
                                   ),
                                   child: Text(
-                                    onboardingItems[index].description.t(
-                                      context,
-                                    ),
+                                    onboardingItems[index].description,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

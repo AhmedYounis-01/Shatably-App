@@ -1,12 +1,11 @@
 class AppIcons {
-  static const String home = 'assets/icons/Home.svg';
   static const String arrowIcon = 'assets/icons/vector.svg';
-  static const String calendar = 'assets/icons/calendar.svg';
-  static const String profile = 'assets/icons/profile.svg';
-  static const String trashIcon = 'assets/icons/trash.svg';
+  // static const String calendar = 'assets/icons/calendar.svg';
+  // static const String profile = 'assets/icons/profile.svg';
+  // static const String trashIcon = 'assets/icons/trash.svg';
   static const String right = 'assets/icons/right.svg';
   static const String boyIcon = 'assets/icons/boy.png';
-  static const String locationIcon = 'assets/icons/locationIcon.svg';
+  // static const String locationIcon = 'assets/icons/locationIcon.svg';
   static const String locationIcon2 = 'assets/icons/locationIcon2.png';
   static const String backgroundLocationIcon =
       'assets/icons/backgroundLocationIcon.svg';
@@ -27,17 +26,16 @@ class AppIcons {
   static const String carpenterIcon = 'assets/icons/carpenterIcon.svg';
   static const String painterIcon = 'assets/icons/painterIcon.svg';
   static const String plumbingIcon = 'assets/icons/plumbingIcon.svg';
-  static const String plumberIcon = 'assets/icons/plumberIcon.svg';
-
+  // static const String plumberIcon = 'assets/icons/plumberIcon.svg';
   static const String housekeepingIcon = 'assets/icons/housekeepingIcon.svg';
-  static const String namosaIcon = 'assets/icons/namosaIcon.svg';
-  static const String treeIcon = 'assets/icons/treeIcon.svg';
-  static const String mouseIcon = 'assets/icons/mouseIcon.svg';
+  // static const String namosaIcon = 'assets/icons/namosaIcon.svg';
+  // static const String treeIcon = 'assets/icons/treeIcon.svg';
+  // static const String mouseIcon = 'assets/icons/mouseIcon.svg';
   static const String personIcon = 'assets/icons/personIcon.png';
   static const String reviewIcon = 'assets/icons/reviewIcon.svg';
   static const String discountIcon = 'assets/icons/discountIcon.svg';
-  static const String vectorBack = 'assets/icons/vectorBack.svg';
-  static const String vectorForward = 'assets/icons/vectorForward.svg';
+  // static const String vectorBack = 'assets/icons/vectorBack.svg';
+  // static const String vectorForward = 'assets/icons/vectorForward.svg';
   static const String sunnyIcon = 'assets/icons/sunnyIcon.svg';
   static const String cloudyIcon = 'assets/icons/cloudyIcon.svg';
   static const String baymentIcon1 = 'assets/icons/baymentIcon1.svg';
@@ -89,4 +87,10 @@ class AppIcons {
   static const String notificationIcon6 = 'assets/icons/notificationIcon6.svg';
   static const String notificationIcon7 = 'assets/icons/notificationIcon7.svg';
   static const String notificationIcon8 = 'assets/icons/notificationIcon8.svg';
+  // last icons
+  static const String lastPaybalIcon = 'assets/icons/lastPaybalIcon.svg';
+  static const String lastPlumingIcon = 'assets/icons/lastPlumingIcon.svg';
+  // app icons
+  static const String appIcon1 = 'assets/icons/appIcon1.png';
+  static const String appIcon2 = 'assets/icons/appIcon2.png';
 }

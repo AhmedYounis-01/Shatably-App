@@ -4,7 +4,7 @@ class BookingRequestModel {
   final String? clientId;
   final String? workerId;
   final String? portfolioId;
-  final String serviceId;
+  final String? serviceId;
   final Location location;
 
   BookingRequestModel({
@@ -39,7 +39,7 @@ class BookingResponseModel {
   final String? clientId;
   final String? workerId;
   final String? portfolioId;
-  final String serviceId;
+  final String? serviceId;
   final Location location;
   final String? paymentIntentId;
   final String? clientSecret;
@@ -53,7 +53,7 @@ class BookingResponseModel {
     this.clientId,
     this.workerId,
     this.portfolioId,
-    required this.serviceId,
+    this.serviceId,
     required this.location,
     this.paymentIntentId,
     this.clientSecret,

@@ -10,6 +10,7 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:shatably_app/feature/Location/ui/location_screen.dart';
 import 'package:shatably_app/feature/auth/login/data/repository/login_repository.dart';
 import 'package:shatably_app/feature/auth/login/logic/cubit/login_cubit.dart';
 import 'package:toastification/toastification.dart';
@@ -215,7 +216,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 type: ToastificationType.success,
                 icon: Icons.check,
               );
-              context.pushReplacementNamed(Routes.appLayoutsScreen);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => const LocationDetectionScreen()),
+              );
+              // context.pushReplacementNamed(Routes.locationDetectionScreen);
             } else if (state is LoginErrorState) {
               customToast(
                 context: context,
@@ -265,8 +269,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
                                       height: 116.h,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color:
-                                            ColorsManager.backGroundFormsColor,
+                                        // color:
+                                        //     ColorsManager.backGroundFormsColor,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            AppImages.morganImage,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),

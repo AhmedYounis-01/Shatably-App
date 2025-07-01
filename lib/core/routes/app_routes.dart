@@ -21,8 +21,7 @@ import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confi
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/hire_details_screen.dart';
+ import 'package:shatably_app/feature/booking%20process/ui/screens/book_details_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
@@ -110,11 +109,11 @@ class AppRoutes {
       case Routes.cleaningServiceScreen:
         return MaterialPageRoute(builder: (_) => const CleaningServiceScreen());
       // !!!!!!!!!! complete from here
-      case Routes.bookingScreen:
-        return MaterialPageRoute(
-          builder:
-              (_) => BookingScreen(image: arguments as String, id: arguments),
-        );
+      // case Routes.bookingScreen:
+      //   return MaterialPageRoute(
+      //     builder:
+      //         (_) => BookingScreen(image: arguments as String, id: arguments),
+      //   );
       // case Routes.bookingScreen:
       //   return MaterialPageRoute(builder: (_) => BookingScreen());
       case Routes.paymentScreen:

@@ -3,24 +3,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shatably_app/core/helpers/extensions.dart';
-import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
-import 'package:shatably_app/core/widgets/custom_app_button.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
 import 'package:shatably_app/feature/booking%20process/data/models/model____for%20me/book_model.dart';
 import 'package:shatably_app/feature/booking%20process/logic/booking%20cubit/booking_cubit.dart';
 import 'package:shatably_app/feature/booking%20process/logic/booking%20cubit/booking_state.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/book_details_screen.dart';
 import 'package:toastification/toastification.dart';
 
 class BookingScreen extends StatefulWidget {
   final String image;
   final String id;
+  final String serviceType;
 
-  const BookingScreen({super.key, required this.image, required this.id});
+  const BookingScreen({
+    super.key,
+    required this.image,
+    required this.id,
+    required this.serviceType,
+  });
 
   @override
   State<BookingScreen> createState() => _BookingScreenState();
@@ -144,7 +147,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 height: 320.h,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(AppImages.bookingImage1),
+                    image: NetworkImage(widget.image),
                     // image: AssetImage(widget.image),
                     fit: BoxFit.cover,
                     colorFilter: ColorFilter.mode(
@@ -515,92 +518,98 @@ class _BookingScreenState extends State<BookingScreen> {
 
                     // Morning/Afternoon Toggle
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      padding: EdgeInsets.symmetric(horizontal: 88.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isMorningSelected = true;
-                                selectedTimeSlotNotifier.value =
-                                    null; // Reset time slot selection
-                              });
-                            },
-                            child: Container(
-                              width: 95.w,
-                              height: 38.h,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 10.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    isMorningSelected
-                                        ? ColorsManager.primaryColor
-                                        : Colors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(AppIcons.cloudyIcon),
-                                  SizedBox(width: 6.w),
-                                  Text(
-                                    "Morning",
-                                    style: TextStyles.styleMedium(
-                                      context,
-                                      fontSize: 10.sp,
-                                      color:
-                                          isMorningSelected
-                                              ? Colors.white
-                                              : ColorsManager.primaryColor,
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isMorningSelected = true;
+                                  selectedTimeSlotNotifier.value =
+                                      null; // Reset time slot selection
+                                });
+                              },
+                              child: Container(
+                                width: 95.w,
+                                height: 38.h,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 10.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isMorningSelected
+                                          ? ColorsManager.primaryColor
+                                          : Colors.white,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(AppIcons.cloudyIcon),
+                                    SizedBox(width: 6.w),
+                                    Text(
+                                      "Morning",
+                                      style: TextStyles.styleMedium(
+                                        context,
+                                        fontSize: 10.sp,
+                                        color:
+                                            isMorningSelected
+                                                ? Colors.white
+                                                : ColorsManager.primaryColor,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 12.w),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isMorningSelected = false;
-                                selectedTimeSlotNotifier.value =
-                                    null; // Reset time slot selection
-                              });
-                            },
-                            child: Container(
-                              width: 95.w,
-                              height: 38.h,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 10.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    !isMorningSelected
-                                        ? ColorsManager.primaryColor
-                                        : Colors.white,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(AppIcons.sunnyIcon),
-                                  SizedBox(width: 6.w),
-                                  Text(
-                                    "Afternoon",
-                                    style: TextStyles.styleMedium(
-                                      context,
-                                      fontSize: 10.sp,
-                                      color:
-                                          !isMorningSelected
-                                              ? Colors.white
-                                              : ColorsManager.primaryColor,
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isMorningSelected = false;
+                                  selectedTimeSlotNotifier.value =
+                                      null; // Reset time slot selection
+                                });
+                              },
+                              child: Container(
+                                width: 95.w,
+                                height: 38.h,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w,
+                                  vertical: 10.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      !isMorningSelected
+                                          ? ColorsManager.primaryColor
+                                          : Colors.white,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(AppIcons.sunnyIcon),
+                                    SizedBox(width: 6.w),
+                                    Text(
+                                      "Afternoon",
+                                      style: TextStyles.styleMedium(
+                                        context,
+                                        fontSize: 10.sp,
+                                        color:
+                                            !isMorningSelected
+                                                ? Colors.white
+                                                : ColorsManager.primaryColor,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -779,7 +788,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     ),
                     SizedBox(height: 20.h),
 
-                    // Payment options
+                    // Payment Methods
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: ValueListenableBuilder<int?>(
@@ -790,9 +799,104 @@ class _BookingScreenState extends State<BookingScreen> {
                               paymentMethods.length,
                               (index) => Expanded(
                                 child: GestureDetector(
+                                  // onTap: () {
+                                  //   //! for Maintenance Work
+                                  //   /*
+                                  //   selectedPaymentMethodIndexNotifier.value =
+                                  //       index;
+                                  //   // Move the booking logic here
+                                  //   final bookingRequest = BookingRequestModel(
+                                  //     bookingDate: "2025-06-15",
+                                  //     timeSlot: "10:00 AM",
+                                  //     serviceId: widget.id,
+                                  //     clientId: null,
+                                  //     workerId: null,
+                                  //     portfolioId: null,
+                                  //     location: Location(
+                                  //       latitude: 30.0444,
+                                  //       longitude: 31.54,
+                                  //       address: "123 Nasr City, Cairo",
+                                  //       description: "Near the main square",
+                                  //     ),
+                                  //   );
+                                  //   context.read<BookingCubit>().bookService(
+                                  //     bookingRequest,
+                                  //   );
+                                  //   */
+                                  //   //! for projects work
+                                  //   /*
+                                  //   selectedPaymentMethodIndexNotifier.value =
+                                  //       index;
+                                  //   // Move the booking logic here
+                                  //   final bookingRequest = BookingRequestModel(
+                                  //     bookingDate: "2025-06-15",
+                                  //     timeSlot: "10:00 AM",
+                                  //     serviceId: null,
+                                  //     clientId: null,
+                                  //     workerId: null,
+                                  //     portfolioId: widget.id,
+                                  //     location: Location(
+                                  //       latitude: 30.0444,
+                                  //       longitude: 31.54,
+                                  //       address: "123 Nasr City, Cairo",
+                                  //       description: "Near the main square",
+                                  //     ),
+                                  //   );
+                                  //   context.read<BookingCubit>().bookService(
+                                  //     bookingRequest,
+                                  //   );
+                                  //   */
+
+                                  //   context.read<BookingCubit>().bookService(
+                                  //     bookingRequest,
+                                  //   );
+                                  // },
                                   onTap: () {
                                     selectedPaymentMethodIndexNotifier.value =
                                         index;
+
+                                    // Create booking request based on the type of service
+                                    BookingRequestModel bookingRequest;
+
+                                    // Check if we're booking a maintenance service or project
+                                    if (widget.serviceType == 'Maintenance') {
+                                      // For Maintenance Work
+                                      bookingRequest = BookingRequestModel(
+                                        bookingDate: "2025-06-15",
+                                        timeSlot: "10:00 AM",
+                                        serviceId: widget.id,
+                                        clientId: null,
+                                        workerId: null,
+                                        portfolioId: null,
+                                        location: Location(
+                                          latitude: 30.0444,
+                                          longitude: 31.54,
+                                          address: "123 Nasr City, Cairo",
+                                          description: "Near the main square",
+                                        ),
+                                      );
+                                    } else {
+                                      // For Projects Work
+                                      bookingRequest = BookingRequestModel(
+                                        bookingDate: "2025-06-15",
+                                        timeSlot: "10:00 AM",
+                                        serviceId: null,
+                                        clientId: null,
+                                        workerId: null,
+                                        portfolioId: widget.id,
+                                        location: Location(
+                                          latitude: 30.0444,
+                                          longitude: 31.54,
+                                          address: "123 Nasr City, Cairo",
+                                          description: "Near the main square",
+                                        ),
+                                      );
+                                    }
+
+                                    // Make the booking request
+                                    context.read<BookingCubit>().bookService(
+                                      bookingRequest,
+                                    );
                                   },
                                   child: Container(
                                     height: 50.h,
@@ -845,7 +949,9 @@ class _BookingScreenState extends State<BookingScreen> {
                       listener: (context, state) {
                         if (state.status == BookingStates.loading) {
                           Center(
-                            child: CircularProgressIndicator(color: Colors.red),
+                            child: CircularProgressIndicator(
+                              color: ColorsManager.primaryColor,
+                            ),
                           );
                         } else if (state.status == BookingStates.error) {
                           customToast(
@@ -856,56 +962,31 @@ class _BookingScreenState extends State<BookingScreen> {
                             icon: Icons.error,
                           );
                         } else if (state.status == BookingStates.success) {
-                          context
-                              .read<BookingCubit>()
-                              .logBookingId(); // هنا التحقق والطباعة
+                          context.read<BookingCubit>().logBookingId();
 
-                          customToast(
-                            context: context,
-                            message: 'Service booked successfully.',
-                            type: ToastificationType.success,
-                            icon: Icons.check_circle,
-                          );
-
-                          context.pushNamed(
-                            Routes.customHireDetails,
-                            arguments: state.bookingResponseModel!.bookingId,
+                          // customToast(
+                          //   context: context,
+                          //   message: 'Service booked successfully.',
+                          //   type: ToastificationType.success,
+                          //   icon: Icons.check_circle,
+                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => BookingDetailScreen(
+                                    bookingId:
+                                        state.bookingResponseModel!.bookingId,
+                                  ),
+                            ),
                           );
                         }
                       },
                       builder: (context, state) {
-                        return BlocBuilder<BookingCubit, BookingState>(
-                          builder: (context, state) {
-                            return Center(
-                              child: CustomAppButton(
-                                width: 150.w,
-                                height: 48.h,
-                                child: Text("continue"),
-                                onPressed: () {
-                                  final bookingRequest = BookingRequestModel(
-                                    bookingDate: "2025-06-15",
-                                    timeSlot: "10:00 AM",
-                                    serviceId: widget.id,
-                                    clientId: null,
-                                    workerId: null,
-                                    portfolioId: null,
-                                    location: Location(
-                                      latitude: 30.0444,
-                                      longitude: 31.54,
-                                      address: "123 Nasr City, Cairo",
-                                      description: "Near the main square",
-                                    ),
-                                  );
-                                  context.read<BookingCubit>().bookService(
-                                    bookingRequest,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        );
+                        return const SizedBox.shrink(); // Replaced with an empty SizedBox
                       },
                     ),
+
+                    SizedBox(height: 100),
                   ],
                 ),
               ),

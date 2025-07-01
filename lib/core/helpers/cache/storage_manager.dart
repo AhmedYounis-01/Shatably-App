@@ -59,6 +59,12 @@ class StorageManager {
     return await flutterSecureStorage.read(key: key) ?? '';
   }
 
+  /// Removes a specific key from FlutterSecureStorage
+  removeSecuredString({required String key}) async {
+    const flutterSecureStorage = FlutterSecureStorage();
+    await flutterSecureStorage.delete(key: key);
+  }
+
   /// Removes all keys and values in the FlutterSecureStorage
   clearAllSecuredData() async {
     // PrintDebugConsole.i('FlutterSecureStorage : all data has been cleared');

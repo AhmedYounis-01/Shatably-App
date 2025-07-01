@@ -8,12 +8,13 @@ class HireDetailsCubit extends Cubit<HireDetailsState> {
   HireDetailsCubit(this._bookingRepository)
     : super(const HireDetailsState(status: HireDetailsStates.initial));
   final HireDetailsRepository _bookingRepository;
-  Future<void> createBookingRecord(
+  Future<BookingDetailsResponseModel?> createBookingRecord(
     BookingDetailsRequestModel bookingDetailsRequest,
   ) async {
     emit(state.copyWith(status: HireDetailsStates.loading));
+    dynamic response = null;
     try {
-      final response = await _bookingRepository.bookingPaymentById(
+      response = await _bookingRepository.bookingPaymentById(
         bookingDetailsRequest,
       );
 
@@ -31,6 +32,7 @@ class HireDetailsCubit extends Cubit<HireDetailsState> {
         ),
       );
     }
+    return response;
   }
 }
 // import 'package:bloc/bloc.dart';

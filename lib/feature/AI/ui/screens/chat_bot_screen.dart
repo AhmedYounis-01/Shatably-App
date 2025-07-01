@@ -158,6 +158,25 @@ class _ChatBotScreenState extends State<ChatBotScreen>
             color: Colors.white,
           ),
         ),
+        leading: GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: Padding(
+            padding: EdgeInsets.all(12.w),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0XFF089ECC).withAlpha((0.46 * 255).toInt()),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 16.sp,
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: BlocConsumer<ChatCubit, ChatPromptState>(
         listener: (context, state) {
@@ -609,15 +628,19 @@ class _ChatBotScreenState extends State<ChatBotScreen>
                   GestureDetector(
                     onTap: _handleSendMessage,
                     child: Container(
-                      padding: EdgeInsets.all(8.r),
+                      padding: EdgeInsets.all(5.r),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: const Color(0XFF33B0EE),
+                        color: const Color(
+                          0XFF089ECC,
+                        ).withAlpha((0.46 * 255).toInt()),
                       ),
-                      child: Icon(
-                        Icons.send_rounded,
-                        color: Colors.white,
-                        size: 24.sp,
+                      child: Center(
+                        child: Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                          size: 24.sp,
+                        ),
                       ),
                     ),
                   ),

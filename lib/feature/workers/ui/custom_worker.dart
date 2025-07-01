@@ -76,7 +76,7 @@ class _CustomWorkerScreenState extends State<CustomWorkerScreen> {
 
                 // Main Content
                 Transform.translate(
-                  offset: Offset(0, -20.h), // سالب = يطلع لفوق
+                  offset: Offset(0, -20.h),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Color(0XFFD9D8DB),

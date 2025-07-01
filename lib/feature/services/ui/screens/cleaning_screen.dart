@@ -12,28 +12,23 @@ class CleaningServiceScreen extends StatelessWidget {
     final List<WorkerInfo> cleaningWorkers = [
       WorkerInfo(
         name: "Mohamed Ahmed",
-        imagePath: AppImages.youngMan,
+        imagePath: AppImages.menWorkerImage3,
         rating: 5,
         reviewCount: 30,
       ),
       WorkerInfo(
-        name: "Yamen Karim",
-        imagePath: AppImages.youngMan,
+        name: "Yasmen Karim",
+        imagePath: AppImages.womanWorkerImage2,
         rating: 5,
         reviewCount: 20,
       ),
       WorkerInfo(
         name: "Ziad Ahmed",
-        imagePath: AppImages.youngMan,
+        imagePath: AppImages.menWorkerImage2,
         rating: 3,
         reviewCount: 20,
       ),
-      WorkerInfo(
-        name: "Samir Nagy",
-        imagePath: AppImages.youngMan,
-        rating: 5,
-        reviewCount: 14,
-      ),
+       
     ];
 
     // Use the custom ServiceWorkerScreen widget

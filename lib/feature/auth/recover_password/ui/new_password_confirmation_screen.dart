@@ -14,8 +14,9 @@ class NewPasswordConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsetsDirectional.only(top: 150, start: 16, end: 16),
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FadeAnimationIcon(),

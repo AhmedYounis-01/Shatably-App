@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Import for SystemUiOverlayStyle
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shatably_app/core/helpers/extensions.dart';
-import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
+import 'package:shatably_app/feature/maintenance%20work/ui/maintenance_work_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/electrician_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/painting_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
 
 class BrowseServicesScreen extends StatelessWidget {
   const BrowseServicesScreen({super.key});
@@ -148,16 +152,19 @@ class BrowseServicesScreen extends StatelessWidget {
 
                     SizedBox(height: 11.h),
                     Wrap(
-                      spacing: 12.w,
-                      runSpacing: 12.h,
+                      spacing: 18.w,
+                      runSpacing: 18.h,
                       children: [
                         _buildServiceCategory(
                           'Electrician',
                           AppIcons.electricianIcon,
                           () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.electricianServiceScreen,
+                            Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        const ElectricianServiceScreen(),
+                              ),
                             );
                           },
                         ),
@@ -165,9 +172,11 @@ class BrowseServicesScreen extends StatelessWidget {
                           'Carpentry',
                           AppIcons.carpenterIcon,
                           () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.carpentryServiceScreen,
+                            Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const CarpentryServiceScreen(),
+                              ),
                             );
                           },
                         ),
@@ -175,19 +184,23 @@ class BrowseServicesScreen extends StatelessWidget {
                           'Painter',
                           AppIcons.painterIcon,
                           () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.paintingServiceScreen,
+                            Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const PaintingServiceScreen(),
+                              ),
                             );
                           },
                         ),
                         _buildServiceCategory(
                           'Plumber',
-                          AppIcons.plumberIcon,
+                          AppIcons.lastPlumingIcon,
                           () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.plumbingServiceScreen,
+                            Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const PlumbingServiceScreen(),
+                              ),
                             );
                           },
                         ),
@@ -195,9 +208,11 @@ class BrowseServicesScreen extends StatelessWidget {
                           'Cleaning',
                           AppIcons.housekeepingIcon,
                           () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.cleaningServiceScreen,
+                            Navigator.of(context, rootNavigator: false).push(
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const CleaningServiceScreen(),
+                              ),
                             );
                           },
                         ),
@@ -220,8 +235,8 @@ class BrowseServicesScreen extends StatelessWidget {
 
                     // Maintenance Services Grid
                     Wrap(
-                      spacing: 12.w,
-                      runSpacing: 12.h,
+                      spacing: 18.w,
+                      runSpacing: 18.h,
                       children: [
                         _buildMaintenanceItem(
                           context,
@@ -320,11 +335,16 @@ class BrowseServicesScreen extends StatelessWidget {
     BuildContext context,
     String? title,
     String icon,
-    String? id,
+    String id,
   ) {
     return InkWell(
       onTap: () {
-        context.pushNamed(Routes.maintenanceWorkScreen, arguments: id);
+        Navigator.of(context, rootNavigator: false).push(
+          MaterialPageRoute(
+            builder: (context) => MaintenanceWorkScreen(serviceId: id),
+          ),
+        );
+        // context.pushNamed(Routes.maintenanceWorkScreen, arguments: id);
       },
       child: Container(
         width: 95,

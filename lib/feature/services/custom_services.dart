@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,135 +48,142 @@ class ServiceWorkerScreen extends StatelessWidget {
           ),
 
           // Content
-          SafeArea(
-            child: Column(
-              children: [
-                SizedBox(height: 30.h),
-                // Back Button and Title
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          width: 30.w,
-                          height: 30.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFFA6CDC6),
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              "assets/icons/arrow_ios.svg",
-                              width: 15.w,
-                              height: 15.h,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            title,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 30.w),
-                    ],
-                  ),
-                ),
-
-                Expanded(child: Container()),
-
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.r),
-                    topRight: Radius.circular(30.r),
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 22.7, sigmaY: 22.7),
-                    child: Stack(
+          Transform.translate(
+            offset: Offset(0, 15.h),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  SizedBox(height: 15.h),
+                  // Back Button and Title
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Row(
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 25.w,
-                            vertical: 10.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: backgroundColor.withAlpha(
-                              backgroundOpacity.toInt() * 255,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            width: 30.w,
+                            height: 30.h,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFA6CDC6),
                             ),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.r),
-                              topRight: Radius.circular(30.r),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                "assets/icons/arrow_ios.svg",
+                                width: 15.w,
+                                height: 15.h,
+                              ),
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withAlpha(
-                                  (0.25 * 255).toInt(),
-                                ),
-                                offset: const Offset(0, -3),
-                                blurRadius: 4,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 25.w,
-                                height: 1.h,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFE5F1EF),
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                              SizedBox(height: 12.5.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    workerIcon,
-                                    width: 14.w,
-                                    height: 14.h,
-                                  ),
-                                  SizedBox(width: 4.w),
-                                  Text(
-                                    "Workers Available",
-                                    style: TextStyles.styleRegular(
-                                      context,
-                                      fontSize: 18.sp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 24.h),
-                              // Updated worker cards with navigation
-                              ...workers.map(
-                                (worker) => _buildWorkerCard(
-                                  context,
-                                  worker,
-                                  jobTitle: jobTitle,
-                                  workerProfileImage: worker.imagePath,
-                                ),
-                              ),
-                              SizedBox(height: 50.h),
-                            ],
                           ),
                         ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 30.w),
                       ],
                     ),
                   ),
-                ),
-              ],
+
+                  Expanded(child: Container()),
+
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.r),
+                      topRight: Radius.circular(30.r),
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 22.7, sigmaY: 22.7),
+                      child: Stack(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 25.w,
+                              vertical: 10.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: backgroundColor.withAlpha(
+                                (backgroundOpacity * 255).toInt(),
+                                // backgroundOpacity,
+                              ),
+
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(30.r),
+                                topRight: Radius.circular(30.r),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withAlpha(
+                                    (0.25 * 255).toInt(),
+                                  ),
+                                  offset: const Offset(0, -3),
+                                  blurRadius: 4,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 25.w,
+                                  height: 1.h,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFE5F1EF),
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                ),
+                                SizedBox(height: 12.5.h),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      workerIcon,
+                                      width: 14.w,
+                                      height: 14.h,
+                                    ),
+                                    SizedBox(width: 4.w),
+                                    Text(
+                                      "Workers Available",
+                                      style: TextStyles.styleRegular(
+                                        context,
+                                        fontSize: 18.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 24.h),
+                                // Updated worker cards with navigation
+                                ...workers.map(
+                                  (worker) => _buildWorkerCard(
+                                    context,
+                                    worker,
+                                    jobTitle: jobTitle,
+                                    workerProfileImage: worker.imagePath,
+                                  ),
+                                ),
+                                SizedBox(height: 25.h),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -194,11 +200,10 @@ class ServiceWorkerScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
+        Navigator.of(context, rootNavigator: true).push(
           MaterialPageRoute(
             builder:
-                (_) => WorkerScreen(
+                (context) => WorkerScreen(
                   workerName: worker.name,
                   workerProf: jobTitle,
                   workerImage: workerProfileImage,

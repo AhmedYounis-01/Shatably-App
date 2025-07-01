@@ -39,22 +39,15 @@ class _CartScreenState extends State<CartScreen> {
     CartItem(
       name: "Tool Box",
       description: "compact electrical tools for electrician",
-      price: 350,
-      image: AppImages.shopElecImage5,
+      price: 450,
+      image: AppImages.shopPaintImage3,
       quantity: 1,
     ),
     CartItem(
       name: "Tool Box",
       description: "compact electrical tools for electrician",
       price: 350,
-      image: AppImages.shopElecImage5,
-      quantity: 1,
-    ),
-    CartItem(
-      name: "Tool Box",
-      description: "compact electrical tools for electrician",
-      price: 350,
-      image: AppImages.shopElecImage5,
+      image: AppImages.shopElecImage3,
       quantity: 1,
     ),
   ];

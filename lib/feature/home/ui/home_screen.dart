@@ -4,14 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
-import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
+import 'package:shatably_app/feature/home/ui/browse___services/browse_services_screen.dart';
+import 'package:shatably_app/feature/home/ui/browse_projects_screen.dart';
+import 'package:shatably_app/feature/notification/ui/notification_screen.dart';
 import 'package:shatably_app/feature/projects/data/repository/projects_repository.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'package:shatably_app/feature/projects/ui/projects_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/electrician_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/painting_screen.dart';
+import 'package:shatably_app/feature/services/ui/screens/plumbing_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -26,510 +33,562 @@ class HomeScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
-      backgroundColor: const Color(0xFFE5F1EF), // Light blue background
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SizedBox(height: 30.h),
-              // Profile section with cream background
-              Container(
-                color: const Color(0xFFFBF5DD),
-                width: double.infinity,
-                padding: const EdgeInsets.only(
-                  // top: 20,
-                  bottom: 0,
-                  left: 23,
-                  right: 23,
-                  // horizontal: 23,
-                  // vertical: 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    // Profile & notification row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 22,
-                              backgroundImage: AssetImage(
-                                AppImages.morganImage,
+          child: Container(
+            decoration: BoxDecoration(color: const Color(0xFFE5F1EF)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(height: 30.h),
+                // Profile section with cream background
+                Container(
+                  color: const Color(0xFFFBF5DD),
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                    // top: 20,
+                    bottom: 0,
+                    left: 23,
+                    right: 23,
+                    // horizontal: 23,
+                    // vertical: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      // Profile & notification row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 22,
+                                backgroundImage: AssetImage(
+                                  AppImages.morganImage,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Hi Morgan',
-                                  style: TextStyles.styleRegular(
-                                    context,
-                                    fontSize: 12.sp,
-                                    color: Color.fromRGBO(22, 64, 77, 0.8),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Hi Morgan',
+                                    style: TextStyles.styleRegular(
+                                      context,
+                                      fontSize: 12.sp,
+                                      color: Color.fromRGBO(22, 64, 77, 0.8),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppIcons.locationHomeIcon,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'Location name here',
+                                        style: TextStyles.styleRegular(
+                                          context,
+                                          fontSize: 14.sp,
+                                          color: ColorsManager.primaryColor,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 2),
+                                      SvgPicture.asset(AppIcons.arrowHomeIcon),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap:
+                                () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => const NotificationScreen(),
                                   ),
                                 ),
-                                const SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(AppIcons.locationHomeIcon),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      'Location name here',
-                                      style: TextStyles.styleRegular(
-                                        context,
-                                        fontSize: 14.sp,
-                                        color: ColorsManager.primaryColor,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 2),
-                                    SvgPicture.asset(AppIcons.arrowHomeIcon),
-                                  ],
+                            child: Stack(
+                              alignment: AlignmentDirectional.topEnd,
+                              children: [
+                                SvgPicture.asset(AppIcons.bellHomeIcon),
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    color: ColorsManager.yellowTextColor,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        Stack(
-                          alignment: AlignmentDirectional.topEnd,
-                          children: [
-                            SvgPicture.asset(AppIcons.bellHomeIcon),
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: ColorsManager.yellowTextColor,
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    // What service do you want section
-                    Text(
-                      'What service do you want',
-                      style: TextStyles.styleRegular(
-                        context,
-                        fontSize: 14.sp,
-                        color: ColorsManager.primaryColor,
-                      ),
-                    ),
-                    SizedBox(height: 5.h),
-                  ],
-                ),
-              ),
-
-              // Search bar - positioned between the two colored sections
-              Stack(
-                children: [
-                  // Background containers to create the two-color background
-                  Column(
-                    children: [
-                      Container(
-                        height: 25.h, // Half of search bar height
-                        color: const Color(0xFFFAF6EC), // Top cream color
-                      ),
-                      Container(
-                        height: 25.h, // Half of search bar height
-                        color: const Color(
-                          0xFFE6F4F1,
-                        ), // Bottom light blue color
-                      ),
-                    ],
-                  ),
-                  // Search bar centered between the two colors
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 23),
-                    child: Container(
-                      // height: 54.h,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFDADADA),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha((0.25 * 255).toInt()),
-                            spreadRadius: 2,
-                            blurRadius: 10.4,
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: TextField(
-                        // controller: _searchController,
-                        textInputAction: TextInputAction.search,
-                        // onSubmitted: _searchLocation,
-                        decoration: InputDecoration(
-                          hintText: 'Search for service',
-                          hintStyle: TextStyles.styleRegular(
-                            context,
-                            fontSize: 14.sp,
-                            color: ColorsManager.geryIconColor,
-                          ),
-                          // prefixIcon: Icon(
-                          //   Icons.location_on_outlined,
-                          //   color: ColorsManager.geryIconColor,
-                          // ),
-                          suffixIcon: InkWell(
-                            onTap: () {},
-                            // onTap:
-                            // () => _searchLocation(_searchController.text),
-                            child: Padding(
-                              padding: EdgeInsets.all(15.h),
 
-                              // child: SvgPicture.asset(
-                              //   AppIcons.searchIcon1,
+                      const SizedBox(height: 15),
 
-                              //   color: ColorsManager.geryIconColor,
-                              // ),
-                              child: Image.asset(
-                                // width: 14,
-                                // height: 14,
-                                AppIcons.searchIcon1,
-                                color: ColorsManager.geryIconColor,
-                              ),
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          // contentPadding: EdgeInsets.symmetric(vertical: 23.h),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 18.h,
-                            horizontal: 16.w,
-                          ),
+                      // What service do you want section
+                      Text(
+                        'What service do you want',
+                        style: TextStyles.styleRegular(
+                          context,
+                          fontSize: 14.sp,
+                          color: ColorsManager.primaryColor,
                         ),
                       ),
-                    ),
+                      SizedBox(height: 5.h),
+                    ],
                   ),
-                ],
-              ),
+                ),
 
-              // Main content
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Search bar - positioned between the two colored sections
+                Stack(
                   children: [
-                    const SizedBox(height: 16),
-
-                    // Timeless offer
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // Background containers to create the two-color background
+                    Column(
                       children: [
-                        Text(
-                          'Timeless offer',
-                          style: TextStyles.styleRegular(
-                            context,
-                            fontSize: 14.sp,
-                            color: ColorsManager.primaryColor,
-                          ),
+                        Container(
+                          height: 25.h, // Half of search bar height
+                          color: const Color(0xFFFAF6EC), // Top cream color
                         ),
-                        Text(
-                          '18:32:14 h',
-                          style: TextStyles.styleRegular(
-                            context,
-                            fontSize: 12.sp,
-                            color: ColorsManager.yellowTextColor,
-                          ),
+                        Container(
+                          height: 25.h, // Half of search bar height
+                          color: const Color(
+                            0xFFE6F4F1,
+                          ), // Bottom light blue color
                         ),
                       ],
                     ),
+                    // Search bar centered between the two colors
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 23),
+                      child: Container(
+                        // height: 54.h,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFDADADA),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(
+                                (0.25 * 255).toInt(),
+                              ),
+                              spreadRadius: 2,
+                              blurRadius: 10.4,
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextField(
+                          // controller: _searchController,
+                          textInputAction: TextInputAction.search,
+                          // onSubmitted: _searchLocation,
+                          decoration: InputDecoration(
+                            hintText: 'Search for service',
+                            hintStyle: TextStyles.styleRegular(
+                              context,
+                              fontSize: 14.sp,
+                              color: ColorsManager.geryIconColor,
+                            ),
+                            // prefixIcon: Icon(
+                            //   Icons.location_on_outlined,
+                            //   color: ColorsManager.geryIconColor,
+                            // ),
+                            suffixIcon: InkWell(
+                              onTap: () {},
+                              // onTap:
+                              // () => _searchLocation(_searchController.text),
+                              child: Padding(
+                                padding: EdgeInsets.all(15.h),
 
-                    const SizedBox(height: 16),
+                                // child: SvgPicture.asset(
+                                //   AppIcons.searchIcon1,
 
-                    // Promotion card
-                    Stack(
-                      clipBehavior:
-                          Clip.none, // هذا مهم لمنع قص الصورة خارج حدود الـ Stack
-                      children: [
-                        // البطاقة الأساسية
-                        Container(
-                          // height: 146.h,
-                          // constraints: BoxConstraints(minHeight: 170.h),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF0B4A6F),
-                            borderRadius: BorderRadius.circular(16),
+                                //   color: ColorsManager.geryIconColor,
+                                // ),
+                                child: Image.asset(
+                                  // width: 14,
+                                  // height: 14,
+                                  AppIcons.searchIcon1,
+                                  color: ColorsManager.geryIconColor,
+                                ),
+                              ),
+                            ),
+                            border: InputBorder.none,
+                            // contentPadding: EdgeInsets.symmetric(vertical: 23.h),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 18.h,
+                              horizontal: 16.w,
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // محتوى النص (الجزء الأيسر)
-                              Expanded(
-                                flex: 3,
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                    top: 16.h,
-                                    start: 13.w,
-                                    // end: 10.w,
-                                    bottom: 18.h,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            '25% ',
-                                            style: TextStyles.styleMedium(
-                                              context,
-                                              fontSize: 20.sp,
-                                              fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Main content
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+
+                      // Timeless offer
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Timeless offer',
+                            style: TextStyles.styleRegular(
+                              context,
+                              fontSize: 14.sp,
+                              color: ColorsManager.primaryColor,
+                            ),
+                          ),
+                          Text(
+                            '18:32:14 h',
+                            style: TextStyles.styleRegular(
+                              context,
+                              fontSize: 12.sp,
+                              color: ColorsManager.yellowTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Promotion card
+                      Stack(
+                        clipBehavior:
+                            Clip.none, // هذا مهم لمنع قص الصورة خارج حدود الـ Stack
+                        children: [
+                          // البطاقة الأساسية
+                          Container(
+                            // height: 146.h,
+                            // constraints: BoxConstraints(minHeight: 170.h),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF0B4A6F),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // محتوى النص (الجزء الأيسر)
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      top: 16.h,
+                                      start: 13.w,
+                                      // end: 10.w,
+                                      bottom: 18.h,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              '25% ',
+                                              style: TextStyles.styleMedium(
+                                                context,
+                                                fontSize: 20.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color:
+                                                    ColorsManager
+                                                        .yellowTextColor,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.local_fire_department,
                                               color:
                                                   ColorsManager.yellowTextColor,
                                             ),
-                                          ),
-                                          Icon(
-                                            Icons.local_fire_department,
-                                            color:
-                                                ColorsManager.yellowTextColor,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 20.h),
-                                      Text(
-                                        'Today\'s special!',
-                                        style: TextStyles.styleBold(
-                                          context,
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(height: 8.h),
-                                      Text(
-                                        'Get discount for every\nservice,only valid for today',
-                                        style: TextStyles.styleRegular(
-                                          context,
-                                          fontSize: 13.sp,
-                                          color: Colors.white.withAlpha(
-                                            (0.25 * 255).toInt(),
+                                        SizedBox(height: 20.h),
+                                        Text(
+                                          'Today\'s special!',
+                                          style: TextStyles.styleBold(
+                                            context,
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        SizedBox(height: 8.h),
+                                        Text(
+                                          'Get discount for every\nservice,only valid for today',
+                                          style: TextStyles.styleRegular(
+                                            context,
+                                            fontSize: 13.sp,
+                                            color: Colors.white.withAlpha(
+                                              (0.25 * 255).toInt(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              // ترك مساحة للصورة
-                              Expanded(flex: 2, child: Container()),
-                            ],
-                          ),
-                        ),
-
-                        // صورة الخلفية (الأمواج) - موضوعة في الزاوية اليمنى السفلية
-                        Positioned(
-                          right: 0,
-                          bottom: 0,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              bottomRight: Radius.circular(16),
+                                // ترك مساحة للصورة
+                                Expanded(flex: 2, child: Container()),
+                              ],
                             ),
+                          ),
+
+                          // صورة الخلفية (الأمواج) - موضوعة في الزاوية اليمنى السفلية
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(16),
+                              ),
+                              child: Image.asset(
+                                AppImages.homeBackgroundImage,
+                                width:
+                                    MediaQuery.of(context).size.width *
+                                    0.4, // ريسبونسيف بنسبة من عرض الشاشة
+                                height: 120.h, // ارتفاع متناسب مع الشاشة
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+
+                          // صورة العامل - موضوعة فوق صورة الأمواج
+                          Positioned(
+                            right: 0,
+                            bottom:
+                                0, // بدون قيمة سالبة ليبقى داخل حدود البطاقة كما في الصورة المرجعية
                             child: Image.asset(
-                              AppImages.homeBackgroundImage,
+                              AppImages.plumberImage,
                               width:
                                   MediaQuery.of(context).size.width *
                                   0.4, // ريسبونسيف بنسبة من عرض الشاشة
-                              height: 120.h, // ارتفاع متناسب مع الشاشة
-                              fit: BoxFit.cover,
+                              height: 180.h, // ارتفاع متناسب مع الشاشة
+                              fit: BoxFit.contain,
                             ),
                           ),
-                        ),
-
-                        // صورة العامل - موضوعة فوق صورة الأمواج
-                        Positioned(
-                          right: 0,
-                          bottom:
-                              0, // بدون قيمة سالبة ليبقى داخل حدود البطاقة كما في الصورة المرجعية
-                          child: Image.asset(
-                            AppImages.plumberImage,
-                            width:
-                                MediaQuery.of(context).size.width *
-                                0.4, // ريسبونسيف بنسبة من عرض الشاشة
-                            height: 180.h, // ارتفاع متناسب مع الشاشة
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Trending Services section
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Trending Services',
-                          style: TextStyles.styleRegular(
-                            context,
-                            fontSize: 14.sp,
-                            color: ColorsManager.primaryColor,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.servicesScreen);
-                          },
-                          child: Text(
-                            'View all',
-                            style: TextStyles.styleRegular(
-                              context,
-                              fontSize: 12.sp,
-                              color: ColorsManager.yellowTextColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Service categories
-                    SizedBox(
-                      height: 95,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          _buildServiceCategory(
-                            context,
-                            'Electrician',
-                            AppIcons.electricianIcon,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.electricianServiceScreen),
-                          ),
-                          const SizedBox(width: 12),
-                          _buildServiceCategory(
-                            context,
-                            'Carpenter',
-                            AppIcons.carpenterIcon,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.carpentryServiceScreen),
-                          ),
-                          const SizedBox(width: 12),
-                          _buildServiceCategory(
-                            context,
-                            'Painter',
-                            AppIcons.painterIcon,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.paintingServiceScreen),
-                          ),
-                          const SizedBox(width: 12),
-                          _buildServiceCategory(
-                            context,
-                            'Plumber',
-                            AppIcons.plumberIcon,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.plumbingServiceScreen),
-                          ),
-                          const SizedBox(width: 12),
-                          _buildServiceCategory(
-                            context,
-                            'Cleaning',
-                            AppIcons.housekeepingIcon,
-                            () => Navigator.of(
-                              context,
-                              rootNavigator: false,
-                            ).pushNamed(Routes.cleaningServiceScreen),
-                          ),
-                          const SizedBox(width: 12),
                         ],
                       ),
-                    ),
+                      const SizedBox(height: 24),
 
-                    SizedBox(height: 20.h),
-
-                    // Explore Our Projects section
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Explore\nOur Projects',
+                      // Trending Services section
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Trending Services',
+                            style: TextStyles.styleRegular(
+                              context,
+                              fontSize: 14.sp,
+                              color: ColorsManager.primaryColor,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context, rootNavigator: false).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => const BrowseServicesScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'View all',
                               style: TextStyles.styleRegular(
                                 context,
-                                fontSize: 16.sp,
-                                color: ColorsManager.primaryColor,
+                                fontSize: 12.sp,
+                                color: ColorsManager.yellowTextColor,
                               ),
                             ),
-                          ],
-                        ),
-                        InkWell(
-                          onTap:
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // Service categories
+                      SizedBox(
+                        height: 95,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _buildServiceCategory(
+                              context,
+                              'Electrician',
+                              AppIcons.electricianIcon,
                               () => Navigator.of(
                                 context,
                                 rootNavigator: false,
-                              ).pushNamed(Routes.browseProjectsScreen),
-                          child: Text(
-                            'View all',
-                            style: TextStyles.styleRegular(
-                              context,
-                              fontSize: 12.sp,
-                              color: ColorsManager.yellowTextColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-
-                    SizedBox(
-                      height: 164.h,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          final category = projectCategories[index];
-                          return buildProjectCategory(
-                            context,
-                            category["id"]!,
-                            category["title"]!,
-                            category["image"]!,
-                            category["price"]!,
-                            () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider(
-                                      create:
-                                          (context) => ProjectsCubit(
-                                            sl<ProjectsRepository>(),
-                                          ),
-                                      child: ProjectsScreen(
-                                        projectId: category["id"]!,
-                                      ),
-                                    ),
+                              ).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          const ElectricianServiceScreen(),
+                                ),
                               ),
                             ),
-                          );
-                        },
-                        separatorBuilder:
-                            (context, index) => SizedBox(width: 12.5.w),
-                        itemCount: projectCategories.length,
+                            const SizedBox(width: 12),
+                            _buildServiceCategory(
+                              context,
+                              'Carpenter',
+                              AppIcons.carpenterIcon,
+                              () => Navigator.of(
+                                context,
+                                rootNavigator: false,
+                              ).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          const CarpentryServiceScreen(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            _buildServiceCategory(
+                              context,
+                              'Painter',
+                              AppIcons.painterIcon,
+                              () => Navigator.of(
+                                context,
+                                rootNavigator: false,
+                              ).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          const PaintingServiceScreen(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            _buildServiceCategory(
+                              context,
+                              'Plumber',
+                              AppIcons.lastPlumingIcon,
+                              () => Navigator.of(
+                                context,
+                                rootNavigator: false,
+                              ).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          const PlumbingServiceScreen(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            _buildServiceCategory(
+                              context,
+                              'Cleaning',
+                              AppIcons.housekeepingIcon,
+                              () => Navigator.of(
+                                context,
+                                rootNavigator: false,
+                              ).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          const CleaningServiceScreen(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 80.h),
-                  ],
+
+                      SizedBox(height: 20.h),
+
+                      // Explore Our Projects section
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Explore\nOur Projects',
+                                style: TextStyles.styleRegular(
+                                  context,
+                                  fontSize: 16.sp,
+                                  color: ColorsManager.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context, rootNavigator: false).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => const BrowseProjectsScreen(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'View all',
+                              style: TextStyles.styleRegular(
+                                context,
+                                fontSize: 12.sp,
+                                color: ColorsManager.yellowTextColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12.h),
+
+                      SizedBox(
+                        height: 164.h,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final category = projectCategories[index];
+                            return buildProjectCategory(
+                              context,
+                              category["id"]!,
+                              category["title"]!,
+                              category["image"]!,
+                              category["price"]!,
+                              () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => BlocProvider(
+                                        create:
+                                            (context) => ProjectsCubit(
+                                              sl<ProjectsRepository>(),
+                                            ),
+                                        child: ProjectsScreen(
+                                          projectId: category["id"]!,
+                                        ),
+                                      ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder:
+                              (context, index) => SizedBox(width: 12.5.w),
+                          itemCount: projectCategories.length,
+                        ),
+                      ),
+                      SizedBox(height: 40.h),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -716,7 +775,7 @@ class HomeScreen extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                        padding: EdgeInsets.all(5.sp),
                         child: SvgPicture.asset(AppIcons.arrowRightIcon),
                       ),
                     ),

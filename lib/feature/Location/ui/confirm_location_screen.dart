@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/widgets/custom_animation.dart';
@@ -12,8 +14,9 @@ class ConfirmLocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsetsDirectional.only(top: 150, start: 16, end: 16),
+        padding: EdgeInsetsDirectional.symmetric(horizontal: 16),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Center(child: SvgPicture.asset(AppIcons.right)),
@@ -38,7 +41,9 @@ class ConfirmLocationScreen extends StatelessWidget {
             CustomAppButton1(
               width: 145.w,
               height: 50.h,
-              onPressed: () {},
+              onPressed: () {
+                context.pushReplacementNamed(Routes.appLayoutsScreen);
+              },
               backgroundColor: ColorsManager.primaryColor,
               // isCircular: true,
               borderRadius: 30,

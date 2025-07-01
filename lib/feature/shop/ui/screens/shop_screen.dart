@@ -1,10 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
+import 'package:shatably_app/feature/shop/data/model/shop_model.dart';
+import 'package:shatably_app/feature/shop/logic/cubit/products_cubit.dart';
+import 'package:shatably_app/feature/shop/logic/cubit/products_state.dart';
+import 'package:shatably_app/feature/shop/ui/screens/cart_screen.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -31,137 +37,151 @@ class _ShopScreenState extends State<ShopScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0XFFE5F1EF),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          children: [
-            SizedBox(height: 60.h),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Container(
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFBEE1DB),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: ColorsManager.primaryColor,
-                        size: 16.sp,
+    return BlocProvider(
+      create: (context) => sl<ProductsCubit>(),
+      child: Scaffold(
+        backgroundColor: const Color(0XFFE5F1EF),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            children: [
+              SizedBox(height: 60.h),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFBEE1DB),
                       ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10.w),
-                Container(
-                  width: 275.w,
-                  height: 35.h,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 19.w,
-                    // vertical: 9.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorsManager.backGroundFormsColor,
-                    borderRadius: BorderRadius.circular(15.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0XFFDDA853).withAlpha((.22 * 255).toInt()),
-                        blurRadius: 10.4,
-                        spreadRadius: 2,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.search,
-                        size: 18.sp,
-                        color: ColorsManager.primaryColor.withAlpha(
-                          (.60 * 255).toInt(),
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: ColorsManager.primaryColor,
+                          size: 16.sp,
                         ),
                       ),
-                      SizedBox(width: 1.5.w),
-
-                      Text(
-                        "Search here",
-                        style: TextStyles.styleRegular(
-                          context,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Container(
+                    width: 275.w,
+                    height: 35.h,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 19.w,
+                      // vertical: 9.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: ColorsManager.backGroundFormsColor,
+                      borderRadius: BorderRadius.circular(15.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(
+                            0XFFDDA853,
+                          ).withAlpha((.22 * 255).toInt()),
+                          blurRadius: 10.4,
+                          spreadRadius: 2,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          size: 18.sp,
                           color: ColorsManager.primaryColor.withAlpha(
                             (.60 * 255).toInt(),
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 1.5.w),
+                        Text(
+                          "Search here",
+                          style: TextStyles.styleRegular(
+                            context,
+                            color: ColorsManager.primaryColor.withAlpha(
+                              (.60 * 255).toInt(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: 12.w),
-                Row(children: [BasketIconWithBadge(itemCount: 2)]),
-              ],
-            ),
-            SizedBox(height: 17.h),
-
-            // TabBar
-            Container(
-              height: 35.h,
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
-              decoration: BoxDecoration(
-                color: const Color(0XFFE5F1EF),
-                borderRadius: BorderRadius.circular(25.r),
-                border: Border.all(color: ColorsManager.yellowTextColor),
+                  SizedBox(width: 12.w),
+                  InkWell(
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CartScreen(),
+                          ),
+                        ),
+                    child: BasketIconWithBadge(itemCount: 5),
+                  ),
+                ],
               ),
-              child: TabBar(
-                controller: _tabController,
-                labelColor: Colors.white,
-                unselectedLabelColor: ColorsManager.primaryColor,
-                indicator: BoxDecoration(
+              SizedBox(height: 17.h),
+
+              // TabBar
+              Container(
+                height: 35.h,
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: const Color(0XFFE5F1EF),
                   borderRadius: BorderRadius.circular(25.r),
-                  color: Color(0xFFDDA853),
+                  border: Border.all(color: ColorsManager.yellowTextColor),
                 ),
-                indicatorSize: TabBarIndicatorSize.tab,
-                dividerColor: Colors.transparent,
-                labelStyle: TextStyle(
-                  fontSize: 11.5.sp,
-                  fontWeight: FontWeight.w500,
+                child: TabBar(
+                  controller: _tabController,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: ColorsManager.primaryColor,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25.r),
+                    color: Color(0xFFDDA853),
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  dividerColor: Colors.transparent,
+                  labelStyle: TextStyle(
+                    fontSize: 11.5.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 11.5.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  tabs: [
+                    Tab(text: 'Electrician'),
+                    Tab(text: 'Carpentry'),
+                    Tab(text: 'Painter'),
+                    Tab(text: 'Plumber'),
+                  ],
                 ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 11.5.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-                tabs: [
-                  Tab(text: 'Electrician'),
-                  Tab(text: 'Carpentry'),
-                  Tab(text: 'Painter'),
-                  Tab(text: 'Plumber'),
-                ],
               ),
-            ),
 
-            SizedBox(height: 28.h),
+              SizedBox(height: 28.h),
 
-            // TabBarView
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // Electrician Tab
-                  ElectricianProductsGrid(),
-                  // Carpentry Tab
-                  CarpentryProductsGrid(),
-                  // Painter Tab
-                  PainterProductsGrid(),
-                  // Plumber Tab
-                  PlumberProductsGrid(),
-                ],
+              // TabBarView
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    // Electrician Tab
+                    ElectricianProductsGrid(),
+                    // Carpentry Tab
+                    CarpentryProductsGrid(),
+                    // Painter Tab
+                    PainterProductsGrid(),
+                    // Plumber Tab
+                    PlumberProductsGrid(),
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 110.h),
+            ],
+          ),
         ),
       ),
     );
@@ -169,7 +189,8 @@ class _ShopScreenState extends State<ShopScreen>
 }
 
 class ProductCard extends StatelessWidget {
-  final ProductModel product;
+  final ProductsResponseModel product;
+
   const ProductCard({super.key, required this.product});
 
   @override
@@ -180,23 +201,31 @@ class ProductCard extends StatelessWidget {
         // Product Image Section
         ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
-          child: Image.asset(
-            product.image,
+          child: CachedNetworkImage(
+            imageUrl: product.imageUrl,
             fit: BoxFit.cover,
             width: 166.w,
             height: 100.h,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                width: 170.w,
-                height: 100.h,
-                color: Colors.grey[200],
-                child: Icon(
-                  Icons.image_not_supported,
-                  color: Colors.grey[400],
-                  size: 32.sp,
+            placeholder:
+                (context, url) => Container(
+                  width: 166.w,
+                  height: 100.h,
+                  color: Colors.grey[200],
+                  child: const Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
                 ),
-              );
-            },
+            errorWidget:
+                (context, url, error) => Container(
+                  width: 170.w,
+                  height: 100.h,
+                  color: Colors.grey[200],
+                  child: Icon(
+                    Icons.image_not_supported,
+                    color: Colors.grey[400],
+                    size: 32.sp,
+                  ),
+                ),
           ),
         ),
 
@@ -205,13 +234,13 @@ class ProductCard extends StatelessWidget {
           width: 166.w,
           height: 92.h,
           decoration: BoxDecoration(
-            color: Color(0XFFFDFDFD),
+            color: const Color(0XFFFDFDFD),
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(25.r)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withAlpha((0.1 * 255).toInt()),
                 blurRadius: 3,
-                offset: Offset(0, 1),
+                offset: const Offset(0, 1),
               ),
             ],
           ),
@@ -221,7 +250,7 @@ class ProductCard extends StatelessWidget {
             children: [
               // Title
               Text(
-                product.title,
+                product.name,
                 style: TextStyles.styleMedium(
                   context,
                   fontSize: 12.sp,
@@ -234,7 +263,7 @@ class ProductCard extends StatelessWidget {
 
               // Description
               Text(
-                product.description,
+                product.details,
                 style: TextStyles.styleMedium(
                   context,
                   fontSize: 8.sp,
@@ -246,21 +275,26 @@ class ProductCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
 
-              Spacer(),
+              const Spacer(),
 
               // Price & Add
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    product.price,
+                    "${product.price} EGP",
                     style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xFF866734),
+                      color: const Color(0xFF866734),
                     ),
                   ),
-                  SvgPicture.asset(AppIcons.circularCartIcon),
+                  GestureDetector(
+                    onTap: () {
+                      // Add to cart logic
+                    },
+                    child: SvgPicture.asset(AppIcons.circularCartIcon),
+                  ),
                 ],
               ),
             ],
@@ -269,20 +303,6 @@ class ProductCard extends StatelessWidget {
       ],
     );
   }
-}
-
-class ProductModel {
-  final String title;
-  final String description;
-  final String price;
-  final String image;
-
-  ProductModel({
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.image,
-  });
 }
 
 class BasketIconWithBadge extends StatelessWidget {
@@ -303,14 +323,14 @@ class BasketIconWithBadge extends StatelessWidget {
             height: 10.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xFFDDA853).withAlpha((.37 * 255).toInt()),
+              color: const Color(0xFFDDA853).withAlpha((.37 * 255).toInt()),
             ),
             child: Center(
               child: Text(
                 '$itemCount',
                 style: TextStyle(
                   fontSize: 6.sp,
-                  color: Color(0xFF204B56),
+                  color: const Color(0xFF204B56),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -323,229 +343,349 @@ class BasketIconWithBadge extends StatelessWidget {
   }
 }
 
+/// A placeholder widget that mimics the appearance of a product card during loading.
+/// This widget provides a static gray box structure to indicate content is being loaded.
+class ProductCardShimmer extends StatelessWidget {
+  const ProductCardShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Shimmer placeholder for image section
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.r)),
+          child: Container(
+            width: 166.w,
+            height: 100.h,
+            color: Colors.grey[300], // Lighter grey for the image placeholder
+          ),
+        ),
+
+        // Shimmer placeholder for product details section
+        Container(
+          width: 166.w,
+          height: 92.h,
+          decoration: BoxDecoration(
+            color: Colors.grey[200], // Slightly darker grey for details
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(25.r)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha((0.05 * 255).toInt()),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Placeholder for title
+              Container(
+                width: 100.w,
+                height: 12.h,
+                color: Colors.grey[300],
+                margin: EdgeInsets.only(bottom: 4.h),
+              ),
+              // Placeholder for description lines
+              Container(
+                width: 140.w,
+                height: 8.h,
+                color: Colors.grey[300],
+                margin: EdgeInsets.only(bottom: 4.h),
+              ),
+              Container(width: 120.w, height: 8.h, color: Colors.grey[300]),
+              const Spacer(),
+              // Placeholder for price and add button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(width: 60.w, height: 12.h, color: Colors.grey[300]),
+                  Container(
+                    width: 24.w,
+                    height: 24.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 //! Jops Grids
+
 class ElectricianProductsGrid extends StatelessWidget {
+  String get category => 'Electrician';
   const ElectricianProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductModel(
-        title: 'Pliers packages',
-        description: 'different pliers for electrician work',
-        price: '150 EGP',
-        image: AppImages.shopElecImage1,
-      ),
-      ProductModel(
-        title: 'Screw package',
-        description: 'Screw and screw driver for electrician work',
-        price: '150 EGP',
-        image: AppImages.shopElecImage2,
-      ),
-      ProductModel(
-        title: 'Electrical package',
-        description: 'different electrical tools for electrician work',
-        price: '300 EGP',
-        image: AppImages.shopElecImage3,
-      ),
-      ProductModel(
-        title: 'Tool Box',
-        description: 'different electrical tools for electrician work',
-        price: '350EGP',
-        image: AppImages.shopElecImage4,
-      ),
-      ProductModel(
-        title: 'Electrical package',
-        description: 'Steel hammer with other construction elements tools',
-        price: '250 EGP',
-        image: AppImages.shopElecImage5,
-      ),
-      ProductModel(
-        title: 'Circuit Repairing',
-        description: 'Close up circuit repairing for electrician work',
-        price: '100 EGP',
-        image: AppImages.shopElecImage6,
-      ),
-    ];
+    // Ensure the cubit fetches products when this widget is built/rebuilt
+    // if the category changes or it's the initial load.
+    // This is typically called once in initState or on the first build based on dependencies.
+    // For simplicity, calling it here for each category grid.
+    context.read<ProductsCubit>().getProducts(category);
 
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 6.w,
-        mainAxisSpacing: 12.h,
-        // childAspectRatio: 0.9, // Adjust aspect ratio for better fit
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return ProductCard(product: products[index]);
+    return BlocBuilder<ProductsCubit, ProductsState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          // Display shimmer effect when loading
+          return GridView.builder(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 6.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: 6, // Show 6 shimmer placeholders
+            itemBuilder: (context, index) {
+              return const ProductCardShimmer();
+            },
+          );
+        }
+
+        if (state.isError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: ${state.errorMessage}'),
+                ElevatedButton(
+                  onPressed:
+                      () => context.read<ProductsCubit>().getProducts(category),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state.productsResponseModel == null ||
+            state.productsResponseModel!.isEmpty) {
+          return const Center(child: Text('No products found'));
+        }
+
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 6.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.85,
+          ),
+          itemCount: state.productsResponseModel!.length,
+          itemBuilder: (context, index) {
+            return ProductCard(product: state.productsResponseModel![index]);
+          },
+        );
       },
     );
   }
 }
 
 class CarpentryProductsGrid extends StatelessWidget {
+  String get category => 'Carpentry';
   const CarpentryProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductModel(
-        title: 'Hammer',
-        description: 'Hammer with relaxed hand hold for carpentry work',
-        price: '150 EGP',
-        image: AppImages.shopCarpImage1,
-      ),
-      ProductModel(
-        title: 'lumberjack',
-        description: 'lumberjack cutting wood with chainsaw',
-        price: '800 EGP',
-        image: AppImages.shopCarpImage2,
-      ),
-      ProductModel(
-        title: 'Hacksaw',
-        description:
-            'Hacksaw for cutting metal and plastic, often in the form of strips, rods, dowels, and brackets',
-        price: '100 EGP',
-        image: AppImages.shopCarpImage3,
-      ),
-      ProductModel(
-        title: 'Hand Saw',
-        description:
-            'Handle at the back, traditionally made of wood and a long protruding blade.',
-        price: '150 EGP',
-        image: AppImages.shopCarpImage4,
-      ),
-      ProductModel(
-        title: 'Full package',
-        description: 'Different carpentry tools for electrician work',
-        price: '1000 EGP',
-        image: AppImages.shopCarpImage5,
-      ),
-      ProductModel(
-        title: 'Drill',
-        description: 'Electric hammer drill with glasses for protection',
-        price: '500 EGP',
-        image: AppImages.shopCarpImage6,
-      ),
-    ];
+    context.read<ProductsCubit>().getProducts(category);
 
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 6.w,
-        mainAxisSpacing: 12.h,
-        // childAspectRatio: 0.9, // Adjust aspect ratio for better fit
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return ProductCard(product: products[index]);
+    return BlocBuilder<ProductsCubit, ProductsState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          // Display shimmer effect when loading
+          return GridView.builder(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 6.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: 6, // Show 6 shimmer placeholders
+            itemBuilder: (context, index) {
+              return const ProductCardShimmer();
+            },
+          );
+        }
+
+        if (state.isError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: ${state.errorMessage}'),
+                ElevatedButton(
+                  onPressed:
+                      () => context.read<ProductsCubit>().getProducts(category),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state.productsResponseModel == null ||
+            state.productsResponseModel!.isEmpty) {
+          return const Center(child: Text('No products found'));
+        }
+
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 6.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.85,
+          ),
+          itemCount: state.productsResponseModel!.length,
+          itemBuilder: (context, index) {
+            return ProductCard(product: state.productsResponseModel![index]);
+          },
+        );
       },
     );
   }
 }
 
 class PainterProductsGrid extends StatelessWidget {
+  String get category => 'Painter';
   const PainterProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductModel(
-        title: 'Brushes',
-        description: 'Brushes painting for painting work',
-        price: '150 EGP',
-        image: AppImages.shopPaintImage1,
-      ),
-      ProductModel(
-        title: 'Paint cans',
-        description: 'Paint cans for painting work',
-        price: '200 EGP',
-        image: AppImages.shopPaintImage2,
-      ),
-      ProductModel(
-        title: 'Roller brushes',
-        description: 'Roller brushes applying a smooth, even coat of paint',
-        price: '150 EGP',
-        image: AppImages.shopPaintImage3,
-      ),
-      ProductModel(
-        title: 'Ladder',
-        description: 'Ladder help you reach the higher parts of the wall',
-        price: '350 EGP',
-        image: AppImages.shopPaintImage4,
-      ),
-      ProductModel(
-        title: 'paint pens',
-        description:
-            'Touch-up paint pens can save you time and effort as you paint and later on',
-        price: '80 EGP',
-        image: AppImages.shopPaintImage5,
-      ),
-    ];
+    context.read<ProductsCubit>().getProducts(category);
 
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 6.w,
-        mainAxisSpacing: 12.h,
-        // childAspectRatio: 0.9, // Adjust aspect ratio for better fit
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return ProductCard(product: products[index]);
+    return BlocBuilder<ProductsCubit, ProductsState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          // Display shimmer effect when loading
+          return GridView.builder(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 6.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: 6, // Show 6 shimmer placeholders
+            itemBuilder: (context, index) {
+              return const ProductCardShimmer();
+            },
+          );
+        }
+
+        if (state.isError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: ${state.errorMessage}'),
+                ElevatedButton(
+                  onPressed:
+                      () => context.read<ProductsCubit>().getProducts(category),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state.productsResponseModel == null ||
+            state.productsResponseModel!.isEmpty) {
+          return const Center(child: Text('No products found'));
+        }
+
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 6.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.85,
+          ),
+          itemCount: state.productsResponseModel!.length,
+          itemBuilder: (context, index) {
+            return ProductCard(product: state.productsResponseModel![index]);
+          },
+        );
       },
     );
   }
 }
 
 class PlumberProductsGrid extends StatelessWidget {
+  String get category => 'Plumber';
   const PlumberProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductModel(
-        title: 'Pipe Wrench',
-        description: 'plumbing repairs that involve fixing pipes',
-        price: '150 EGP',
-        image: AppImages.shopPlumbImage1,
-      ),
-      ProductModel(
-        title: 'Faucet Valves',
-        description: 'control the flow of water in your plumbing system',
-        price: '800 EGP',
-        image: AppImages.shopPlumbImage2,
-      ),
-      ProductModel(
-        title: 'Teflon Tape',
-        description:
-            'handy for sealing threaded connections such as pipe thread and preventing leaks',
-        price: '10 EGP',
-        image: AppImages.shopPlumbImage3,
-      ),
-      ProductModel(
-        title: 'Tubing Cutter',
-        description:
-            'precisely cuts through copper, brass, or plastic pipes without leaving rough edges',
-        price: '150 EGP',
-        image: AppImages.shopPlumbImage4,
-      ),
-    ];
+    context.read<ProductsCubit>().getProducts(category);
 
-    return GridView.builder(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 6.w,
-        mainAxisSpacing: 12.h,
-        // childAspectRatio: 0.9, // Adjust aspect ratio for better fit
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return ProductCard(product: products[index]);
+    return BlocBuilder<ProductsCubit, ProductsState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          // Display shimmer effect when loading
+          return GridView.builder(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 6.w,
+              mainAxisSpacing: 12.h,
+              childAspectRatio: 0.85,
+            ),
+            itemCount: 6, // Show 6 shimmer placeholders
+            itemBuilder: (context, index) {
+              return const ProductCardShimmer();
+            },
+          );
+        }
+
+        if (state.isError) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: ${state.errorMessage}'),
+                ElevatedButton(
+                  onPressed:
+                      () => context.read<ProductsCubit>().getProducts(category),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state.productsResponseModel == null ||
+            state.productsResponseModel!.isEmpty) {
+          return const Center(child: Text('No products found'));
+        }
+
+        return GridView.builder(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 6.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.85,
+          ),
+          itemCount: state.productsResponseModel!.length,
+          itemBuilder: (context, index) {
+            return ProductCard(product: state.productsResponseModel![index]);
+          },
+        );
       },
     );
   }

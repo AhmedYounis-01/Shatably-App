@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 // import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shatably_app/bloc_observer.dart';
 import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
@@ -11,19 +12,32 @@ import 'core/injection/injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-  // print("Token manger ${TokenManager.getAccessToken()}");
-  // print("Secure StorageHelper ${SecureStorageHelper.getUserId}");
 
-  // Stripe.publishableKey = Constants.puplishableKey;
+  // Initialize StorageManager first before using it
   await StorageManager.instance.init();
-  await di.init();
-  // await SecureStorageHelper.clearAll();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      // statusBarIconBrightness: Brightness.dark,
-    ),
+
+  // Now you can safely use StorageManager
+  print(
+    "Token manager ${StorageManager.instance.getData<String>(key: Constants.kAccessToken)}",
   );
+
+  Stripe.publishableKey = Constants.puplishableKey;
+  await Stripe.instance.applySettings();
+
+  await di.init();
+
+  //? Remove token from both SharedPreferences AND FlutterSecureStorage
+  // await StorageManager.instance.removeData(key: Constants.kAccessToken);
+  // await StorageManager.instance.removeSecuredString(
+  //   key: Constants.kAccessToken,
+  // );
+  //? Clear hasSeenOnboarding to force showing onboarding after clearing token
+  // await StorageManager.instance.removeData(key: "hasSeenOnboarding");
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
+
   runApp(ShatablyAdminApp());
   // runApp(
   //   DevicePreview(

@@ -20,6 +20,8 @@ import 'package:shatably_app/feature/maintenance%20work/data/repository/maintena
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 import 'package:shatably_app/feature/projects/data/repository/projects_repository.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
+import 'package:shatably_app/feature/shop/data/repository/products_repository.dart';
+import 'package:shatably_app/feature/shop/logic/cubit/products_cubit.dart';
 
 import '../services/api/api_consumer.dart';
 import '../services/api/dio_consumer.dart';
@@ -42,6 +44,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => BookingRepository(sl<ApiConsumer>()));
   //! HireDetailsRepository = Booking Details Cubit
   sl.registerLazySingleton(() => HireDetailsRepository(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => ProductsRepository(sl<ApiConsumer>()));
 
   // Cubits
   sl.registerFactory(() => ApplayoutCubit());
@@ -55,4 +58,5 @@ Future<void> init() async {
   sl.registerFactory(() => ChatCubit(sl()));
   sl.registerFactory(() => BookingCubit(sl()));
   sl.registerFactory(() => HireDetailsCubit(sl()));
+  sl.registerFactory(() => ProductsCubit(sl()));
 }

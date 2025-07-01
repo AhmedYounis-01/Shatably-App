@@ -2,9 +2,7 @@
 import 'package:shatably_app/core/services/api/api_consumer.dart';
 import 'package:shatably_app/core/services/api/end_points.dart';
 import 'package:shatably_app/core/services/api/server_failure.dart';
-import 'package:shatably_app/core/services/stripe/stripe_service.dart';
 import 'package:shatably_app/feature/booking%20process/data/models/model____for%20me/hire_details_model.dart';
-import 'package:shatably_app/feature/booking%20process/data/models/payment_intent_input_model.dart';
 
 //! دي بتاعت  stripe  لو عايز تستخدمها
 // class HireDetailsRepository {

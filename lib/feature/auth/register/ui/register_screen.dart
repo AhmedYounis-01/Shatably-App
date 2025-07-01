@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 type: ToastificationType.success,
                 icon: Icons.check,
               );
-              context.pushReplacementNamed(Routes.appLayoutsScreen);
+              context.pushReplacementNamed(Routes.locationDetectionScreen);
             } else if (state is RegisterError) {
               customToast(
                 context: context,

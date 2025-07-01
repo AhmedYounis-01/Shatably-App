@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/extensions.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
@@ -148,6 +149,21 @@ class _LoginScreenAdvancedState extends State<LoginScreen> {
                                   textAlign: TextAlign.start,
                                   controller: _emailController,
                                   focusNode: _textFieldFocusNode,
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Please enter your email';
+                                    }
+
+                                    final emailRegex = RegExp(
+                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                    );
+
+                                    if (!emailRegex.hasMatch(value.trim())) {
+                                      return 'Please enter a valid email';
+                                    }
+
+                                    return null;
+                                  },
                                 ),
                               ),
                               SizedBox(height: 23.h),
@@ -168,7 +184,7 @@ class _LoginScreenAdvancedState extends State<LoginScreen> {
                                                 .validate()) {
                                               final email =
                                                   _emailController.text.trim();
-                                              Navigator.pushNamed(
+                                              Navigator.pushReplacementNamed(
                                                 context,
                                                 Routes.passwordScreen,
                                                 arguments: email,
@@ -210,7 +226,9 @@ class _LoginScreenAdvancedState extends State<LoginScreen> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // Navigate to sign up screen
+                                      context.pushReplacementNamed(
+                                        Routes.registerScreen,
+                                      );
                                     },
                                     child: Text(
                                       'Sign up',
@@ -223,6 +241,7 @@ class _LoginScreenAdvancedState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 20.h),
                             ],
                           ),
                         ),

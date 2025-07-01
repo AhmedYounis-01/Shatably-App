@@ -9,6 +9,7 @@ import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
 import 'package:shatably_app/feature/projects/data/model/projects_model.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_state.dart';
@@ -46,7 +47,6 @@ class ProjectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      
     );
     return Scaffold(
       backgroundColor: const Color(0xFFE5F1EF),
@@ -343,10 +343,32 @@ class ProjectsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 CustomAppButton1(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BookingScreen(
+                                              image:
+                                                  state
+                                                      .projectsModel!
+                                                      .mainImageUrl,
+                                              id: projectId,
+                                              serviceType: "Projects",
+                                            ),
+                                      ),
+                                    );
+                                    print(
+                                      'Book Now Button Tapped_____________________',
+                                    );
+                                    print('Project ID: $projectId');
+                                    print(
+                                      'Image URL: ${state.projectsModel!.mainImageUrl}',
+                                    );
+                                  },
                                   width: 100.w,
                                   height: 35.h,
                                   backgroundColor: ColorsManager.primaryColor,
+                                  borderRadius: 25.r,
                                   hasShadow: true,
                                   child: Text(
                                     'Book Now',

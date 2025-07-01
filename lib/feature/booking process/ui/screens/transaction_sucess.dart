@@ -5,6 +5,7 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/widgets/custom_animation.dart';
 import 'package:shatably_app/core/widgets/custom_app_button1.dart';
+import 'package:shatably_app/feature/home/ui/home_screen.dart';
 
 class TransactionSucess extends StatelessWidget {
   const TransactionSucess({super.key});
@@ -43,7 +44,11 @@ class TransactionSucess extends StatelessWidget {
             CustomAppButton1(
               width: 205.w,
               height: 50.h,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              },
               backgroundColor: ColorsManager.primaryColor,
               // isCircular: true,
               borderRadius: 30,

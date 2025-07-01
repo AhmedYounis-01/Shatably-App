@@ -107,4 +107,12 @@ class AppImages {
       'assets/images/browseBrojectImag4.png';
   // splash screen
   static const String splashIcon = 'assets/images/splashIcon.png';
+  // worker images
+  static const String menWorkerImage1 = 'assets/images/menWorkerImage1.jpg';
+  static const String menWorkerImage2 = 'assets/images/menWorkerImage2.jpg';
+  static const String menWorkerImage3 = 'assets/images/menWorkerImage3.jpg';
+  static const String menWorkerImage4 = 'assets/images/menWorkerImage4.jpg';
+  static const String womanWorkerImage1 = 'assets/images/womanWorkerImage1.jpg';
+  static const String womanWorkerImage2 = 'assets/images/womanWorkerImage2.jpg';
+  static const String lastCarpentryImage = 'assets/images/lastCarpentryImage.png';
 }
