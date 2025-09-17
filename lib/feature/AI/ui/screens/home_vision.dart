@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
 import 'package:shatably_app/feature/AI/data/models/image_generator_model.dart';
+import 'package:shatably_app/feature/AI/data/repository/image_generator_repository.dart';
 import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_cubit.dart';
 import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_state.dart'; // For SVG assets
 import 'package:flutter/services.dart';

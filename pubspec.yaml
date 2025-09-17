@@ -36,14 +36,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
-  # flutter_credit_card: ^4.1.0
   flutter_launcher_icons: ^0.14.4
   flutter_map: ^8.1.1
   flutter_screenutil: ^5.5.3
   flutter_secure_storage: ^9.2.4
   flutter_stripe: ^11.5.0
   flutter_svg: ^2.0.16
-  geocoding: ^3.0.0
+  geocoding: ^4.0.0
   geolocator: ^14.0.0
   get_it: ^8.0.3
   image_picker: ^1.1.2
@@ -56,7 +55,7 @@ dependencies:
   toastification: ^3.0.2
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 
@@ -102,7 +101,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-
 # flutter_launcher_icons: # flutter pub run flutter_launcher_icons:main
 #   image_path: "assets/images/black_logo.png"
 #   android: true

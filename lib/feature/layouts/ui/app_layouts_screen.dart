@@ -110,61 +110,6 @@ class _CustomBottomNavBar extends StatelessWidget {
             ),
           ),
 
-          // Positioned(
-          //   top: -35,
-          //   child: SizedBox(
-          //     width: 70,
-          //     height: 70,
-          //     child: Stack(
-          //       alignment: Alignment.center,
-          //       children: [
-          //         // White outer semicircle (top part only)
-          //         Positioned(
-          //           top: 0,
-          //           left: 0,
-          //           right: 0,
-          //           child: Container(
-          //             height: 30, // Half the height to show only top part
-          //             decoration: BoxDecoration(
-          //               color: Colors.redAccent,
-          //               borderRadius: BorderRadius.vertical(
-          //                 top: Radius.circular(
-          //                   35,
-          //                 ), // Half of the width to create the top curve
-          //               ),
-          //               boxShadow: [
-          //                 BoxShadow(
-          //                   color: Colors.black.withOpacity(0.1),
-          //                   blurRadius: 4,
-          //                   spreadRadius: 0,
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //         // Teal circle
-          //         Container(
-          //           width: 55,
-          //           height: 55,
-          //           decoration: BoxDecoration(
-          //             shape: BoxShape.circle,
-          //             color: Color(0xFF0E3B43), // Dark teal color
-          //           ),
-          //           child: Center(
-          //             child: Text(
-          //               'AI',
-          //               style: TextStyle(
-          //                 color: Color(0xFFA6CDC6), // Light teal text color
-          //                 fontSize: 24,
-          //                 fontWeight: FontWeight.w500,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
           Positioned(
             top: -25,
             child: GestureDetector(

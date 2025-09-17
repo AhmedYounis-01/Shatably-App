@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
-import 'package:shatably_app/feature/projects/data/repository/projects_repository.dart';
-import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'package:shatably_app/feature/projects/ui/projects_screen.dart';
 import 'package:toastification/toastification.dart';
+import 'package:shatably_app/feature/home/ui/widgets/projects widgets/projects_app_bar.dart';
+import 'package:shatably_app/feature/home/ui/widgets/projects widgets/projects_search_bar.dart';
 
 class BrowseProjectsScreen extends StatelessWidget {
   const BrowseProjectsScreen({super.key});
@@ -33,89 +31,10 @@ class BrowseProjectsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // App Bar
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 30.w,
-                      height: 30.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0XFFA6CDC6),
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          "assets/icons/arrow_ios.svg",
-                          width: 15.w,
-                          height: 15.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        'Browse Projects',
-                        style: TextStyles.styleMedium(
-                          context,
-                          fontSize: 18,
-                          color: ColorsManager.primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 41.w), // Balancing the back button width
-                ],
-              ),
-            ),
+            const ProjectsAppBarRow(),
 
             // Search Bar
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
-              child: Container(
-                height: 50.h,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFDADADA),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withAlpha((0.25 * 255).toInt()),
-                      spreadRadius: 2,
-                      blurRadius: 10.4,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextField(
-                  textInputAction: TextInputAction.search,
-                  decoration: InputDecoration(
-                    hintText: 'Search for Projects',
-                    hintStyle: TextStyles.styleRegular(
-                      context,
-                      fontSize: 14.sp,
-                      color: ColorsManager.geryIconColor,
-                    ),
-                    suffixIcon: InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Image.asset(
-                          AppIcons.searchIcon1,
-                          color: ColorsManager.geryIconColor,
-                        ),
-                      ),
-                    ),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 18.h,
-                      horizontal: 16.w,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const ProjectsSearchBar(),
 
             // Projects List
             Expanded(
@@ -224,11 +143,7 @@ class GeneralProjectItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder:
-                (context) => BlocProvider(
-                  create: (context) => ProjectsCubit(sl<ProjectsRepository>()),
-                  child: ProjectsScreen(projectId: projectId),
-                ),
+            builder: (context) => ProjectsScreen(projectId: projectId),
           ),
         );
       },

@@ -8,12 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
+import 'package:shatably_app/feature/AI/data/repository/chat_repository.dart';
+import 'package:shatably_app/feature/AI/data/repository/image_generator_repository.dart';
+import 'package:shatably_app/feature/AI/logic/chat%20ai/chat_cubit.dart';
+import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_cubit.dart';
 import 'package:shatably_app/feature/AI/ui/screens/ai_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/chat_bot_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/home_vision.dart';
 import 'package:shatably_app/feature/Appointments/ui/screens/appointments_screen.dart';
-import 'package:shatably_app/feature/Location/ui/confirm_location_screen.dart';
-import 'package:shatably_app/feature/Location/ui/location_screen.dart';
+import 'package:shatably_app/feature/Location/ui/screens/confirm_location_screen.dart';
+import 'package:shatably_app/feature/Location/ui/screens/location_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/password_screen.dart';
 import 'package:shatably_app/feature/auth/recover_password/ui/forgot_password_screen.dart';
@@ -21,13 +25,13 @@ import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confi
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
- import 'package:shatably_app/feature/booking%20process/ui/screens/book_details_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/book_details_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
-import 'package:shatably_app/feature/home/ui/browse___services/browse_services_screen.dart';
-import 'package:shatably_app/feature/home/ui/home_screen.dart';
-import 'package:shatably_app/feature/home/ui/browse_projects_screen.dart';
+import 'package:shatably_app/feature/home/ui/screens/browse_services_screen.dart';
+import 'package:shatably_app/feature/home/ui/screens/home_screen.dart';
+import 'package:shatably_app/feature/home/ui/screens/browse_projects_screen.dart';
 import 'package:shatably_app/feature/layouts/ui/app_layouts_screen.dart';
 import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
@@ -163,9 +167,23 @@ class AppRoutes {
       case Routes.aiScreen:
         return MaterialPageRoute(builder: (_) => const AiScreen());
       case Routes.chatBotScreen:
-        return MaterialPageRoute(builder: (_) => const ChatBotScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create: (context) => ChatCubit(sl<ChatRepository>()),
+                child: const ChatBotScreen(),
+              ),
+        );
       case Routes.homeVisionScreen:
-        return MaterialPageRoute(builder: (_) => const HomeVisionScreen());
+        return MaterialPageRoute(
+          builder:
+              (_) => BlocProvider(
+                create:
+                    (context) =>
+                        ImageGeneratorCubit(sl<ImageGeneratorRepository>()),
+                child: const HomeVisionScreen(),
+              ),
+        );
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => const NotificationScreen());
     }

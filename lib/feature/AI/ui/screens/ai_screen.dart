@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shatably_app/core/helpers/extensions.dart';
+import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/routes/routes.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';

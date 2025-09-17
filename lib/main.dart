@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,11 +18,6 @@ void main() async {
   // Initialize StorageManager first before using it
   await StorageManager.instance.init();
 
-  // Now you can safely use StorageManager
-  print(
-    "Token manager ${StorageManager.instance.getData<String>(key: Constants.kAccessToken)}",
-  );
-
   Stripe.publishableKey = Constants.puplishableKey;
   await Stripe.instance.applySettings();
 
@@ -33,11 +30,7 @@ void main() async {
   // );
   //? Clear hasSeenOnboarding to force showing onboarding after clearing token
   // await StorageManager.instance.removeData(key: "hasSeenOnboarding");
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-  );
-
+  
   runApp(ShatablyAdminApp());
   // runApp(
   //   DevicePreview(

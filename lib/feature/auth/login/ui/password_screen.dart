@@ -10,7 +10,7 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_images.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
-import 'package:shatably_app/feature/Location/ui/location_screen.dart';
+import 'package:shatably_app/feature/Location/ui/screens/location_screen.dart';
 import 'package:shatably_app/feature/auth/login/data/repository/login_repository.dart';
 import 'package:shatably_app/feature/auth/login/logic/cubit/login_cubit.dart';
 import 'package:toastification/toastification.dart';
