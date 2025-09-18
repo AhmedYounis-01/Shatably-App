@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:shatably_app/feature/workers/ui/custom_worker.dart';
+import 'package:shatably_app/feature/workers/ui/screens/custom_worker.dart';
 
 class WorkerScreen extends StatelessWidget {
   final String workerName;

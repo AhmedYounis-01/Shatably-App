@@ -31,11 +31,11 @@ void main() async {
   //? Clear hasSeenOnboarding to force showing onboarding after clearing token
   // await StorageManager.instance.removeData(key: "hasSeenOnboarding");
   
-  runApp(ShatablyAdminApp());
-  // runApp(
-  //   DevicePreview(
-  //     enabled: !kReleaseMode,
-  //     builder: (context) => ShatablyAdminApp(), // Wrap your app
-  //   ),
-  // );
+  // runApp(ShatablyAdminApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => ShatablyAdminApp(), // Wrap your app
+    ),
+  );
 }
