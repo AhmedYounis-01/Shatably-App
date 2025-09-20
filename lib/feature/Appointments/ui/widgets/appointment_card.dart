@@ -4,192 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/utils/app_icons.dart';
-import 'package:shatably_app/core/utils/app_images.dart';
+import 'package:shatably_app/feature/Appointments/data/models/appointment_model.dart';
 
-class AppointmentsScreen extends StatefulWidget {
-  const AppointmentsScreen({super.key});
-
-  @override
-  State<AppointmentsScreen> createState() => _AppointmentsScreenState();
-}
-
-class _AppointmentsScreenState extends State<AppointmentsScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0XFFE5F1EF),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 30.h),
-            // Header
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-              child: Center(
-                child: Text(
-                  "All Appointments",
-                  style: TextStyles.styleMedium(
-                    context,
-                    fontSize: 16.sp,
-                    color: ColorsManager.primaryColor,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 19.h),
-            // TabBar
-            Container(
-              height: 35.h,
-              width: 200.w,
-              margin: EdgeInsets.symmetric(horizontal: 16.0.w),
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
-              decoration: BoxDecoration(
-                color: const Color(0XFFE5F1EF),
-                borderRadius: BorderRadius.circular(25.r),
-                border: Border.all(color: ColorsManager.primaryColor),
-              ),
-              child: TabBar(
-                controller: _tabController,
-                labelColor: Colors.white,
-                unselectedLabelColor: ColorsManager.primaryColor,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.r),
-                  color: ColorsManager.primaryColor,
-                ),
-                indicatorSize: TabBarIndicatorSize.tab,
-                dividerColor: Colors.transparent,
-                labelStyle: TextStyle(
-                  fontSize: 11.5.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 11.5.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-                tabs: const [Tab(text: 'Up Coming'), Tab(text: 'Completed')],
-              ),
-            ),
-            SizedBox(height: 22.h),
-            // TabBarView
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  UpcomingAppointments(),
-                  CompletedAppointments(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UpcomingAppointments extends StatelessWidget {
-  const UpcomingAppointments({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-      child: ListView(
-        children: [
-          AppointmentCard(
-            name: "Mohamed Ahmed",
-            profession: "Electrician · Plumber",
-            date: "16 June 2025",
-            time: "2PM to 5PM",
-            duration: "3 Hours",
-            profileImage: AppImages.menWorkerImage2,
-            isUpcoming: true,
-          ),
-          SizedBox(height: 16.h),
-          AppointmentCard(
-            name: "Yasmen Karim",
-            profession: "Carpenter",
-            date: "16 June 2025",
-            time: "2PM to 5PM",
-            duration: "3 Hours",
-            profileImage: AppImages.womanWorkerImage2,
-            isUpcoming: true,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CompletedAppointments extends StatelessWidget {
-  const CompletedAppointments({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-      child: ListView(
-        children: [
-          AppointmentCard(
-            name: "Mohamed Ahmed",
-            profession: "Electrician · Plumber",
-            date: "16 June 2025",
-            time: "2PM to 5PM",
-            duration: "3 Hours",
-            profileImage: AppImages.menWorkerImage3,
-            isUpcoming: false,
-          ),
-          SizedBox(height: 16.h),
-          AppointmentCard(
-            name: "Yasmen Karim",
-            profession: "Carpenter",
-            date: "16 June 2025",
-            time: "2PM to 5PM",
-            duration: "3 Hours",
-            profileImage: AppImages.womanWorkerImage2,
-            isUpcoming: false,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// AppointmentCard remains the same
 class AppointmentCard extends StatelessWidget {
-  final String name;
-  final String profession;
-  final String date;
-  final String time;
-  final String duration;
-  final String profileImage;
-  final bool isUpcoming;
+  final AppointmentModel appointment;
+  final VoidCallback? onCancel;
+  final VoidCallback? onReschedule;
 
   const AppointmentCard({
     super.key,
-    required this.name,
-    required this.profession,
-    required this.date,
-    required this.time,
-    required this.duration,
-    required this.profileImage,
-    required this.isUpcoming,
+    required this.appointment,
+    this.onCancel,
+    this.onReschedule,
   });
 
   @override
@@ -241,7 +67,10 @@ class AppointmentCard extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0.r),
-                    child: Image.asset(profileImage, fit: BoxFit.cover),
+                    child: Image.asset(
+                      appointment.profileImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(width: 5.w),
@@ -251,7 +80,7 @@ class AppointmentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        profession,
+                        appointment.profession,
                         style: TextStyles.styleMedium(
                           context,
                           fontSize: 8.sp,
@@ -260,7 +89,7 @@ class AppointmentCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        name,
+                        appointment.name,
                         style: TextStyles.styleMedium(
                           context,
                           fontSize: 13.sp,
@@ -273,7 +102,7 @@ class AppointmentCard extends StatelessWidget {
                   ),
                 ),
                 // Completed Status (only for completed appointments)
-                if (!isUpcoming)
+                if (!appointment.isUpcoming)
                   Text(
                     "Completed",
                     style: TextStyles.styleMedium(
@@ -286,7 +115,9 @@ class AppointmentCard extends StatelessWidget {
             ),
           ),
 
-          isUpcoming ? SizedBox(height: 9.h) : SizedBox(height: 13.h),
+          appointment.isUpcoming
+              ? SizedBox(height: 9.h)
+              : SizedBox(height: 13.h),
 
           // Appointment Details
           Row(
@@ -303,7 +134,7 @@ class AppointmentCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   Text(
-                    date,
+                    appointment.date,
                     style: TextStyles.styleMedium(
                       context,
                       fontSize: 10.sp,
@@ -326,7 +157,7 @@ class AppointmentCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   Text(
-                    time,
+                    appointment.time,
                     style: TextStyles.styleMedium(
                       context,
                       fontSize: 10.sp,
@@ -349,7 +180,7 @@ class AppointmentCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   Text(
-                    duration,
+                    appointment.duration,
                     style: TextStyles.styleMedium(
                       context,
                       fontSize: 10.sp,
@@ -364,7 +195,7 @@ class AppointmentCard extends StatelessWidget {
           ),
 
           // Action Buttons (only for upcoming appointments)
-          if (isUpcoming) ...[
+          if (appointment.isUpcoming) ...[
             SizedBox(height: 16.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -389,7 +220,7 @@ class AppointmentCard extends StatelessWidget {
                     ],
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: onCancel,
                     child: Text(
                       "Cancel",
                       style: TextStyles.styleMedium(
@@ -417,7 +248,7 @@ class AppointmentCard extends StatelessWidget {
                     ],
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: onReschedule,
                     child: Text(
                       "Rescheduale",
                       style: TextStyles.styleMedium(

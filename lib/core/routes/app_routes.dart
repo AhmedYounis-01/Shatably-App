@@ -15,7 +15,7 @@ import 'package:shatably_app/feature/AI/logic/image%20generator/image_generator_
 import 'package:shatably_app/feature/AI/ui/screens/ai_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/chat_bot_screen.dart';
 import 'package:shatably_app/feature/AI/ui/screens/home_vision.dart';
-import 'package:shatably_app/feature/Appointments/ui/screens/appointments_screen.dart';
+import 'package:shatably_app/feature/Appointments/ui/appointments_screen.dart';
 import 'package:shatably_app/feature/Location/ui/screens/confirm_location_screen.dart';
 import 'package:shatably_app/feature/Location/ui/screens/location_screen.dart';
 import 'package:shatably_app/feature/auth/login/ui/login_screen.dart';
@@ -38,7 +38,7 @@ import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_
 import 'package:shatably_app/feature/maintenance%20work/ui/maintenance_work_screen.dart';
 import 'package:shatably_app/feature/notification/ui/notification_screen.dart';
 import 'package:shatably_app/feature/onboarding/ui/onboarding_screen.dart';
-import 'package:shatably_app/feature/profile/ui/screens/profile_screen.dart';
+import 'package:shatably_app/feature/profile/ui/profile_screen.dart';
 import 'package:shatably_app/feature/projects/ui/projects_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/carpentry_screen.dart';
 import 'package:shatably_app/feature/services/ui/screens/cleaning_screen.dart';
