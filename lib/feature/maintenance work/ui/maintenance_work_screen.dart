@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/booking_screen.dart';
 import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_cubit.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_state.dart';

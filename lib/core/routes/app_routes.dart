@@ -25,7 +25,7 @@ import 'package:shatably_app/feature/auth/recover_password/ui/new_password_confi
 import 'package:shatably_app/feature/auth/recover_password/ui/password_reset_screen.dart';
 import 'package:shatably_app/feature/auth/register/ui/register_screen.dart';
 import 'package:shatably_app/feature/auth/type/ui/type_screen.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book_details_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/booking_details_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/payment_screen.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_faield.dart';
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';

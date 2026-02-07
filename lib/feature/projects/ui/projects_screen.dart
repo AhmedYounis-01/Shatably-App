@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 import 'package:shatably_app/core/widgets/custom_toast.dart';
-import 'package:shatably_app/feature/booking%20process/ui/screens/book_screen.dart';
+import 'package:shatably_app/feature/booking%20process/ui/screens/booking_screen.dart';
 import 'package:shatably_app/feature/projects/data/model/projects_model.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_cubit.dart';
 import 'package:shatably_app/feature/projects/logic/cubit/projects_state.dart';
