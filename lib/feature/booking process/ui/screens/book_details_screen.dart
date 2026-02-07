@@ -23,10 +23,21 @@ import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_fa
 import 'package:shatably_app/feature/booking%20process/ui/screens/transaction_sucess.dart';
 import 'package:toastification/toastification.dart';
 
-class BookingDetailScreen extends StatelessWidget {
-  final String? bookingId;
-  final BookingResponseModel? bookingResponse;
-  const BookingDetailScreen({super.key, this.bookingResponse, this.bookingId});
+class BookingDetailScreen extends StatefulWidget {
+  const BookingDetailScreen({super.key});
+
+  @override
+  State<BookingDetailScreen> createState() => _BookingDetailScreenState();
+}
+
+class _BookingDetailScreenState extends State<BookingDetailScreen> {
+  int selectedPaymentIndex = 0;
+
+  final List<Map<String, String>> paymentMethods = [
+    {"title": "Visa Card", "icon": AppIcons.smallVisaIcon},
+    {"title": "Cash Payment", "icon": AppIcons.smallCardIcon},
+    {"title": "Master Card", "icon": AppIcons.smallApplePayIcon},
+  ];
 
   @override
   Widget build(BuildContext context) {
