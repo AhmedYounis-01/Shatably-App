@@ -164,12 +164,15 @@ class OnboardingScreenState extends State<OnboardingScreen>
                     _resetAnimations();
                   },
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(top: 100.h),
-                      child: Column(
-                        children: [
-                          // Animated Image
-                          AnimatedBuilder(
+                    return Column(
+                      children: [
+                        // Top spacing - flexible
+                        const Spacer(flex: 2),
+
+                        // Animated Image - flexible to shrink if needed
+                        Flexible(
+                          flex: 8,
+                          child: AnimatedBuilder(
                             animation: _scaleAnimation,
                             builder: (context, child) {
                               return Transform.scale(
@@ -179,6 +182,10 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                   child: Hero(
                                     tag: 'onboarding_image_$index',
                                     child: Container(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 383.w,
+                                        maxHeight: 241.h,
+                                      ),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                           20.r,
@@ -198,8 +205,6 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                           20.r,
                                         ),
                                         child: Image.asset(
-                                          width: 383.w,
-                                          height: 241.h,
                                           onboardingItems[index].imagePath,
                                           fit: BoxFit.contain,
                                         ),
@@ -210,11 +215,14 @@ class OnboardingScreenState extends State<OnboardingScreen>
                               );
                             },
                           ),
+                        ),
 
-                          SizedBox(height: 27.h),
+                        const Spacer(flex: 1),
 
-                          // Animated Title
-                          SlideTransition(
+                        // Animated Title
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SlideTransition(
                             position: _slideAnimation,
                             child: FadeTransition(
                               opacity: _fadeAnimation,
@@ -228,15 +236,20 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                 child: Text(
                                   onboardingItems[index].title,
                                   textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                           ),
+                        ),
 
-                          SizedBox(height: 8.h),
+                        SizedBox(height: 8.h),
 
-                          // Animated Description
-                          SlideTransition(
+                        // Animated Description
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: SlideTransition(
                             position: Tween<Offset>(
                               begin: const Offset(0, 0.5),
                               end: Offset.zero,
@@ -260,57 +273,58 @@ class OnboardingScreenState extends State<OnboardingScreen>
                                   curve: const Interval(0.4, 1.0),
                                 ),
                               ),
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 40.w),
-                                child: AnimatedDefaultTextStyle(
-                                  duration: const Duration(milliseconds: 300),
-                                  style: TextStyles.styleRegular(
-                                    context,
-                                    fontSize: 13.sp,
-                                  ),
-                                  child: Text(
-                                    onboardingItems[index].description,
-                                    textAlign: TextAlign.center,
-                                  ),
+                              child: AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 300),
+                                style: TextStyles.styleRegular(
+                                  context,
+                                  fontSize: 13.sp,
+                                ),
+                                child: Text(
+                                  onboardingItems[index].description,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                           ),
+                        ),
 
-                          SizedBox(height: 35.h),
+                        const Spacer(flex: 1),
 
-                          // Animated Page Indicator
-                          SlideTransition(
-                            position: Tween<Offset>(
-                              begin: const Offset(0, 1.0),
-                              end: Offset.zero,
-                            ).animate(
-                              CurvedAnimation(
-                                parent: _slideController,
-                                curve: const Interval(
-                                  0.6,
-                                  1.0,
-                                  curve: Curves.bounceOut,
-                                ),
-                              ),
-                            ),
-                            child: AnimatedSmoothIndicator(
-                              activeIndex:
-                                  pageController.hasClients
-                                      ? pageController.page?.round() ?? 0
-                                      : 0,
-                              count: onboardingItems.length,
-                              effect: SlideEffect(
-                                activeDotColor: const Color(0xffDDA853),
-                                dotColor: const Color(0xffDDA853).withAlpha(51),
-                                dotHeight: 10.h,
-                                dotWidth: 10.w,
-                                spacing: 10.w,
+                        // Animated Page Indicator
+                        SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, 1.0),
+                            end: Offset.zero,
+                          ).animate(
+                            CurvedAnimation(
+                              parent: _slideController,
+                              curve: const Interval(
+                                0.6,
+                                1.0,
+                                curve: Curves.bounceOut,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                          child: AnimatedSmoothIndicator(
+                            activeIndex:
+                                pageController.hasClients
+                                    ? pageController.page?.round() ?? 0
+                                    : 0,
+                            count: onboardingItems.length,
+                            effect: SlideEffect(
+                              activeDotColor: const Color(0xffDDA853),
+                              dotColor: const Color(0xffDDA853).withAlpha(51),
+                              dotHeight: 10.h,
+                              dotWidth: 10.w,
+                              spacing: 10.w,
+                            ),
+                          ),
+                        ),
+
+                        const Spacer(flex: 1),
+                      ],
                     );
                   },
                 ),

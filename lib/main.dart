@@ -1,10 +1,9 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shatably_app/bloc_observer.dart';
 import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
 import 'package:shatably_app/core/helpers/constant/constant.dart';
@@ -30,12 +29,12 @@ void main() async {
   // );
   //? Clear hasSeenOnboarding to force showing onboarding after clearing token
   // await StorageManager.instance.removeData(key: "hasSeenOnboarding");
-  
-  // runApp(ShatablyAdminApp());
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => ShatablyAdminApp(), // Wrap your app
-    ),
-  );
+
+  runApp(ShatablyAdminApp());
+  // runApp(
+  //   DevicePreview(
+  //     enabled: !kReleaseMode,
+  //     builder: (context) => ShatablyAdminApp(), // Wrap your app
+  //   ),
+  // );
 }
