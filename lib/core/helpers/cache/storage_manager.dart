@@ -4,71 +4,73 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class StorageManager {
   StorageManager._();
   static final StorageManager instance = StorageManager._();
-  late SharedPreferences _sharedPreferences;
 
-  /// Initialize SharedPreferences instance
+  late SharedPreferences _sharedPreferences;
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+
+  /// لازم تتنادي قبل runApp
   Future<void> init() async {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  /// Save a value (String, bool, int, or double) into SharedPreferences
-  Future<bool> saveData({required String key, required dynamic value}) async {
-    if (value is String) return await _sharedPreferences.setString(key, value);
-    if (value is bool) return await _sharedPreferences.setBool(key, value);
-    if (value is int) return await _sharedPreferences.setInt(key, value);
-    if (value is double) return await _sharedPreferences.setDouble(key, value);
+  // ================= SharedPreferences =================
 
-    throw UnsupportedError('Unsupported type for SharedPreferences');
+  Future<bool> saveData({required String key, required dynamic value}) async {
+    if (value is String) {
+      return _sharedPreferences.setString(key, value);
+    }
+    if (value is bool) {
+      return _sharedPreferences.setBool(key, value);
+    }
+    if (value is int) {
+      return _sharedPreferences.setInt(key, value);
+    }
+    if (value is double) {
+      return _sharedPreferences.setDouble(key, value);
+    }
+    throw UnsupportedError('Unsupported type');
   }
 
-  /// Retrieve a value from SharedPreferences
   T? getData<T>({required String key}) {
     return _sharedPreferences.get(key) as T?;
   }
 
-  /// Remove a value by key from SharedPreferences
   Future<bool> removeData({required String key}) async {
-    return await _sharedPreferences.remove(key);
+    return _sharedPreferences.remove(key);
   }
 
-  /// Check if a key exists in SharedPreferences
   bool containsKey(String key) {
     return _sharedPreferences.containsKey(key);
   }
 
-  Future<bool> hasSeenOnboarding() async {
-    final bool hasSeen = getData<bool>(key: "hasSeenOnboarding") ?? false;
-    return hasSeen;
+  // ================= Onboarding =================
+
+  bool hasSeenOnboarding() {
+    return getData<bool>(key: 'hasSeenOnboarding') ?? false;
   }
 
-  setHasSeenOnboarding() {
-    saveData(key: 'hasSeenOnboarding', value: true);
+  Future<void> setHasSeenOnboarding() async {
+    await saveData(key: 'hasSeenOnboarding', value: true);
   }
 
-  /// Saves a [value] with a [key] in the FlutterSecureStorage.
-  setSecuredString({required String key, required String value}) async {
-    const flutterSecureStorage = FlutterSecureStorage();
+  // ================= Secure Storage =================
 
-    await flutterSecureStorage.write(key: key, value: value);
+  Future<void> setSecuredString({
+    required String key,
+    required String value,
+  }) async {
+    await _secureStorage.write(key: key, value: value);
   }
 
-  /// Gets an String value from FlutterSecureStorage with given [key].
-  getSecuredString({required String key}) async {
-    const flutterSecureStorage = FlutterSecureStorage();
-
-    return await flutterSecureStorage.read(key: key) ?? '';
+  Future<String> getSecuredString({required String key}) async {
+    return await _secureStorage.read(key: key) ?? '';
   }
 
-  /// Removes a specific key from FlutterSecureStorage
-  removeSecuredString({required String key}) async {
-    const flutterSecureStorage = FlutterSecureStorage();
-    await flutterSecureStorage.delete(key: key);
+  Future<void> removeSecuredString({required String key}) async {
+    await _secureStorage.delete(key: key);
   }
 
-  /// Removes all keys and values in the FlutterSecureStorage
-  clearAllSecuredData() async {
-    // PrintDebugConsole.i('FlutterSecureStorage : all data has been cleared');
-    const flutterSecureStorage = FlutterSecureStorage();
-    await flutterSecureStorage.deleteAll();
+  Future<void> clearAllSecuredData() async {
+    await _secureStorage.deleteAll();
   }
 }

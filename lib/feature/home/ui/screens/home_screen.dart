@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     setSystemUIOverlayStyle();
 
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      // backgroundColor: AppColors.lightBlue,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -34,10 +34,7 @@ class HomeScreen extends StatelessWidget {
 
   void setSystemUIOverlayStyle() {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: AppColors.cream,
-        statusBarIconBrightness: Brightness.dark,
-      ),
+      const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/feature/AI/ui/widgets/ai%20widgets/ai_card.dart';
+import 'package:shatably_app/feature/AI/ui/widgets/ai%20widgets/app_bar.dart';
 import 'package:shatably_app/feature/AI/ui/widgets/ai%20widgets/home_vision_card.dart';
 import 'package:shatably_app/feature/AI/ui/widgets/ai%20widgets/simple_discription.dart';
 
@@ -17,7 +18,7 @@ class AiScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                AppBar(),
+                AiAppBar(),
                 SizedBox(height: 12.h),
                 SimpleDiscription(),
                 SizedBox(height: 55.h),

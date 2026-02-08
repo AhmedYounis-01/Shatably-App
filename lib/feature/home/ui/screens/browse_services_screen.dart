@@ -50,16 +50,14 @@ class BrowseServicesScreen extends StatelessWidget {
                     SizedBox(height: 18.h),
 
                     // Maintenance Work
-                    Text(
-                      'Maintenance Work',
-                      style: TextStyles.styleSemiBold(
-                        context,
-                        fontSize: 14.sp,
-                        color: ColorsManager.primaryColor,
-                      ),
-                    ),
-
-                    SizedBox(height: 12.h),
+                    // Text(
+                    //   'Maintenance Work',
+                    //   style: TextStyles.styleSemiBold(
+                    //     context,
+                    //     fontSize: 14.sp,
+                    //     color: ColorsManager.primaryColor,
+                    //   ),
+                    // ),
 
                     // Maintenance Services Grid
                     const MaintenanceSection(),

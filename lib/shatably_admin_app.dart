@@ -65,7 +65,7 @@ class ShatablyAdminApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          initialRoute: Routes.appLayoutsScreen,
+          initialRoute: Routes.splashScreen,
           onGenerateRoute: appRoutes.onGenerateRoute,
           navigatorKey: navigatorKey,
         ),

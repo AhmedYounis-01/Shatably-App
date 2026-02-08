@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
-class AppBar extends StatelessWidget {
-  const AppBar({
+class AiAppBar extends StatelessWidget {
+  const AiAppBar({
     super.key,
   });
 
