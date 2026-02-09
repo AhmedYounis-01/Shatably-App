@@ -9,26 +9,20 @@ class ProductsRepository {
   ProductsRepository(this._apiConsumer);
 
   Future<List<ProductsResponseModel>> getProducts(String category) async {
-    try {
-      final response = await _apiConsumer.get(
-        '${EndPoints.getProducts}/$category',
-      );
+    final response = await _apiConsumer.get(
+      '${EndPoints.getProducts}/$category',
+    );
 
-      if (response.data is List) {
-        return (response.data as List)
-            .map((json) => ProductsResponseModel.fromJson(json))
-            .toList();
-      } else if (response.data['products'] != null) {
-        return (response.data['products'] as List)
-            .map((json) => ProductsResponseModel.fromJson(json))
-            .toList();
-      } else {
-        return [ProductsResponseModel.fromJson(response.data)];
-      }
-    } on ServerFailure catch (err) {
-      throw Exception(
-        'Error fetching products: ${err.message} (${err.statusCode})',
-      );
+    if (response.data is List) {
+      return (response.data as List)
+          .map((json) => ProductsResponseModel.fromJson(json))
+          .toList();
+    } else if (response.data['products'] != null) {
+      return (response.data['products'] as List)
+          .map((json) => ProductsResponseModel.fromJson(json))
+          .toList();
+    } else {
+      return [ProductsResponseModel.fromJson(response.data)];
     }
   }
 }

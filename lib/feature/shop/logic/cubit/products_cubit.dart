@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:shatably_app/feature/shop/data/model/shop_model.dart';
 import 'package:shatably_app/feature/shop/data/repository/products_repository.dart';
 import 'package:shatably_app/feature/shop/logic/cubit/products_state.dart';
@@ -40,6 +41,10 @@ class ProductsCubit extends Cubit<ProductsState> {
           status: ProductsStatus.success,
           productsResponseModel: productsResponseModel,
         ),
+      );
+    } on ServerFailure catch (err) {
+      emit(
+        state.copyWith(status: ProductsStatus.error, errorMessage: err.message),
       );
     } catch (err) {
       emit(
