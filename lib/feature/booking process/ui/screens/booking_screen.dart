@@ -20,12 +20,14 @@ class BookingScreen extends StatefulWidget {
   final String image;
   final String id;
   final String serviceType;
+  final double amount;
 
   const BookingScreen({
     super.key,
     required this.image,
     required this.id,
     required this.serviceType,
+    required this.amount,
   });
 
   @override
@@ -341,7 +343,10 @@ class _BookingScreenState extends State<BookingScreen> {
           context.read<BookingCubit>().logBookingId();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const BookingDetailScreen(),
+              builder:
+                  (context) => BookingDetailScreen(
+                    amount: state.bookingResponseModel!.totalPrice,
+                  ),
             ),
           );
         }

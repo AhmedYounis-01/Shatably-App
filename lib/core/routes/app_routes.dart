@@ -127,7 +127,9 @@ class AppRoutes {
       case Routes.transactionFailed:
         return MaterialPageRoute(builder: (_) => const TransactionFaield());
       case Routes.customHireDetails:
-        return MaterialPageRoute(builder: (_) => const BookingDetailScreen());
+        return MaterialPageRoute(
+          builder: (_) => BookingDetailScreen(amount: arguments as double),
+        );
       // case Routes.workerScreen:
       //   return MaterialPageRoute(builder: (_) => const WorkerScreen());
       case Routes.maintenanceWorkScreen:

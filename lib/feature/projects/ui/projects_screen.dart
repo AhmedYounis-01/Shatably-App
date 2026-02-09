@@ -170,6 +170,7 @@ class ProjectsScreen extends StatelessWidget {
                                   image: state.projectsModel!.mainImageUrl,
                                   id: projectId,
                                   serviceType: "Projects",
+                                  amount: state.projectsModel!.price,
                                 ),
                           ),
                         );

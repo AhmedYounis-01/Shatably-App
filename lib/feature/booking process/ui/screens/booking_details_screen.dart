@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
 import 'package:shatably_app/core/injection/injection_container.dart';
 import 'package:shatably_app/core/services/stripe/stripe_service.dart';
 import 'package:shatably_app/core/themes/colors_manager.dart';
@@ -28,7 +30,8 @@ import 'package:shatably_app/feature/booking%20process/ui/widgets/booking%20deta
 import 'package:toastification/toastification.dart';
 
 class BookingDetailScreen extends StatefulWidget {
-  const BookingDetailScreen({super.key});
+  final double amount;
+  const BookingDetailScreen({super.key, required this.amount});
 
   @override
   State<BookingDetailScreen> createState() => _BookingDetailScreenState();
@@ -184,7 +187,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                           ),
                         ],
                       ),
-                      child: const PaymentSummary(),
+                      child: PaymentSummary(amount: widget.amount),
                     ),
                     SizedBox(height: 23.h),
 
@@ -240,8 +243,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                                   PaymentIntentInputModel
                                   paymentIntentInputModel =
                                       PaymentIntentInputModel(
-                                        amount: '100',
-                                        currency: 'USD',
+                                        amount: widget.amount.toString(),
+                                        currency: 'EGP',
                                         cusomerId: 'cus_SVRHbZtxfdcgSS',
                                       );
                                   await context
@@ -250,19 +253,58 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                                         bookingDetailsRequest,
                                       )
                                       .then((payDetails) async {
-                                        await StripeService().makePayment(
-                                          paymentIntentInputModel:
-                                              paymentIntentInputModel,
-                                        );
-                                      });
+                                        try {
+                                          await StripeService().makePayment(
+                                            paymentIntentInputModel:
+                                                paymentIntentInputModel,
+                                          );
 
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) =>
-                                              const TransactionSucess(),
-                                    ),
-                                  );
+                                          if (context.mounted) {
+                                            Navigator.of(
+                                              context,
+                                            ).pushReplacement(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const TransactionSucess(),
+                                              ),
+                                            );
+                                          }
+                                        } on StripeException catch (e) {
+                                          if (e.error.code ==
+                                              FailureCode.Canceled) {
+                                            print("❌ Payment canceled by user");
+                                            return;
+                                          }
+                                          print(
+                                            "❌ Stripe error: ${e.error.message}",
+                                          );
+                                          if (context.mounted) {
+                                            Navigator.of(
+                                              context,
+                                            ).pushReplacement(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const TransactionFaield(),
+                                              ),
+                                            );
+                                          }
+                                        } catch (e) {
+                                          print("❌ Payment error: $e");
+                                          if (context.mounted) {
+                                            Navigator.of(
+                                              context,
+                                            ).pushReplacement(
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const TransactionFaield(),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      });
                                 } else {
                                   print("❌ Booking ID not found anywhere");
                                   Navigator.of(context).pushReplacement(

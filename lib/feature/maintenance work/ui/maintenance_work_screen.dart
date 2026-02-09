@@ -73,6 +73,7 @@ class MaintenanceWorkScreen extends StatelessWidget {
                                     state.maintenanceServiceModel?.imageUrl ??
                                     '',
                                 serviceType: "Maintenance",
+                                amount: state.maintenanceServiceModel!.price,
                               ),
                         ),
                       );

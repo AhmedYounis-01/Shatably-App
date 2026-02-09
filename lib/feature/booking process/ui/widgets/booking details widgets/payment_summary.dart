@@ -4,7 +4,8 @@ import 'package:shatably_app/core/themes/colors_manager.dart';
 import 'package:shatably_app/core/themes/text_styles.dart';
 
 class PaymentSummary extends StatelessWidget {
-  const PaymentSummary({super.key});
+  final double amount;
+  const PaymentSummary({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +97,7 @@ class PaymentSummary extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              "787.5",
+              amount.toString(),
               style: TextStyles.styleMedium(
                 context,
                 fontSize: 14.sp,
