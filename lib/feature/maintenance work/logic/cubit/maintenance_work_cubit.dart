@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:shatably_app/feature/maintenance%20work/data/repository/maintenance_work_repository.dart';
 import 'package:shatably_app/feature/maintenance%20work/logic/cubit/maintenance_work_state.dart';
 
@@ -19,6 +20,10 @@ class MaintenanceWorkCubit extends Cubit<MaintenanceWorkState> {
           status: ServicesStatus.success,
           maintenanceServiceModel: response,
         ),
+      );
+    } on ServerFailure catch (e) {
+      emit(
+        state.copyWith(status: ServicesStatus.error, errorMessage: e.message),
       );
     } catch (e) {
       emit(

@@ -28,7 +28,14 @@ class HireDetailsCubit extends Cubit<HireDetailsState> {
       emit(
         state.copyWith(
           status: HireDetailsStates.error,
-          errorMessage: err.toString(),
+          errorMessage: err.message,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: HireDetailsStates.error,
+          errorMessage: e.toString(),
         ),
       );
     }

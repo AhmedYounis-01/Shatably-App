@@ -21,10 +21,11 @@ class BookingCubit extends Cubit<BookingState> {
       );
     } on ServerFailure catch (err) {
       emit(
-        state.copyWith(
-          status: BookingStates.error,
-          errorMessage: err.toString(),
-        ),
+        state.copyWith(status: BookingStates.error, errorMessage: err.message),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(status: BookingStates.error, errorMessage: e.toString()),
       );
     }
   }
