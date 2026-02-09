@@ -29,9 +29,12 @@ class PasswordResetCubit extends Cubit<PasswordResetStates> {
       final resetPasswordResponse = await _passwordResetRepository
           .resetPassword(resetPasswordReqest);
       Logger().i('reset password response: $resetPasswordResponse');
-    }on ServerFailure catch (err) {
+    } on ServerFailure catch (err) {
       Logger().e('reset password error: $err');
-      emit(PasswordResetErrorState(errMessage: err.toString()));
+      emit(PasswordResetErrorState(errMessage: err.message));
+    } catch (e) {
+      Logger().e('reset password error: $e');
+      emit(PasswordResetErrorState(errMessage: e.toString()));
     }
   }
 }

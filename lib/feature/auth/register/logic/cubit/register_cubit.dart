@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:shatably_app/feature/auth/register/data/model/register_model.dart';
@@ -37,9 +38,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
 
       Logger().i('Register response: $registerResponse');
       emit(RegisterSuccess());
+    } on ServerFailure catch (e) {
+      Logger().e('Register error: $e');
+      emit(RegisterError(message: e.message));
     } catch (e) {
       Logger().e('Register error: $e');
-
       emit(RegisterError(message: e.toString()));
     }
   }

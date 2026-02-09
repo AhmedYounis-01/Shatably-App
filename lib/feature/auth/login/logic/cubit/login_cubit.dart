@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shatably_app/core/helpers/cache/storage_manager.dart';
 import 'package:shatably_app/core/helpers/constant/constant.dart';
- import 'package:shatably_app/feature/auth/login/data/repository/login_repository.dart';
+import 'package:shatably_app/feature/auth/login/data/repository/login_repository.dart';
 import 'package:logger/logger.dart';
+import 'package:shatably_app/core/services/api/server_failure.dart';
 import 'package:shatably_app/feature/auth/login/data/model/login_model.dart';
 
 part 'login_state.dart';
@@ -35,6 +36,9 @@ class LoginCubit extends Cubit<LoginStates> {
       );
       print(loginResponse.token);
       emit(LoginSuccessState());
+    } on ServerFailure catch (e) {
+      Logger().e('Login error: $e');
+      emit(LoginErrorState(message: e.message));
     } catch (e) {
       Logger().e('Login error: $e');
       emit(LoginErrorState(message: e.toString()));

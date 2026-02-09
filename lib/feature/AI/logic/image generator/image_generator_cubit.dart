@@ -29,6 +29,13 @@ class ImageGeneratorCubit extends Cubit<ImageGeneratorState> {
       emit(
         state.copyWith(
           status: ImageGeneratorStatus.error,
+          errorMessage: e.message,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: ImageGeneratorStatus.error,
           errorMessage: e.toString(),
         ),
       );

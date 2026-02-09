@@ -26,9 +26,12 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordStates> {
           email: email,
         ),
       );
-    }on ServerFailure catch (err) {
+    } on ServerFailure catch (err) {
       Logger().e('Login error: $err');
-      emit(ForgotPasswordError(errMessage: err.toString()));
+      emit(ForgotPasswordError(errMessage: err.message));
+    } catch (e) {
+      Logger().e('Login error: $e');
+      emit(ForgotPasswordError(errMessage: e.toString()));
     }
   }
 }

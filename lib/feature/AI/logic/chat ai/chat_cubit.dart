@@ -20,6 +20,10 @@ class ChatCubit extends Cubit<ChatPromptState> {
       );
     } on ServerFailure catch (e) {
       emit(
+        state.copyWith(status: ChatPromptStatus.error, errorMessage: e.message),
+      );
+    } catch (e) {
+      emit(
         state.copyWith(
           status: ChatPromptStatus.error,
           errorMessage: e.toString(),
