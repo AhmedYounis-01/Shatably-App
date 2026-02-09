@@ -1,6 +1,6 @@
 {
-    "name": "shatably_app",
-    "short_name": "shatably_app",
+    "name": "Shatably",
+    "short_name": "Shatably",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

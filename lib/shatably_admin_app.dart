@@ -47,7 +47,7 @@ class ShatablyAdminApp extends StatelessWidget {
         designSize: const Size(390, 844),
         child: MaterialApp(
           builder: DevicePreview.appBuilder,
-          title: 'Shatably Admin',
+          title: 'Shatably',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
